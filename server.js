@@ -28,6 +28,6 @@ app.delete('/delete/:id', async (req, res) => {
 })
 
 const server = http.createServer(app);
-server.listen(5500, () => {
+server.listen(5050, () => {
   console.log("- server running");
 });
