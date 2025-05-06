@@ -6,9 +6,6 @@ const app = express();
 const database = require('./database.js');
 app.use(express.json());
 
-database.createTableType();
-database.createTableBooking();
-
 app.use("/", express.static(path.join(__dirname, "public")));
 
 app.use("/files", express.static(path.join(__dirname, "files")));
