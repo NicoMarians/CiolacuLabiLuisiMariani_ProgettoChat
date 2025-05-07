@@ -1,5 +1,5 @@
 //gestisce eventi e notifica ad altre parti di codice in asincrono
-export const generatePubSub = () => {
+const generatePubSub = () => {
 
     const events = {};
 
@@ -19,3 +19,5 @@ export const generatePubSub = () => {
         },
     };
 };
+
+export const pubSub = generatePubSub()
