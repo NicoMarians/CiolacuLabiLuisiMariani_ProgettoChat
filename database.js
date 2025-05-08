@@ -135,8 +135,8 @@ const database = {
       downloadUser: async (userId) => {
          let query = `
             SELECT username, picture, email
-            FROM public.User as User 
-            WHERE id = '${userId}' 
+            FROM "User" 
+            WHERE id = '${userId}'
          `;
 
          return await executeQuery(query);
@@ -144,10 +144,10 @@ const database = {
 
       downloadMessages : async (chatId) => {
          let query = `
-            SELECT Message.date, Message.time, Message.message_type, Message.text, Message.image, User.username
-            FROM Public.User as User
-            JOIN Public.Message as Message ON User.id = Message.userId
-            WHERE Message.id = '${chatId}'
+            SELECT "Message".timestamp, "Message".type_id, "Message".text, "Message".image, "User".username
+            FROM "User"
+            JOIN "Message" ON "User".id = "Message".user_id
+            WHERE "Message".chat_id = '${chatId}'
             `;
 
          return await executeQuery(query);
