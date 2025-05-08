@@ -30,3 +30,15 @@
     padding: 10px;
     transform: scale(2);
   }
+
+  .password{
+    text-align: center;
+    padding: 10px;
+    transform: scale(2);
+  }
+
+  .username{
+    text-align: center;
+    padding: 10px;
+    transform: scale(2);
+  }
