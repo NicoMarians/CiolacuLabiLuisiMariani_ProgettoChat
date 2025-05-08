@@ -67,7 +67,7 @@ async function createChatList() {
             // Stampa la lista delle chat filtrata o completa
             for (let i = 0; i < result.length; i++) {
                 const chat = result[i];
-                console.log('📨 Chat:', chat.name);
+                console.log(' Chat:', chat.name);
             }
 
             return result;
