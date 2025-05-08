@@ -1,10 +1,26 @@
+const fs = require('fs');
 const express = require("express");
 const http = require('http');
 const path = require('path');
 const app = express();
-//const multer  = require('multer');
+const multer  = require('multer');
 const database = require('./database.js');
+
 const mailer = require('./mailer.js');
+
+const bodyParser = require("body-parser");
+
+const { Server } = require('socket.io'); // importazione oggetto Server da socket.io
+let conf = JSON.parse(fs.readFileSync('public/conf.json'));
+
+
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+);
+
 app.use(express.json());
 
 app.use("/", express.static(path.join(__dirname, "public")));
@@ -121,7 +137,16 @@ app.post('/mailer', async (req,res) => {
   let text = req.body.subject;
 });
 
+
+//LETTURA
 const server = http.createServer(app);
-server.listen(5050, () => {
-  console.log("- server running");
+const io = new Server(server);
+io.on('connection', (socket) => {
+   console.log("socket connected: " + socket.id);
+   io.emit("chat", "new client: " + socket.id);
+   socket.on('message', (message) => {
+      const response = socket.id + ': ' + message;
+      console.log(response);
+      io.emit("chat", response);
+   });
 });
