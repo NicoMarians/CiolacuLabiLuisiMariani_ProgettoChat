@@ -1,29 +1,32 @@
 const { exec } = require('child_process');
 const fs = require('fs');
-
 const { Pool } = require('pg');
-
-
-const { isNativeError } = require('util/types');
+const mysql = require('mysql2');
 let conf = JSON.parse(fs.readFileSync('public/conf.json'));
 conf.ssl = {
     ca: fs.readFileSync(__dirname + '/ca.pem')
 }
-const connection = mysql.createConnection(conf);
+console.log(conf.database);
+const pool = new Pool({
+    user: conf.database.user,         
+    host: conf.database.host,        
+    database: conf.database.database,  
+    password: conf.database.password, 
+    port: conf.database.port,          
+    ssl: {
+        ca: fs.readFileSync(__dirname + '/ca.pem')
+    }
+});
 
-
-const executeQuery = (sql) => {
-   return new Promise((resolve, reject) => {      
-         connection.query(sql, function (err, result) {
-            if (err) {
-               console.error(err);
-               reject();     
-            }   
-            console.log('done');
-            resolve(result);         
-      });
-   })
-}
+const executeQuery = async (sql, params = []) => {
+    try {
+        const result = await pool.query(sql, params);
+        return result.rows;
+    } catch (err) {
+        console.error('Errore: ', err);
+        throw err;
+    }
+};
 
 const database = {
 
