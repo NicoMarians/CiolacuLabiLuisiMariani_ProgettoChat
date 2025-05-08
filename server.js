@@ -13,11 +13,11 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 
 app.post("/getuser/:id", async (req, res) => {
     //RICHIESTA AL DB che restiuisce informazioni su uno SPECIFICO USER
-    const idUser = req.body.id;
+    const idUser = req.params.id;
     console.log("FETCH getuser - -   ", idUser);
     try {
         await database.queries.downloadUser(idUser);
-        res.json({result: "ok"});
+        res.json(result);
     } catch (e) {
         console.log(e);
         res.json({result: "ko"});
@@ -26,7 +26,7 @@ app.post("/getuser/:id", async (req, res) => {
 
 app.post("/getmessages/:id", async (req, res) => {
     //RICHIESTA AL DB che restiuisce tutti i messaggi di uno SPECIFICO CHAT
-    const idChat = req.body.idChat;
+    const idChat = req.req.params.id;
     console.log("FETCH getmessages - -   ", idChat);
     try {
         await database.queries.downloadMessages(idChat);
@@ -64,9 +64,9 @@ app.post("/getcommunity", async (req, res) => {
 });
 
 
-app.post("/createuser/:id", async (req, res) => {
+app.post("/createuser", async (req, res) => {
     //RICHIESTA AL DB che CREA L'UTENTE, PASSARGLI UN DIZIONARIO CON TUTTE LE INFORMAZIONI 
-    const datiUser = req.body.datiUser;
+    const datiUser = req.body;
     console.log("FETCH createuser - -   ", datiUser);
     try {
         await database.queries.createUser(datiUser);
@@ -83,6 +83,31 @@ app.post("/createchat", async (req, res) => {
     console.log("FETCH createchat - -   ", { idUser1, idUser2 });
     try {
         await database.queries.createChat(idUser1, idUser2);
+        res.json({ result: "ok" });
+    } catch (e) {
+        console.log(e);
+        res.json({ result: "ko" });
+    }
+});
+
+app.post("/createmessage", async (req, res) => {
+    // Funzione che crea un nuovo messaggio, passando tutte le informazioni come oggetto
+    const dizDati = req.body;
+    console.log("FETCH createmessage - -   ", dizDati);
+    try {
+        await database.queries.createMessage(dizDati);
+        res.json({ result: "ok" });
+    } catch (e) {
+        console.log(e);
+        res.json({ result: "ko" });
+    }
+});
+
+app.delete("/deletechat", async (req, res) => {
+    const { idUser, idChat } = req.body;
+    console.log("FETCH deletechat - -   ", { idUser, idChat });
+    try {
+        await database.queries.deleteChat(idUser, idChat);
         res.json({ result: "ok" });
     } catch (e) {
         console.log(e);

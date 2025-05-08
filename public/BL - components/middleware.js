@@ -1,18 +1,29 @@
 const createMiddleware = () => {
     return {
             downloadUser: async (id) => {
-                //Funz che restiuisce informazioni su uno SPECIFICO USER
-                const response = await fetch(`/getuser/:${id}`);
+            // Funzione che restituisce informazioni su uno specifico utente
+            const response = await fetch(`/getuser/${id}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                    }
+                });
                 const json = await response.json();
                 return json;
             },
 
             downloadMessages: async (idChat) => {
-                //Funz che restiuisce tutti i messaggi di uno SPECIFICO CHAT
-                const response = await fetch(`/getmessages/:${idChat}`);
-                const json = await response.json();
-                return json;
+            // Funzione che restituisce tutti i messaggi di una specifica chat
+            const response = await fetch(`/getmessages/${idChat}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            const json = await response.json();
+            return json;
             },
+
             
             downloadChatAll: async (idUser) => {
                 //Funz che restiuisce tutte le CHAT  di uno specifico USER
@@ -29,8 +40,14 @@ const createMiddleware = () => {
             },
 
             createUser: async (datiUser) => {
-                //Funz che CREA L'UTENTE, PASSARGLI UN DIZIONARIO CON TUTTE LE INFORMAZIONI 
-                const response = await fetch(`/createuser/:${datiUser}`);
+                // Funzione che crea un utente, passando un oggetto con tutte le informazioni
+                const response = await fetch(`/createuser`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(datiUser)
+                });
                 const json = await response.json();
                 return json;
             },
@@ -49,20 +66,30 @@ const createMiddleware = () => {
             },
 
             createMessage: async (dizDati) => {
-                //--- Crea un nuovo messaggiO, bisogna passarli tutte le informazioni come dizionario (ID mandante, id chat...)
-                const response = await fetch(`/createmessage/:${dizDati}`);
+                // Funzione che crea un nuovo messaggio, passando tutte le informazioni come oggetto
+                const response = await fetch(`/createmessage`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(dizDati)
+                });
                 const json = await response.json();
                 return json;
             },
 
             deleteChat: async (idUser, idChat) => {
-                //--- Elimina una chat /DA MODIFICARE NON FUNZIONANTW
-                const dizDati = {"idUser": idUser, "idChat": idChat}
-                const response = await fetch(`/deletechat/:${dizDati}`);
+                // Funzione che elimina una chat, passando i dati nel body
+                const response = await fetch(`/deletechat`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ idUser, idChat })
+                });
                 const json = await response.json();
                 return json;
             }
-
     }
 }
 
