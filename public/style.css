@@ -21,7 +21,8 @@
   }
 
   .submit{
-    text-align: end;
+    margin-top: 150px;
+    margin-left: 1100px;
     transform: scale(3);
   }
 
