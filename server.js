@@ -11,20 +11,83 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 app.use("/files", express.static(path.join(__dirname, "files")));
 
-app.post("/upload", async (req, res) => {
-    
+app.post("/getuser/:id", async (req, res) => {
+    //RICHIESTA AL DB che restiuisce informazioni su uno SPECIFICO USER
+    const idUser = req.body.id;
+    console.log("FETCH getuser - -   ", idUser);
+    try {
+        await database.queries.downloadUser(idUser);
+        res.json({result: "ok"});
+    } catch (e) {
+        console.log(e);
+        res.json({result: "ko"});
+    }
 });
 
-app.get('/get', async (req, res) => {
-
+app.post("/getmessages/:id", async (req, res) => {
+    //RICHIESTA AL DB che restiuisce tutti i messaggi di uno SPECIFICO CHAT
+    const idChat = req.body.idChat;
+    console.log("FETCH getmessages - -   ", idChat);
+    try {
+        await database.queries.downloadMessages(idChat);
+        res.json({result: "ok"});
+    } catch (e) {
+        console.log(e);
+        res.json({result: "ko"});
+    }
 });
 
-app.get('/gettips', async (req, res) => {
-
+app.post("/getchat/:id", async (req, res) => {
+    //RICHIESTA AL DB che restiuisce tutte le CHAT  di uno specifico USER
+    const idUser = req.body.idUser;
+    console.log("FETCH getchat - -   ", idUser);
+    try {
+        await database.queries.downloadChatAll(idUser);
+        res.json({result: "ok"});
+    } catch (e) {
+        console.log(e);
+        res.json({result: "ko"});
+    }
 });
 
-app.delete('/delete/:id', async (req, res) => {
+app.post("/getcommunity", async (req, res) => {
+    //RICHIESTA AL DB che restiuisce tutte le community in cui sei dentro 
+    const community = req.body;
+    console.log("FETCH getuser - -   ", community);
+    try {
+        await database.queries.downloadCommunityAll(community);
+        res.json({result: "ok"});
+    } catch (e) {
+        console.log(e);
+        res.json({result: "ko"});
+    }
+});
 
+
+app.post("/createuser/:id", async (req, res) => {
+    //RICHIESTA AL DB che CREA L'UTENTE, PASSARGLI UN DIZIONARIO CON TUTTE LE INFORMAZIONI 
+    const datiUser = req.body.datiUser;
+    console.log("FETCH createuser - -   ", datiUser);
+    try {
+        await database.queries.createUser(datiUser);
+        res.json({result: "ok"});
+    } catch (e) {
+        console.log(e);
+        res.json({result: "ko"});
+    }
+});
+
+app.post("/createchat", async (req, res) => {
+    // RICHIESTA AL DB PER CREARE SIA Chat che Chat_user
+    const { idUser1, idUser2 } = req.body;
+    console.log("FETCH createchat - -   ", { idUser1, idUser2 });
+    try {
+        await database.queries.createChat(idUser1, idUser2);
+        res.json({ result: "ok" });
+    } catch (e) {
+        console.log(e);
+        res.json({ result: "ko" });
+    }
 });
 
 app.post('/mailer', async (req,res) => {
