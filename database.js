@@ -18,6 +18,16 @@ const pool = new Pool({
     }
 });
 
+pool.connect((err, client, release) => {
+    if (err) {
+        console.error('Errore di connessione al database:', err.stack);
+    } else {
+        console.log('Connessione al database riuscita');
+        release();
+    }
+});
+
+
 const executeQuery = async (sql, params = []) => {
     try {
         const result = await pool.query(sql, params);
@@ -29,7 +39,6 @@ const executeQuery = async (sql, params = []) => {
 };
 
 const database = {
-
    createTables: async () => {
       //CHAT
       let sql = `
