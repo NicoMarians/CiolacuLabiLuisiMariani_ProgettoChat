@@ -1,9 +1,9 @@
-const createMessage = () => {
+const createMessage = (content, time_stamp, idUser) => {
+    // TIME stamp contiene data e ora
     return {
-        content: [],
-        date: [],
-        time: [],
-        idUser: null 
+        content: "",
+        time_stamp: "",
+        idUser: int 
     }
 }
 
@@ -11,7 +11,10 @@ const createChat = (parentElementIn, pubsub) => {
     parentElement = parentElementIn;
 
     return {
-        render: {
+        createMessage: (content, time_stamp, idUser) => {
+            
+        },
+        render: () => { 
             
         }
     }

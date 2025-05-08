@@ -1,7 +1,9 @@
-const { exec } = require('child_process');
 const fs = require('fs');
-const { Pool } = require('pg');
+const { Pool } = require('pg'); // Importazione libreria per PostgresSQL
 const mysql = require('mysql2');
+
+
+// - - CONNESSIONE AL DATABASE - - 
 let conf = JSON.parse(fs.readFileSync('public/conf.json'));
 conf.ssl = {
     ca: fs.readFileSync(__dirname + '/ca.pem')
@@ -26,7 +28,7 @@ pool.connect((err, client, release) => {
         release();
     }
 });
-
+// - - - END CONNECTION 
 
 const executeQuery = async (sql, params = []) => {
     try {
