@@ -1,5 +1,8 @@
 const fs = require('fs');
-const mysql = require('mysql2');
+
+const { Pool } = require('pg');
+
+
 const { isNativeError } = require('util/types');
 let conf = JSON.parse(fs.readFileSync('public/conf.json'));
 conf.ssl = {
