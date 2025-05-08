@@ -55,3 +55,9 @@
   .button{
     border-radius: 50%;
   }
+
+  .indietro{
+    background-color: red;
+    display: inline-block;
+    color: white;
+  }
