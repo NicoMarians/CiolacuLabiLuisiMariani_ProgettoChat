@@ -79,14 +79,13 @@ const database = {
       sql = `
       CREATE TABLE IF NOT EXISTS public."Message"
       (
-         id smallint NOT NULL,
+         id smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1 ),
          chat_id smallint NOT NULL,
          user_id smallint NOT NULL,
-         "time" timestamp(6) without time zone NOT NULL,
          type_id smallint NOT NULL,
-         text character(1000) COLLATE pg_catalog."default" NOT NULL,
-         image character(100) COLLATE pg_catalog."default" NOT NULL,
-         data date NOT NULL,
+         text character(1000) COLLATE pg_catalog."default",
+         image character(100) COLLATE pg_catalog."default",
+         "timestamp" timestamp without time zone NOT NULL,
          CONSTRAINT "Message_pkey" PRIMARY KEY (id),
          CONSTRAINT "chat fk messagge" FOREIGN KEY (chat_id)
             REFERENCES public."Chat" (id) MATCH SIMPLE
