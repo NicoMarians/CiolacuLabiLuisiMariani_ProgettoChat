@@ -37,7 +37,13 @@ const createMiddleware = () => {
 
             createChat: async (idUser1, idUser2) => {
                 //--- CREARE SIA Chat che Chat_user
-                const response = await fetch(`/createchat/:${datiUser}`);
+                const response = await fetch(`/createchat`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ idUser1, idUser2 })
+                });
                 const json = await response.json();
                 return json;
             },
@@ -60,4 +66,4 @@ const createMiddleware = () => {
     }
 }
 
-    
+
