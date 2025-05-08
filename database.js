@@ -33,13 +33,13 @@ const database = {
    createTables: async () => {
       //CHAT
       let sql = `
-         CREATE TABLE IF NOT EXISTS public."Chat"
-         (
-            id smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1 ),
-            name character(50) COLLATE pg_catalog."default" NOT NULL,
-            picture character(100) COLLATE pg_catalog."default" NOT NULL,
-            CONSTRAINT "Chat_pkey" PRIMARY KEY (id)
-         )`;
+      CREATE TABLE IF NOT EXISTS public."Chat"
+      (
+         id smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1 ),
+         name character(50) COLLATE pg_catalog."default" NOT NULL,
+         picture character(100) COLLATE pg_catalog."default",
+         CONSTRAINT "Chat_pkey" PRIMARY KEY (id)
+      )`;
       await executeQuery(sql);
 
       //USER
@@ -61,16 +61,16 @@ const database = {
       sql = `
       CREATE TABLE IF NOT EXISTS public.chat_user
       (
-         id smallint NOT NULL,
-         id_user smallint NOT NULL,
-         id_chat smallint NOT NULL,
+         id smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1 ),
+         user_id smallint NOT NULL,
+         chat_id smallint NOT NULL,
          CONSTRAINT chat_user_pkey PRIMARY KEY (id),
-         CONSTRAINT "chat fk" FOREIGN KEY (id_chat)
+         CONSTRAINT "chat fk" FOREIGN KEY (chat_id)
             REFERENCES public."Chat" (id) MATCH SIMPLE
             ON UPDATE NO ACTION
             ON DELETE NO ACTION
             NOT VALID,
-         CONSTRAINT "user fk" FOREIGN KEY (id_user)
+         CONSTRAINT "user fk" FOREIGN KEY (user_id)
             REFERENCES public."User" (id) MATCH SIMPLE
             ON UPDATE NO ACTION
             ON DELETE NO ACTION
@@ -82,14 +82,13 @@ const database = {
       sql = `
       CREATE TABLE IF NOT EXISTS public."Message"
       (
-         id smallint NOT NULL,
+         id smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1 ),
          chat_id smallint NOT NULL,
          user_id smallint NOT NULL,
-         "time" timestamp(6) without time zone NOT NULL,
          type_id smallint NOT NULL,
-         text character(1000) COLLATE pg_catalog."default" NOT NULL,
-         image character(100) COLLATE pg_catalog."default" NOT NULL,
-         data date NOT NULL,
+         text character(1000) COLLATE pg_catalog."default",
+         image character(100) COLLATE pg_catalog."default",
+         "timestamp" timestamp without time zone NOT NULL,
          CONSTRAINT "Message_pkey" PRIMARY KEY (id),
          CONSTRAINT "chat fk messagge" FOREIGN KEY (chat_id)
             REFERENCES public."Chat" (id) MATCH SIMPLE
@@ -109,13 +108,14 @@ const database = {
       )`;
       await executeQuery(sql);
 
+      //MESSAGE TYPE
       sql = `
-      CREATE TABLE IF NOT EXISTS public."MessaggeType"
-         (
-            id smallint NOT NULL,
-            type character(20) COLLATE pg_catalog."default" NOT NULL,
-            CONSTRAINT "MessaggeType_pkey" PRIMARY KEY (id)
-         )`;
+      CREATE TABLE IF NOT EXISTS public."Message_type"
+      (
+         id smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1 ),
+         type character(20) COLLATE pg_catalog."default" NOT NULL,
+         CONSTRAINT "MessaggeType_pkey" PRIMARY KEY (id)
+      )`;
       return await executeQuery(sql);
       
    },
