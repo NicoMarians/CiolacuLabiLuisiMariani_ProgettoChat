@@ -51,3 +51,13 @@
     padding: 10px;
     transform: scale(2);
   }
+
+  .button{
+    border-radius: 50%;
+  }
+
+  .indietro{
+    background-color: red;
+    display: inline-block;
+    color: white;
+  }
