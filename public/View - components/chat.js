@@ -8,6 +8,7 @@ const createMessage = (content, time_stamp, idUser) => {
 }
 
 const createChat = (parentElementIn, pubsub) => {
+    console.log("mariani gay");
     parentElement = parentElementIn;
 
     return {

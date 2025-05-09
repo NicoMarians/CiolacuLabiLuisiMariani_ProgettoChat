@@ -49,8 +49,14 @@ const database = {
          id smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1 ),
          name character(50) COLLATE pg_catalog."default" NOT NULL,
          picture character(100) COLLATE pg_catalog."default",
-         CONSTRAINT "Chat_pkey" PRIMARY KEY (id)
-      )`;
+         id_tipo smallint NOT NULL,
+         CONSTRAINT "Chat_pkey" PRIMARY KEY (id),
+         CONSTRAINT "chat type fk" FOREIGN KEY (id_tipo)
+            REFERENCES public.chat_type (id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+            ON DELETE NO ACTION
+            NOT VALID
+      );`
       await executeQuery(sql);
 
       //USER
@@ -119,6 +125,17 @@ const database = {
       )`;
       await executeQuery(sql);
 
+      // CHAT TYPE
+      sql = `
+      CREATE TABLE IF NOT EXISTS public.chat_type
+      (
+         id smallint NOT NULL,
+         tipo character(30) COLLATE pg_catalog."default" NOT NULL,
+         CONSTRAINT chat_type_pkey PRIMARY KEY (id)
+      )`;
+      await executeQuery(sql);
+
+
       //MESSAGE TYPE
       sql = `
       CREATE TABLE IF NOT EXISTS public."Message_type"
@@ -155,10 +172,11 @@ const database = {
 
       downloadChatAll : async (userId) => {
          let query = `
-            SELECT "Chat".id, "Chat".name, "Chat".picture
+            SELECT "Chat".id, "Chat".name, "Chat".picture, "Chat".id_tipo
             FROM "Chat" 
             JOIN "chat_user" ON "Chat".id = "chat_user".chat_id
             WHERE "chat_user".user_id = $1
+            AND 
          `;
 
          return await executeQuery(query,[userId]);
