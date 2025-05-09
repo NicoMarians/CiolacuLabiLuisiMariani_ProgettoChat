@@ -3,14 +3,14 @@ const nodemailer = require('nodemailer');
 let conf = JSON.parse(fs.readFileSync('public/conf.json'));
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: "smtp.ionos.it",
     port: 587,
     secure: false,
     logger: false,
     debug: false,
     auth: {
-        user: conf.mailFrom,
-        pass: conf.mailSecret,
+        user: conf.email.mailFrom,
+        pass: conf.email.mailSecret,
     }
 });
 
@@ -26,7 +26,7 @@ const result = {
     send: async (email, subject, text) => {
         try {
             return await transporter.sendMail({
-                from: conf.from,
+                from: conf.email.mailFrom,
                 to: email,
                 subject: subject,
                 text: text
@@ -42,3 +42,6 @@ const result = {
 }
 
 module.exports = result;
+
+
+result.send("ciolacutommaso@itis-molinari.eu", "PROVA", "QUESTA è UNA PROVA")
