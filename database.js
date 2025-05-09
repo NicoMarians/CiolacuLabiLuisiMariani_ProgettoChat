@@ -134,12 +134,12 @@ const database = {
    queries: {
       downloadUser: async (userId) => {
          let query = `
-            SELECT username, picture, email
+            SELECT id,username, picture, email
             FROM "User" 
-            WHERE id = '${userId}'
+            WHERE id = $1
          `;
 
-         return await executeQuery(query);
+         return await executeQuery(query,[userId]);
       },
 
       downloadMessages : async (chatId) => {
@@ -147,28 +147,49 @@ const database = {
             SELECT "Message".timestamp, "Message".type_id, "Message".text, "Message".image, "User".username
             FROM "User"
             JOIN "Message" ON "User".id = "Message".user_id
-            WHERE "Message".chat_id = '${chatId}'
+            WHERE "Message".chat_id = $1
             `;
 
-         return await executeQuery(query);
+         return await executeQuery(query,[chatId]);
       },
 
       downloadChatAll : async (userId) => {
          let query = `
-            SELECT Chat.name,Chat.picture,
-            FROM Public.Chat as Chat
-            JOIN 
+            SELECT "Chat".id, "Chat".name, "Chat".picture
+            FROM "Chat" 
+            JOIN "chat_user" ON "Chat".id = "chat_user".chat_id
+            WHERE "chat_user".user_id = $1
+         `;
+
+         return await executeQuery(query,[userId]);
+      },
+
+      downloadCommunityAll : async () => {
+         let query = `
+            SELECT id,name,picture
+            FROM "Chat"
          `;
 
          return await executeQuery(query);
       },
 
-      downloadCommunityAll : async () => {
-
-      },
-
       createUser : async (userData) => {
+         let query = `
+            INSERT INTO "User"(
+            username, password, picture, email, public_key, private_key)
+            VALUES ($1,$2,$3,$4,$5,$6);
+         `;
 
+         let values = [
+            userData.username,
+            userData.password,
+            userData.picture,
+            userData.email,
+            userData.public_key,
+            userData.private_key
+         ]
+
+         return await executeQuery(query,values);
       },
 
       createChat : async (userId_1,userId_2) => {
