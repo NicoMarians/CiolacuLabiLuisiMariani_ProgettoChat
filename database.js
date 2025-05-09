@@ -192,8 +192,23 @@ const database = {
          return await executeQuery(query,values);
       },
 
-      createChat : async (userId_1,userId_2) => {
-         
+      createChat : async () => {
+         let query = `
+            INSERT INTO "Chat"(
+            name, picture)
+            VALUES ('Gruppo calcio', Null);
+         `
+         return await executeQuery(query,[])     
+      },
+
+      createUserChat : async (userId_1,userId_2) => {
+         let query = `
+            INSERT INTO public.chat_user(
+            user_id, chat_id)
+            VALUES (3, 2);
+         `;
+      
+         return await executeQuery(query,[userId_1,userId_2])     
       },
       
       createMessage : async (messageData) => {
@@ -202,7 +217,17 @@ const database = {
          chat_id, user_id, type_id, text, image, "timestamp")
          VALUES ($1, $2, $3, $4, $5, $6);
          `
-         return await executeQuery(query,[messageData.chat_id, messageData.user_id, messageData.type_id, messageData.text, messageData.image, messageData.timestamp])
+
+         let values = [
+            messageData.chat_id, 
+            messageData.user_id, 
+            messageData.type_id, 
+            messageData.text, 
+            messageData.image, 
+            messageData.timestamp
+         ];
+
+         return await executeQuery(query,values)
       },
       leaveChat: async ([chatId, userId]) => {
          let query =  `
