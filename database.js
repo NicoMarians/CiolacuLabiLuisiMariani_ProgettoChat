@@ -193,14 +193,31 @@ const database = {
       },
 
       createChat : async (userId_1,userId_2) => {
-
+         
       },
       
       createMessage : async (messageData) => {
-
+         let query = `
+         INSERT INTO public."Message"(
+         chat_id, user_id, type_id, text, image, "timestamp")
+         VALUES ($1, $2, $3, $4, $5, $6);
+         `
+         return await executeQuery(query,[messageData.chat_id, messageData.user_id, messageData.type_id, messageData.text, messageData.image, messageData.timestamp])
       },
-
-      deleteChat : async (userId,chatId) => {
+      leaveChat: async ([chatId, userId]) => {
+         let query =  `
+            DELETE FROM "chat_user"
+            WHERE "chat_user".user_id = $1;
+            AND "chat_user".chat_id = $2;
+            `
+            return await executeQuery(query, [chatId, userId])
+      },
+      deleteChat : async ([chatId]) => {
+            let query = `
+            DELETE FROM "Chat"
+            WHERE "Chat".id = $1;
+            `
+            return await executeQuery(query, [chatId])
 
       }
    },
