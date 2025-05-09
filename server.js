@@ -4,11 +4,24 @@ const http = require('http');
 const path = require('path');
 const app = express();
 const multer  = require('multer');
-const database = require('./database.js');
 
+const database = require('./database.js');
 const mailer = require('./mailer.js');
 
 const bodyParser = require("body-parser");
+
+app.use(cors());
+
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, path.join(__dirname, "files"));
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage}).single('file');
 
 const { Server } = require('socket.io'); // importazione oggetto Server da socket.io
 let conf = JSON.parse(fs.readFileSync('public/conf.json'));
@@ -24,7 +37,6 @@ app.use(
 app.use(express.json());
 
 app.use("/", express.static(path.join(__dirname, "public")));
-
 app.use("/files", express.static(path.join(__dirname, "files")));
 
 app.post("/getuser/:id", async (req, res) => {
