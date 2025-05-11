@@ -4,28 +4,23 @@ const fs = require('fs');                     // Modulo per il file system per l
 
 import { pubSub } from '../BL - components/pubsub.js';
 
-// Carica la configurazione di connessione al DB
-let config = JSON.parse(fs.readFileSync('public/conf.json'));
-config.ssl = {
-    ca: fs.readFileSync(__dirname + '/ca.pem') // Aggiungi il certificato SSL
-};
-
 const confData = await fetch("./../conf.json").then( r => r.JSON());
 
-// Crea la connessione al database
-const connection = mysql.createConnection(config);
-
-// Funzione per creare il componente della lista di chat
-async function createChatList(bindingElement) {
+export function createChatList(bindingElement) {
     const parentElement = bindingElement;
-    let listData = [];
+    let listChats = [];
+    let listCommunities = [];
     let filter = null;                   // Funzione di filtro 
 
     // Ritorna l'oggetto con i metodi per interagire con la lista
     return {
         // Imposta i dati della lista (ad esempio, aggiorna la lista delle chat)
-        setListData: function (newData) {
+        setChats: function (newData) {
             listData = newData;
+        },
+
+        setCommunities: (newData) => {
+            listCommunities = newData;
         },
 
         // Imposta una funzione di filtro per applicarla alla lista delle chat
@@ -40,15 +35,26 @@ async function createChatList(bindingElement) {
 
         // Mostra la lista delle chat (filtrata o completa)
         render: () => {
-            // Applica il filtro se è stato impostato
-
-            let line = listData.map((chat) => {
-                `
-                <div class = "chatDiv" id=chat_${chat.id}>
-                    <img src="./../images alt=${chat.nome[0].toUpperCase}>
-                </div>
-                `
-            });
+            //RENDER COMMUNITIES
+            let line = `<h2>Communities</h2>`;
+            line = listCommunities.map((chat) => {
+                if (chat.nome.contains(filter)){
+                    `
+                    <div class = "chatDiv" id=chat_${chat.id}>
+                        <img src="./../images/${chat.immagine}" alt=${chat.nome[0].toUpperCase}>
+                    </div>
+                `}
+            }).join("");
+            //RENDER CHATS (CON GRUPPI)
+            line += `Chats`;
+            line += listChats.map((chat) => {
+                if (chat.nome.contains(filter)){
+                    `
+                    <div class = "chatDiv" id=chat_${chat.id}>
+                        <img src="./../images/${chat.immagine}" alt=${chat.nome[0].toUpperCase}>
+                    </div>
+                `}
+            }).join("");
 
             parentElement.innerHTML = line;
 
@@ -65,4 +71,3 @@ async function createChatList(bindingElement) {
     };
 }
 
-module.exports = { createChatList };
