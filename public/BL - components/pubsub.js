@@ -20,4 +20,4 @@ const generatePubSub = () => {
     };
 };
 
-export const pubSub = generatePubSub()
+export const pubsub = generatePubSub()

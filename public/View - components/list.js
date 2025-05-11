@@ -1,10 +1,6 @@
-const database = require('./database.js');    // Importa il modulo del database
-const mysql = require('mysql2');              // Importa mysql2 per la connessione al DB
-const fs = require('fs');                     // Modulo per il file system per leggere il file di configurazione
+import { pubsub } from '../BL - components/pubsub.js';
 
-import { pubSub } from '../BL - components/pubsub.js';
-
-const confData = await fetch("./../conf.json").then( r => r.JSON());
+const confData = await fetch("./../conf.json").then(r => r.json());
 
 export function createChatList(bindingElement) {
     const parentElement = bindingElement;

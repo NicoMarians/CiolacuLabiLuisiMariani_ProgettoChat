@@ -31,8 +31,12 @@ pool.connect((err, client, release) => {
 // - - - END CONNECTION 
 
 const executeQuery = async (sql, params = []) => {
+   console.log("ENTRATO IN EXEC QUERY")
+   console.log("SQL - ", sql);
+   console.log("PARAMS - ", params);
     try {
         const result = await pool.query(sql, params);
+        
         return result.rows;
     } catch (err) {
         console.error('Errore: ', err);
@@ -176,9 +180,8 @@ const database = {
             FROM "Chat" 
             JOIN "chat_user" ON "Chat".id = "chat_user".chat_id
             WHERE "chat_user".user_id = $1
-            AND 
          `;
-
+         console.log('ENTTRATP IN DB ______')
          return await executeQuery(query,[userId]);
       },
 

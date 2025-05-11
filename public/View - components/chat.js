@@ -7,10 +7,10 @@ const createMessageFun = (content, time_stamp, idUser, idChat) => {
     }
 }
 
-const createChatComp = (parentElementIn, pubsub) => {
-    parentElement = parentElementIn;
-    listMess = [];
-    currentUserId = 0;
+export const createChatComp = (parentElementIn, pubsub) => {
+    let parentElement = parentElementIn;
+    let listMess = [];
+    let currentUserId = 0;
     return {
         createMessage: (content, time_stamp, idUser, idChat) => {
             newMess = createMessageFun(content, time_stamp, idUser, idChat)
@@ -37,4 +37,3 @@ const createChatComp = (parentElementIn, pubsub) => {
 }
 
 
-module.exports = createChatComp;

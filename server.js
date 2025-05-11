@@ -10,7 +10,7 @@ const mailer = require('./mailer.js');
 
 const bodyParser = require("body-parser");
 
-app.use(cors());
+//app.use(cors());
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -39,7 +39,7 @@ app.use(express.json());
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/files", express.static(path.join(__dirname, "files")));
 
-app.post("/getuser/:id", async (req, res) => {
+app.post("/getuser/id", async (req, res) => {
     //RICHIESTA AL DB che restiuisce informazioni su uno SPECIFICO USER
     const idUser = req.params.id;
     console.log("FETCH getuser - -   ", idUser);
@@ -54,7 +54,7 @@ app.post("/getuser/:id", async (req, res) => {
 
 app.post("/getmessages/:id", async (req, res) => {
     //RICHIESTA AL DB che restiuisce tutti i messaggi di uno SPECIFICO CHAT
-    const idChat = req.req.params.id;
+    const idChat = req.params.id;
     console.log("FETCH getmessages - -   ", idChat);
     try {
         await database.queries.downloadMessages(idChat);
@@ -65,12 +65,13 @@ app.post("/getmessages/:id", async (req, res) => {
     }
 });
 
-app.post("/getchat/:id", async (req, res) => {
+app.get("/getchat/:id", async (req, res) => {
     //RICHIESTA AL DB che restiuisce tutte le CHAT  di uno specifico USER
-    const idUser = req.body.idUser;
+    const idUser = req.params.id;
     console.log("FETCH getchat - -   ", idUser);
     try {
         await database.queries.downloadChatAll(idUser);
+        console.log("ENTRATO IN SERVER")
         res.json({result: "ok"});
     } catch (e) {
         console.log(e);
@@ -150,6 +151,9 @@ app.post('/mailer', async (req,res) => {
 });
 
 
+
+
+
 //LETTURA
 const server = http.createServer(app);
 const io = new Server(server);
@@ -162,3 +166,10 @@ io.on('connection', (socket) => {
       io.emit("chat", response);
    });
 });
+
+
+
+server.listen(conf.conf.port, () => {
+console.log("server running on port: " + conf.conf.port);
+  
+  });

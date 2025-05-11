@@ -1,4 +1,4 @@
-const createMiddleware = () => {
+export const createMiddleware = () => {
     return {
             downloadUser: async (id) => {
             // Funzione che restituisce informazioni su uno specifico utente
@@ -27,7 +27,7 @@ const createMiddleware = () => {
             
             downloadChatAll: async (idUser) => {
                 //Funz che restiuisce tutte le CHAT  di uno specifico USER
-                const response = await fetch(`/getchat/:${idUser}`);
+                const response = await fetch(`http://localhost:5050/getchat/${idUser}`);
                 const json = await response.json();
                 return json;
             },
@@ -92,5 +92,7 @@ const createMiddleware = () => {
             }
     }
 }
+
+
 
 
