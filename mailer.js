@@ -44,4 +44,4 @@ const result = {
 module.exports = result;
 
 
-result.send("ciolacutommaso@itis-molinari.eu", "PROVA", "QUESTA è UNA PROVA")
+//result.send("ciolacutommaso@itis-molinari.eu", "PROVA", "QUESTA è UNA PROVA")

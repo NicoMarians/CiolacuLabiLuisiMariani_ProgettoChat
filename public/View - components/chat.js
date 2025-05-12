@@ -1,4 +1,4 @@
-import { pubsub } from "../BL - components/pubsub";
+//import { pubsub } from "../BL - components/pubsub";
 
 const createMessageFun = (content, time_stamp, idUser, idChat) => {
     // TIME stamp contiene data e ora
@@ -25,6 +25,7 @@ export const createChatComp = (parentElementIn) => {
             listMess.forEach(messaggio => {
                 html += template.replace("%CHAT", messaggio.content);
             });
+            console.log("CHAT RENDERIZZATA", listMess)
         },
         setMess: (ListIn) => {
             //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)

@@ -36,7 +36,7 @@ const executeQuery = async (sql, params = []) => {
    console.log("PARAMS - ", params);
     try {
         const result = await pool.query(sql, params);
-        
+        console.log("Risultato della query:", result.rows);
         return result.rows;
     } catch (err) {
         console.error('Errore: ', err);
@@ -180,18 +180,21 @@ const database = {
             FROM "Chat" 
             JOIN "chat_user" ON "Chat".id = "chat_user".chat_id
             WHERE "chat_user".user_id = $1
+            AND "Chat".id_tipo = 1
          `;
          console.log('ENTTRATP IN DB ______')
-         return await executeQuery(query,[userId]);
+         return await executeQuery(query, [userId]);
       },
 
       downloadCommunityAll : async () => {
          let query = `
-            SELECT id,name,picture
-            FROM "Chat"
+            SELECT "Chat".id, "Chat".name, "Chat".picture, "Chat".id_tipo
+            FROM "Chat" 
+            JOIN "chat_user" ON "Chat".id = "chat_user".chat_id
+            WHERE "Chat".id_tipo = 2
          `;
 
-         return await executeQuery(query);
+         return await executeQuery(query, []);
       },
 
       createUser : async (userData) => {

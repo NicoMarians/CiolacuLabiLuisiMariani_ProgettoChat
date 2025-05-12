@@ -12,11 +12,16 @@ export function createChatList(bindingElement) {
     return {
         // Imposta i dati della lista (ad esempio, aggiorna la lista delle chat)
         setChats: function (newData) {
-            listData = newData;
+            listChats = newData;
         },
 
         setCommunities: (newData) => {
-            listCommunities = newData;
+            listCommunities = newData.data;
+            if (newData) {
+                console.log("COMY CARICATE SU COMP -> ", listCommunities)
+            } else {
+                listCommunities = []
+            }
         },
 
         // Imposta una funzione di filtro per applicarla alla lista delle chat
@@ -33,28 +38,29 @@ export function createChatList(bindingElement) {
         render: () => {
             //RENDER COMMUNITIES
             let line = `<h2>Communities</h2>`;
-            line = listCommunities.map((chat) => {
-                if (chat.nome.contains(filter)){
-                    `
-                    <div class = "chatDiv" id=chat_${chat.id}>
-                        <img src="./../images/${chat.immagine}" alt=${chat.nome[0].toUpperCase}>
+            line += listCommunities.map((chat) => {
+                if (chat.nome && filter && chat.nome.includes(filter)) {
+                    return `
+                    <div class = "chatDiv" id="chat_${chat.id}">
+                        <img src="./../images/${chat.picture}" alt="${chat.name[0].toUpperCase()}">
                     </div>
                 `}
             }).join("");
             //RENDER CHATS (CON GRUPPI)
             line += `Chats`;
             line += listChats.map((chat) => {
-                if (chat.nome.contains(filter)){
+                if (chat.nome && filter && chat.nome.includes(filter)) {
                     `
                     <div class = "chatDiv" id=chat_${chat.id}>
-                        <img src="./../images/${chat.immagine}" alt=${chat.nome[0].toUpperCase}>
+                        <img src="./../images/${chat.picture}" alt=${chat.name[0].toUpperCase}>
                     </div>
                 `}
             }).join("");
 
             parentElement.innerHTML = line;
+            console.log(line)
 
-            listData.forEach((chat) => {
+            listChats.forEach((chat) => {
                 document.getElementById(`chat_${chat.id}`).onclick = async () => {
                     window.location.hash = "#chat";
                     await pubsub.publish("downloadMessages");
