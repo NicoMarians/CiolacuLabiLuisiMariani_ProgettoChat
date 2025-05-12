@@ -21,7 +21,7 @@ export const createLogin = async (username,password) => {
                 });
                 const data = await response.json();
 
-                if (data.resutl === "ok") {
+                if (data.result === "ok") {
                     isLogged = true;
                     return {
                         succes: true,
