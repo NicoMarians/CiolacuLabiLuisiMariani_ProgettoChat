@@ -24,6 +24,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage}).single('file');
 
 const { Server } = require('socket.io'); // importazione oggetto Server da socket.io
+const result = require('./mailer.js');
 let conf = JSON.parse(fs.readFileSync('public/conf.json'));
 
 
@@ -62,6 +63,32 @@ app.post("/getmessages/:id", async (req, res) => {
     } catch (e) {
         console.log(e);
         res.json({result: "ko"});
+    }
+});
+
+app.post("/login", async (req,res) => {
+    const {username, password} = req.body; // Ottiene username e password dalla richiesta
+
+    try {
+        //Chiamata alla funzone downloadUser per recuperare l'utente dal DB usando lo username
+        const result = await database.downloadUser(username);
+
+        console.log("FETCH login - -   ", { username, password });
+
+        //Se l'utente non esiste
+        if(result.length === 0) {
+            return res.json({result: "ko", message: "Utente non trovato"});
+        }
+
+        //Confronta la password 
+        if (user.password !== password){
+            return res.json({result: "ko", message: "Password errata!"});
+        }
+        // Se la password è corretta, invia la risposta con i dati dell'utente
+        res.json({ result: "ok", user });
+    }catch(e){
+        console.log(e);
+        res.json({result: "ko", message: "C'è stato un errore"})
     }
 });
 
@@ -159,6 +186,7 @@ const io = new Server(server);
 io.on('connect', (socket) => {
    console.log("socket connected: " + socket.id);
    io.emit("chat", "new client: " + socket.id);
+   
    socket.on('message', (message) => {
       const response = socket.id + ': ' + message;
       console.log(response);

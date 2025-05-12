@@ -9,13 +9,49 @@
     <title>Flock</title>
 </head>
 <body>
-    <div class="home" >
-        <div class="container" id="chatSpace"></div>
+    <div class="flock-space" >
+
+        <div class="page home" id="home">
+            <h1>Benvenuto su Flock</h1>
+            <div id="login-container" class="login-container">
+                <button type="button" id="login_btn">Entra</button>
+            </div>
+
+            <div id="register-container" class="register-container">
+                <button type="button" id="register_btn">Registrati</button>
+            </div>
+        </div>
+
+        <div class="page" id="registrati-container">
+            <h2>Inserisci la tua email</h2>
+            <input type="text" id="email_input"> 
+            <button type="button" id="invia_email_password" class="">-></button>
+        </div>
+
+        <div class="page" id="password-container">
+            <h2>Inserisci la password che ti è arrivata</h2>
+            <input type="text" id="password_input">
+            <button type="button" id="check_password" class="">-></button>
+        </div>
+
+        <div class="page" id="password-container">
+            <h2>Scegli l'username</h2>
+            <input type="text" id="username_input">
+            <button type="button" id="add_username" class="">-></button>
+        </div>
+
+
+        <div class="page" id="recupera">
+            <div id="recupera-container" class="login-container"></div>
+        </div>
+
+
+        <div class="page" id="chatSpace"></div>
         
-        <div class="container chatDiv" id="MesschatSpace"></div>
+        <div class="page chatDiv" id="MesschatSpace"></div>
         
-        <button type="button" id="buttonCreateChat">+</button>
-        
+        <button type="button" id="buttonCreateChat"></button>
+
         
     </div>
     <script src="index.js" type="module"></script>
