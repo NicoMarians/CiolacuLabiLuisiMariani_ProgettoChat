@@ -167,6 +167,20 @@ const database = {
          return await executeQuery(query,values);
       },
 
+      downloadUserByName: async (username) => {
+         let query = `
+            SELECT id,username,picture,email
+            FROM "User"
+            WHERE username = $1
+         `;
+
+         const values = [
+            username
+         ];
+
+         return await executeQuery(query,values);
+      },
+
       downloadMessages : async (chatId) => {
          let query = `
             SELECT "Message".timestamp, "Message".type_id, "Message".text, "Message".image, "User".username
@@ -242,7 +256,7 @@ const database = {
          return await executeQuery(query,values)     
       },
 
-      createUserChat : async (userId_1,userId_2) => {
+      createUserChat : async (userId,chatId) => {
          let query = `
             INSERT INTO public.chat_user(
             user_id, chat_id)
@@ -250,8 +264,8 @@ const database = {
          `;
 
          const values = [
-            userId_1,
-            userId_2
+            userId,
+            chatId
          ];
       
          return await executeQuery(query,values)     
