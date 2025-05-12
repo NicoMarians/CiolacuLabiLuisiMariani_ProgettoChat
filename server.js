@@ -12,6 +12,22 @@ const bodyParser = require("body-parser");
 
 //app.use(cors());
 
+const generatePassword = (length) => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        const indxRandom = Math.floor(Math.random() * chars.length);
+        password += chars[indxRandom];
+    }
+    return password;
+};
+
+
+
+
+
+
+
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, path.join(__dirname, "files"));
@@ -171,9 +187,16 @@ app.delete("/deletechat", async (req, res) => {
 });
 
 app.post('/mailer', async (req,res) => {
-  let email = req.body.email;
-  let subject = req.body.subject;
-  let text = req.body.subject;
+    //Prende in input una email e gli manda una mail con la pw sicura da usare, poi salva sul db la pw ashata
+    let password = generatePassword(12);
+
+    let email = req.body.email;
+    let subject = "Benvenuto su Flock! Visualizza la tua password"
+    let text = ("Questa è la tua password:  " + password)
+
+    
+    mailer.send(email, subject, text);
+    res.json({ result: "ok"});
 });
 
 

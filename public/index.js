@@ -7,6 +7,8 @@ const divUsername = document.getElementById("divUsername");
 const divProfilePicture = document.getElementById("divProfilePicture");
 const divChatList = document.getElementById("chatSpace");
 const divChatMess = document.getElementById("MesschatSpace");
+const register_btn = document.getElementById("register_btn");
+
 
 // -- Business Logic -- 
 import {pubsub} from './BL - components/pubsub.js';
@@ -47,6 +49,13 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         console.error("Errore durante il download delle chat:", error);
     });
     window.location.href = "#home";
+
+
+    register_btn.onclick = () => {    
+        const email = document.getElementById("email_input").value
+        
+        middleware.sendMail(email);
+    }
 
     // - - - - CONNESSIONE AL SERVER -  - -
     socket.on("connect", () => {
