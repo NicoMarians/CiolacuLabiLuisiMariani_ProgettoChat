@@ -160,7 +160,11 @@ const database = {
             WHERE id = $1
          `;
 
-         return await executeQuery(query,[userId]);
+         const values = [
+            userId
+         ];
+
+         return await executeQuery(query,values);
       },
 
       downloadMessages : async (chatId) => {
@@ -169,9 +173,13 @@ const database = {
             FROM "User"
             JOIN "Message" ON "User".id = "Message".user_id
             WHERE "Message".chat_id = $1
-            `;
+         `;
 
-         return await executeQuery(query,[chatId]);
+         const values = [
+            chatId
+         ];
+
+         return await executeQuery(query,values);
       },
 
       downloadChatAll : async (userId) => {
@@ -183,15 +191,19 @@ const database = {
             AND "Chat".id_tipo = 1
          `;
          console.log('ENTTRATP IN DB ______')
-         return await executeQuery(query, [userId]);
+
+         const values = [
+            userId
+         ];
+
+         return await executeQuery(query, values);
       },
 
       downloadCommunityAll : async () => {
          let query = `
-            SELECT "Chat".id, "Chat".name, "Chat".picture, "Chat".id_tipo
+            SELECT id, name, picture, id_tipo
             FROM "Chat" 
-            JOIN "chat_user" ON "Chat".id = "chat_user".chat_id
-            WHERE "Chat".id_tipo = 2
+            WHERE id_tipo = 2
          `;
 
          return await executeQuery(query, []);
@@ -211,28 +223,38 @@ const database = {
             userData.email,
             userData.public_key,
             userData.private_key
-         ]
+         ];
 
          return await executeQuery(query,values);
       },
 
-      createChat : async () => {
+      createChat : async (name,picture) => {
          let query = `
-            INSERT INTO "Chat"(
-            name, picture)
-            VALUES ('Gruppo calcio', Null);
-         `
-         return await executeQuery(query,[])     
+            INSERT INTO "Chat"(name, picture)
+            VALUES ('$1', $2);
+         `;
+
+         const values = [
+            name,
+            picture
+         ];
+
+         return await executeQuery(query,values)     
       },
 
       createUserChat : async (userId_1,userId_2) => {
          let query = `
             INSERT INTO public.chat_user(
             user_id, chat_id)
-            VALUES (3, 2);
+            VALUES ($1, $2);
          `;
+
+         const values = [
+            userId_1,
+            userId_2
+         ];
       
-         return await executeQuery(query,[userId_1,userId_2])     
+         return await executeQuery(query,values)     
       },
       
       createMessage : async (messageData) => {
@@ -240,7 +262,7 @@ const database = {
          INSERT INTO public."Message"(
          chat_id, user_id, type_id, text, image, "timestamp")
          VALUES ($1, $2, $3, $4, $5, $6);
-         `
+         `;
 
          let values = [
             messageData.chat_id, 
@@ -258,18 +280,29 @@ const database = {
             DELETE FROM "chat_user"
             WHERE "chat_user".user_id = $1;
             AND "chat_user".chat_id = $2;
-            `
-            return await executeQuery(query, [chatId, userId])
+         `;
+
+         const values = [
+            chatId, 
+            userId
+         ];
+
+         return await executeQuery(query, values)
       },
       deleteChat : async ([chatId]) => {
-            let query = `
-            DELETE FROM "Chat"
-            WHERE "Chat".id = $1;
-            `
-            return await executeQuery(query, [chatId])
+         let query = `
+         DELETE FROM "Chat"
+         WHERE "Chat".id = $1;
+         `;
+
+         const values = [
+            chatId
+         ];
+
+         return await executeQuery(query, values)
 
       }
-   },
+   }
 
 }
 
