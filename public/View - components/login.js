@@ -43,6 +43,9 @@ export const createLogin = async (username,password) => {
                 };
             }
         },
-        
-    }
-}
+        //Metodo per verificare lo stato di login
+        checkIsLogged: function () {
+            return isLogged;
+        }
+    };
+};
