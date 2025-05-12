@@ -1,4 +1,5 @@
 export const createMiddleware = () => {
+
     return {
             downloadUser: async (id) => {
             // Funzione che restituisce informazioni su uno specifico utente
@@ -26,8 +27,8 @@ export const createMiddleware = () => {
 
             
             downloadChatAll: async (idUser) => {
-                //Funz che restiuisce tutte le CHAT  di uno specifico USER
-                const response = await fetch(`http://localhost:5050/getchat/${idUser}`);
+                //Funz che restiuisce tutte le CHAT di uno specifico USER
+                const response = await fetch(`/getchat/${idUser}`);
                 const json = await response.json();
                 return json;
             },
@@ -59,7 +60,7 @@ export const createMiddleware = () => {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ idUser1, idUser2 })
+                    body: JSON.stringify({ "user_1":idUser1, "user_1":idUser2 })
                 });
                 const json = await response.json();
                 return json;
@@ -101,6 +102,18 @@ export const createMiddleware = () => {
                 });
                 const json = await response.json();
                 return json;
+            },
+            
+            sendMail: async (mail) => {
+                const response = await fetch(`/mailer`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ "mail":mail })
+                });
+                const password = await response.json();
+                return password;
             }
     }
 }
