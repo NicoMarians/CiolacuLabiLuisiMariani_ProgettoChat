@@ -55,14 +55,12 @@ export function createChatList(bindingElement) {
             parentElement.innerHTML = line;
 
             listData.forEach((chat) => {
-                document.getElementById(`chat_${chat.id}`).onclick = () => {
+                document.getElementById(`chat_${chat.id}`).onclick = async () => {
                     window.location.hash = "#chat";
-                    pubSub.publish("getCommunitiesAll");
-                    pubSub.publish("getChatAll");
-                    pubSub.publish("renderChat");
+                    await pubsub.publish("downloadMessages");
+                    pubsub.publish("render-chat");
                 }
             });
-
         }
     };
 }

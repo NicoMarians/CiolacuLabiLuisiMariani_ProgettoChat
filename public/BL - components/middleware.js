@@ -80,7 +80,7 @@ export const createMiddleware = () => {
 
             deleteChat: async (idUser, idChat) => {
                 // Funzione che elimina una chat, passando i dati nel body
-                const response = await fetch(`/deletechat`, {
+                const response = await fetch(`/deletechat/${idChat}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"

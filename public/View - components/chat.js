@@ -1,19 +1,21 @@
+import { pubsub } from "../BL - components/pubsub";
+
 const createMessageFun = (content, time_stamp, idUser, idChat) => {
     // TIME stamp contiene data e ora
     return {
         content: "",
         time_stamp: "",
-        idUser: int 
+        idUser: int ,
+        idChat: int
     }
 }
 
-export const createChatComp = (parentElementIn, pubsub) => {
+export const createChatComp = (parentElementIn) => {
     let parentElement = parentElementIn;
     let listMess = [];
-    let currentUserId = 0;
     return {
         createMessage: (content, time_stamp, idUser, idChat) => {
-            newMess = createMessageFun(content, time_stamp, idUser, idChat)
+            const newMess = createMessageFun(content, time_stamp, idUser, idChat)
             listMess.push(newMess);
             //pubsub.publish("render-chat", listMess); //CREARE LA FUNZIONE PUBSUB ("render-chat") DENTRO INDEX.JS
         },

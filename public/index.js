@@ -40,17 +40,27 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     console.log("PROVA QUERY: ", middleware.downloadChatAll(userProva.id))
     
 
-
+    //PUBSUB SUBSCRIBES
     pubsub.subscribe("render-chat", () => {
         chatComp.render();
     }); 
+
     pubsub.subscribe("set-data", (list) =>{
         //PASSARE UNA LISTA DI DIZIONARIO CON SEGUENTE FORMATO -> content, time_stamp, idUser, idChat
         chatComp.addMess(list);
         middleware.createMessage()
     });
 
+    pubsub.subscribe("downloadMessages",async () => {
+        const newMessages = await middleware.downloadMessages();
+        list.chatComp.setMess(newMessages);
+    })
+
 
 
 
 })
+
+buttonCreateChat.onclick = () => {
+    
+}

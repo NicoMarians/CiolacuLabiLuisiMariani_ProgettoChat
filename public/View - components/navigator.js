@@ -12,6 +12,8 @@ const show = (element) => {
 
 export const createNavigator = (parentElement) => {
 
+   let isLogged = false;
+
    const pages = Array.from(parentElement.querySelectorAll(".page"));
    
    const render = () => {
@@ -19,13 +21,26 @@ export const createNavigator = (parentElement) => {
       const pageName = url.hash.split("-")[0].replace("#", ""); 
       const pageId = url.hash.split("-")[1];
 
-      const selected = pages.filter((page) => page.id === pageName)[0] || pages[0];
+      let selected = pages.filter((page) => page.id === pageName)[0] || pages[0];
 
-      hide(pages);
-      show(selected);
-
+      if (isLogged){
+         hide(pages);
+         show(selected);
+      } else {
+         hide(pages);
+         hide(selected);
+         selected = pages.filter((page) => page.id === "login")[0] || pages[0];
+         show(selected);
+      }
 
    }
+
+   return {
+      setUserLogged: () => {
+         isLogged = true;
+      }
+   }
+
    window.addEventListener('popstate', render); 
    render();   
 }
