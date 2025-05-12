@@ -39,7 +39,7 @@ const userProva = {
 fetch("./conf.json").then(r => r.json()).then(conf => {
     const middleware = createMiddleware();
     const chatComp = createChatComp(divChatMess,pubsub)
-    //const navigator = createNavigator(document.querySelector("#container"));
+    const navigator = createNavigator(document.querySelector(".flock-space"));
     const chatListComp = createChatList(divChatList);
 
     middleware.downloadCommunityAll(userProva.id).then(datiTemp => {
@@ -49,6 +49,8 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     }).catch(error => {
         console.error("Errore durante il download delle chat:", error);
     });
+    window.location.href = "#home";
+    navigator.hide("#chatSpace")
 
 
     // - - - - CONNESSIONE AL SERVER -  - -

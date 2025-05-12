@@ -159,6 +159,7 @@ const io = new Server(server);
 io.on('connect', (socket) => {
    console.log("socket connected: " + socket.id);
    io.emit("chat", "new client: " + socket.id);
+   
    socket.on('message', (message) => {
       const response = socket.id + ': ' + message;
       console.log(response);
