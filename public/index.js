@@ -11,17 +11,12 @@ const divChatMess = document.getElementById("MesschatSpace");
 // -- Business Logic -- 
 import {pubsub} from './BL - components/pubsub.js';
 import {createMiddleware} from './BL - components/middleware.js';
+import {createLogin} from './View - components/login.js';
+import {createChatList} from './View - components/list.js';
+import { createNavigator } from './View - components/navigator.js';
+import { createChatComp } from './View - components/chat.js'
 
 // -- View --
-import {createChatList} from './View - components/list.js';
-import { createChatComp } from './View - components/chat.js'
-import {createLogin} from './View - components/login.js';
-import { createNavigator } from './View - components/navigator.js';
-
-
-
-const socket = io();
-
 
 const userProva = {
     id: 3,
@@ -42,20 +37,8 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     //const navigator = createNavigator(document.querySelector("#container"));
     const chatListComp = createChatList(divChatList);
 
-    middleware.downloadCommunityAll(userProva.id).then(datiTemp => {
-        console.log("CHAT SCARICATE ------------>   ", datiTemp.data);
-        chatListComp.setCommunities(datiTemp);
-        chatListComp.render();
-    }).catch(error => {
-        console.error("Errore durante il download delle chat:", error);
-    });
-
-
-    // - - - - CONNESSIONE AL SERVER -  - -
-    socket.on("connect", () => {
-        console.log("Connesso al server");
-    });
-    // - - - - - - -- 
+    console.log("PROVA QUERY: ", middleware.downloadChatAll(userProva.id))
+    
 
     //PUBSUB SUBSCRIBES
     pubsub.subscribe("render-chat", () => {
@@ -75,8 +58,16 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
 
 
-    buttonCreateChat.onclick = () => {
-        pubsub.publish("render-chat")
-    }
 
 })
+
+buttonCreateChat.onclick = async () => {
+    //MOSTRARE INPUT CHE CHIEDE NOME DI UTENTE CON CUI FARE CHAT
+    // ID LO RICAVIAMO CON UNA QUERY
+
+    const userId = 2;
+
+    await middleware.createChat(userId.id,userId);
+
+
+}

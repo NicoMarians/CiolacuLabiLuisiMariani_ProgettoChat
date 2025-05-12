@@ -65,6 +65,18 @@ export const createMiddleware = () => {
                 return json;
             },
 
+            joinChat: async (userId,chatId) => {
+                const response = await fetch(`/joinChat`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({"user":userId,"chat":chatId})
+                });
+                const json = await response.json();
+                return json;
+            },
+
             createMessage: async (dizDati) => {
                 // Funzione che crea un nuovo messaggio, passando tutte le informazioni come oggetto
                 const response = await fetch(`/createmessage`, {
