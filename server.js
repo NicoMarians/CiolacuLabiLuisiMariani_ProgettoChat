@@ -23,11 +23,6 @@ const generatePassword = (length) => {
 };
 
 
-
-
-
-
-
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, path.join(__dirname, "files"));
@@ -56,7 +51,7 @@ app.use(express.json());
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/files", express.static(path.join(__dirname, "files")));
 
-app.post("/getuser/id", async (req, res) => {
+app.post("/getuser/:id", async (req, res) => {
     //RICHIESTA AL DB che restiuisce informazioni su uno SPECIFICO USER
     const idUser = req.params.id;
     console.log("FETCH getuser - -   ", idUser);
@@ -150,11 +145,18 @@ app.post("/createuser", async (req, res) => {
 
 app.post("/createchat", async (req, res) => {
     // RICHIESTA AL DB PER CREARE SIA Chat che Chat_user
-    const { idUser1, idUser2 } = req.body;
-    console.log("FETCH createchat - -   ", { idUser1, idUser2 });
+    const userId_1 = req.body.user_1;
+    const userId_2 = req.body.user_2;
+    const nomeChat = req.body.nomeChat;
+    const immagineChat = req.body.immagineChat;
+
+    console.log("FETCH createchat - -   ", { userId_1, userId_2 });
     try {
-        data = await database.queries.createChat(idUser1, idUser2);
-        res.json({ result: "ok", "data": data});
+        const chatId = await database.queries.createChat(nomeChat, immagineChat);
+        let result = await database.queries.createUserChat(userId_1,chatId);
+        result = await database.queries.createUserChat(userId_2,chatId);
+
+        res.json({ result: "ok"});
     } catch (e) {
         console.log(e);
         res.json({ result: "ko" });
@@ -188,19 +190,42 @@ app.delete("/deletechat", async (req, res) => {
 
 app.post('/mailer', async (req,res) => {
     //Prende in input una email e gli manda una mail con la pw sicura da usare, poi salva sul db la pw ashata
-    let password = generatePassword(12);
+    const password = generatePassword(12);
 
-    let email = req.body.email;
-    let subject = "Benvenuto su Flock! Visualizza la tua password"
-    let text = ("Questa è la tua password:  " + password)
+    const email = req.body.email;
+    const subject = "Benvenuto su Flock! Visualizza la tua password";
+    const text = ("Questa è la tua password:  " + password);
 
     
     mailer.send(email, subject, text);
     res.json({ result: "ok"});
 });
 
+app.post('/joinchat', async (req,res) => {
+    const userId = req.body.userId;
+    const chatId = req.body.chatId;
+    try {
+        const result = await database.queries.createUserChat(userId,chatId);
+        res.json({ result: "ok"});
+    } catch (e) {
+        console.log(e);
+        res.json({ result: "ko" });
+    }
+
+})
 
 
+app.post('getUserByName', async (req,res) => {
+    const username = req.body.username;
+    try {
+        const userData = await database.queries.downloadUserByName(username);
+        res.json({ result: "ok",data: userData});
+    } catch (e) {
+        console.log(e);
+        res.json({ result: "ko" });
+    }
+
+})
 
 //----------------------------------------------SERVER IO----------------------------------------------
 //LETTURA
