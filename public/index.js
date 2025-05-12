@@ -47,8 +47,6 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         console.error("Errore durante il download delle chat:", error);
     });
     window.location.href = "#home";
-    navigator.hide("#chatSpace")
-
 
     // - - - - CONNESSIONE AL SERVER -  - -
     socket.on("connect", () => {

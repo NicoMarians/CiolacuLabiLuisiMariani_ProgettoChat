@@ -11,10 +11,11 @@
 <body>
     <div class="flock-space" >
 
-        <div class="page home" id="home">
+        <!--HOME-->
+        <div class="page home visible" id="home">
             <h1>Benvenuto su Flock</h1>
             <div id="login-container" class="login-container">
-                <button type="button" id="login_btn">Entra</button>
+                <button type="button" id="login_btn">Login</button>
             </div>
 
             <div id="register-container" class="register-container">
@@ -26,38 +27,36 @@
         <!--  --------REGISTRAZIONE--------  -->
 
         <!--MAIL-->
-        <div class="page" id="registrati-container">
+        <div class="page hidden" id="registrati-container">
             <h2>Inserisci la tua email</h2>
             <input type="text" id="email_input"> 
             <button type="button" id="invia_email_password" class="">-></button>
         </div>
 
         <!--PASSWORD-->
-        <div class="page" id="password-container">
+        <div class="page hidden" id="password-container">
             <h2>Inserisci la password che ti è arrivata</h2>
             <input type="text" id="password_input">
             <button type="button" id="check_password" class="">-></button>
         </div>
 
         <!--USERNAME-->
-        <div class="page" id="username-container">
+        <div class="page hidden" id="username-container">
             <h2>Scegli l'username</h2>
             <input type="text" id="username_input">
             <button type="button" id="add_username" class="">-></button>
         </div>
 
 
-        <div class="page" id="recupera">
+        <div class="page hidden" id="recupera">
             <div id="recupera-container" class="login-container"></div>
         </div>
 
 
-        <div class="page" id="chatSpace"></div>
+        <div class="page hidden" id="chatSpace"></div>
         
-        <div class="page chatDiv" id="MesschatSpace"></div>
+        <div class="page chatDiv hidden" id="MesschatSpace"></div>
         
-        <button type="button" id="buttonCreateChat"></button>
-
         
     </div>
     <script src="index.js" type="module"></script>
