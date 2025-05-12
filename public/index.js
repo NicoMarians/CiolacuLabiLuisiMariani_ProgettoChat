@@ -8,17 +8,22 @@ const divProfilePicture = document.getElementById("divProfilePicture");
 const divChatList = document.getElementById("chatSpace");
 const divChatMess = document.getElementById("MesschatSpace");
 const register_btn = document.getElementById("register_btn");
+const email_btn = document.getElementById("invia_email_password");
+const password_check_register_btn = document.getElementById("check_password");
+const username_choice_btn = document.getElementById("add_username");
+
+const password_input_register = document.getElementById("password_input");
 
 
 // -- Business Logic -- 
 import {pubsub} from './BL - components/pubsub.js';
 import {createMiddleware} from './BL - components/middleware.js';
-import {createLogin} from './View - components/login.js';
 import {createChatList} from './View - components/list.js';
 import { createNavigator } from './View - components/navigator.js';
 import { createChatComp } from './View - components/chat.js'
 
 // -- View --
+import { loginComp } from './View - components/login.js';
 
 const userProva = {
     id: 3,
@@ -43,20 +48,50 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     
     middleware.downloadCommunityAll(userProva.id).then(datiTemp => {
         console.log("CHAT SCARICATE ------------>   ", datiTemp.data);
-        chatListComp.setCommunities(datiTemp);
-        chatListComp.render();
+        //chatListComp.setCommunities(datiTemp);
+        //chatListComp.render();
     }).catch(error => {
         console.error("Errore durante il download delle chat:", error);
     });
     window.location.href = "#home";
 
 
-    register_btn.onclick = () => {    
-        const email = document.getElementById("email_input").value
-        
-        middleware.sendMail(email);
+    
+    register_btn.onclick = async () => {    
+        window.location.href = "registrati-container";
+    }   
+
+    email_btn.onclick = async () => {
+        const email = document.getElementById("email_input").value;
+        document.getElementById("email_input").value = "";
+        await middleware.sendMail(email)
+        window.location.href = "#register-password-container";
+        loginComp.setEmail(email)
     }
 
+    password_check_register_btn.onclick = async () => {
+        const password = password_input_register.value;
+        
+        const response = await middleware.checkPassword(password);
+        
+        if (response.result == "ok") {
+            window.location.href = "#username-container";
+        } else {
+            document.getElementById("messErrorIfNotPsw").innerText = "Password errata";
+            loginComp.setUsername()
+        }
+    }
+
+    username_choice_btn.onclick = async () => {
+        const username = document.getElementById("username_input").value;
+        await middleware.createUser(loginComp.getUserData);
+        document.getElementById("username_input").value = "";
+        window.location.href = "#chatSpace";
+    }
+
+    
+
+    const socket = io();
     // - - - - CONNESSIONE AL SERVER -  - -
     socket.on("connect", () => {
         console.log("Connesso al server");
@@ -84,6 +119,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
 })
 
+/*
 buttonCreateChat.onclick = async () => {
     //MOSTRARE INPUT CHE CHIEDE NOME DI UTENTE CON CUI FARE CHAT
     // ID LO RICAVIAMO CON UNA QUERY
@@ -94,3 +130,4 @@ buttonCreateChat.onclick = async () => {
 
 
 }
+    */

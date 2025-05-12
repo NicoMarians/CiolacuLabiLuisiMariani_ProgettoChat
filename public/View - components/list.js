@@ -40,9 +40,10 @@ export function createChatList(bindingElement) {
             let line = `<h4>Community</h4>`;
             console.log("LIT COMMY DENTRO RENDER LIST ----->  ", listCommunities)
             line += listCommunities.map((chat) => {
+                const picture = chat.picture == null ? "" : `../../images/${chat.picture}`;
                     return `
                     <div class = "chatDiv" id="chat_${chat.id}">
-                        <img src="./../images/${chat.picture}" alt="${chat.name[0].toUpperCase()}">
+                        <img src="${picture}" alt="${chat.name[0].toUpperCase()}">
                         <p> ${chat.name} </p>
                     </div>
                 `
@@ -51,9 +52,10 @@ export function createChatList(bindingElement) {
             line += `<h4>Private chat</h4>`;
             line += listChats.map((chat) => {
                 if (chat.name && filter && chat.name.includes(filter)) {
-                    `
+                    const picture = chat.picture == null ? "" : `../../images/${chat.picture}`;
+                    return`
                     <div class = "chatDiv" id=chat_${chat.id}>
-                        <img src="./../images/${chat.picture}" alt=${chat.name[0].toUpperCase}>
+                        <img src="${picture}" alt=${chat.name[0].toUpperCase}>
                     </div>
                 `}
             }).join("");

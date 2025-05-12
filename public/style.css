@@ -6,6 +6,10 @@
     display: none;
   }
 
+  .page {
+    opacity: 100%;
+  }
+
   .home{
     text-align: center;
   }

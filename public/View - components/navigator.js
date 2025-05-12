@@ -11,36 +11,19 @@ const show = (element) => {
 }
 
 export const createNavigator = (parentElement) => {
-
-   let isLogged = false;
-
    const pages = Array.from(parentElement.querySelectorAll(".page"));
    
    const render = () => {
       const url = new URL(document.location.href);
       const pageName = url.hash.split("-")[0].replace("#", ""); 
-      const pageId = url.hash.split("-")[1];
+      const pageId = url.hash.split("-")[1]; 
 
-      let selected = pages.filter((page) => page.id === pageName)[0] || pages[0];
+      const selected = pages.filter((page) => page.id === pageName)[0] || pages[0];
 
-      if (isLogged){
-         hide(pages);
-         show(selected);
-      } else {
-         hide(pages);
-         hide(selected);
-         selected = pages.filter((page) => page.id === "login")[0] || pages[0];
-         show(selected);
-      }
+      hide(pages); 
+      show(selected); 
 
    }
-
-   return {
-      setUserLogged: () => {
-         isLogged = true;
-      }
-   }
-
-   window.addEventListener('popstate', render); 
+   window.addEventListener('popstate', () => {console.log("PAGINA CAMBIATA"); render();}); 
    render();   
 }

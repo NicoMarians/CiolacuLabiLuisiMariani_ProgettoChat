@@ -1,51 +1,51 @@
-export const createLogin = async (username,password) => {
-    
+const createLogin = () => { 
     let isLogged = false;
     let bindingElement = null;
+    let tempUser = {
+        username: null,
+        password: null,
+        email: null,
+        picture: null
+    };
 
     return {
-        //Metodo per impostare l'elemento di binding
-        setBingingElement: function (element) {
-            bindingElement = element;
+        setUsername: (username) => {
+            tempUser.username = username;
         },
-
-        //Metodo per confermare la login
-        confirmLogin: async function () {
-            try {
-                const response = await fetch("/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body : JSON.stringify({username, password}),
-                });
-                const data = await response.json();
-
-                if (data.result === "ok") {
-                    isLogged = true;
-                    return {
-                        succes: true,
-                        user: data.user,
-                    };
-                } else {
-                    isLogged = false;
-                    return {
-                        succes: false,
-                        message: data.message || "Credenziali errate",
-                    };
-                    
-                }
-            } catch (error) {
-                isLogged = false;
-                return {
-                    succes: false,
-                    message: "Errore di rete",
-                };
-            }
+        getUsername: () => {
+            return tempUser.username;
         },
-        //Metodo per verificare lo stato di login
+        setPassword: (password) => {
+            tempUser.password = password;
+        },
+        getPassword: () => {
+            return tempUser.password;
+        },
+        setEmail: (email) => {
+            tempUser.email = email;
+        },
+        getEmail: () => {
+            return tempUser.email;
+        },
+        setPicture: (picture) => {
+            tempUser.picture = picture;
+        },
+        getPicture: () => {
+            return tempUser.picture;
+        },
+        getUserData: () => {
+            return tempUser;
+        },
+        // Metodo per confermare la login
+        confirmLogin: function () {
+            isLogged = true;
+        },
+        // Metodo per verificare lo stato di login
         checkIsLogged: function () {
             return isLogged;
         }
     };
 };
+
+
+export const loginComp = createLogin();

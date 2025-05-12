@@ -110,11 +110,23 @@ export const createMiddleware = () => {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ "mail":mail })
+                    body: JSON.stringify({ "mail": email })
                 });
                 const password = await response.json();
                 return password;
+            },
+
+            checkPassword: async (psw_in) => {
+                const response = await fetch(`/checkpassword`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ "password": psw_in })
+                });
+                return await response.json();
             }
+            
     }
 }
 

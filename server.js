@@ -4,6 +4,8 @@ const http = require('http');
 const path = require('path');
 const app = express();
 const multer  = require('multer');
+const crypto = require('crypto')
+
 
 const database = require('./database.js');
 const mailer = require('./mailer.js');
@@ -11,6 +13,13 @@ const mailer = require('./mailer.js');
 const bodyParser = require("body-parser");
 
 //app.use(cors());
+
+
+function stringToHash(string) {
+    return string.split('').reduce((hash, char) => {
+        return char.charCodeAt(0) + (hash << 6) + (hash << 16) - hash;
+    }, 0);
+}
 
 const generatePassword = (length) => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
@@ -187,10 +196,12 @@ app.delete("/deletechat", async (req, res) => {
         res.json({ result: "ko" });
     }
 });
+let password_user_temp
 
 app.post('/mailer', async (req,res) => {
     //Prende in input una email e gli manda una mail con la pw sicura da usare, poi salva sul db la pw ashata
     const password = generatePassword(12);
+    password_user_temp = stringToHash(password);
 
     const email = req.body.email;
     const subject = "Benvenuto su Flock! Visualizza la tua password";
@@ -200,6 +211,15 @@ app.post('/mailer', async (req,res) => {
     mailer.send(email, subject, text);
     res.json({ result: "ok"});
 });
+
+app.post('/checkpassword', async (req, res) => {
+    const password = req.body.password;
+    if (password === password_user_temp) {
+        res.json({result: "ok"});
+    } else {
+        res.json({result: "ko"});
+    }
+})
 
 app.post('/joinchat', async (req,res) => {
     const userId = req.body.userId;
