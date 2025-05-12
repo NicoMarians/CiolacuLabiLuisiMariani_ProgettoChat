@@ -19,7 +19,7 @@ export const createLogin = async (username,password) => {
                     },
                     body : JSON.stringify({username, password}),
                 });
-                const data = await response.json():
+                const data = await response.json();
 
                 if (data.resutl === "ok") {
                     isLogged = true;
