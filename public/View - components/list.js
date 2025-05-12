@@ -37,19 +37,20 @@ export function createChatList(bindingElement) {
         // Mostra la lista delle chat (filtrata o completa)
         render: () => {
             //RENDER COMMUNITIES
-            let line = `<h2>Communities</h2>`;
+            let line = `<h4>Community</h4>`;
+            console.log("LIT COMMY DENTRO RENDER LIST ----->  ", listCommunities)
             line += listCommunities.map((chat) => {
-                if (chat.nome && filter && chat.nome.includes(filter)) {
                     return `
                     <div class = "chatDiv" id="chat_${chat.id}">
                         <img src="./../images/${chat.picture}" alt="${chat.name[0].toUpperCase()}">
+                        <p> ${chat.name} </p>
                     </div>
-                `}
+                `
             }).join("");
             //RENDER CHATS (CON GRUPPI)
-            line += `Chats`;
+            line += `<h4>Private chat</h4>`;
             line += listChats.map((chat) => {
-                if (chat.nome && filter && chat.nome.includes(filter)) {
+                if (chat.name && filter && chat.name.includes(filter)) {
                     `
                     <div class = "chatDiv" id=chat_${chat.id}>
                         <img src="./../images/${chat.picture}" alt=${chat.name[0].toUpperCase}>

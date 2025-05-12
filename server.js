@@ -152,11 +152,11 @@ app.post('/mailer', async (req,res) => {
 
 
 
-
+//----------------------------------------------SERVER IO----------------------------------------------
 //LETTURA
 const server = http.createServer(app);
 const io = new Server(server);
-io.on('connection', (socket) => {
+io.on('connect', (socket) => {
    console.log("socket connected: " + socket.id);
    io.emit("chat", "new client: " + socket.id);
    socket.on('message', (message) => {
