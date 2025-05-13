@@ -1,7 +1,5 @@
 #Custom
 conf.json
-package.json
-package-lock.json
 ca.pem
 
 # Logs
@@ -144,4 +142,3 @@ dist
 
 node_modules
 .DS_Store
-conf.json
