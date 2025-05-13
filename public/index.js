@@ -49,6 +49,8 @@ const userProva = {
 
 let user = {}
 
+const socket = io();
+
 fetch("./conf.json").then(r => r.json()).then(conf => {
     let user2 = {};
     const middleware = createMiddleware();
@@ -152,10 +154,16 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     
 
-    const socket = io();
-    // - - - - CONNESSIONE AL SERVER -  - -
-    socket.on("connect", () => {
-        console.log("Connesso al server");
+    // - - - - FUNZIONI SOCKET -  - -
+    socket.on("connect",() => {
+        "Connesso alla chat!";
+    });
+
+    socket.on("arrivingMessage",(messageData) => {
+        console.log("165 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        chatComp.addMess(messageData);
+        chatComp.render();
+        
     });
     // - - - - - - -- 
 
@@ -195,7 +203,14 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         chatComp.setCurChat(chat_id)
     });
 
-})
+    pubsub.subscribe("sendMessage",(messageInformation) => {
+        socket.emit('newmessage', messageInformation);
+    })
+
+    pubsub.subscribe("connectChat",(chatId) => {
+        socket.emit("connectchat",chatId);
+    })
+});
 
 /*
 buttonCreateChat.onclick = async () => {

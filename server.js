@@ -260,22 +260,46 @@ app.post('/getuserbyname', async (req,res) => {
 //----------------------------------------------SERVER IO----------------------------------------------
 //LETTURA
 
+let onlineUsers = [];
 
-
-app.use("/", express.static(path.join(__dirname, "public")));
+app.use("/chatsocket", express.static(path.join(__dirname, "public")));
     
     const server = http.createServer(app);
     const io = new Server(server);
 
     io.on('connect', (socket) => {
         console.log("socket connected: " + socket.id);
-        io.emit("chat", "new client: " + socket.id);
 
-        socket.on('message', (message) => {
-            const response = socket.id + ': ' + message;
-            console.log(response);
-            io.emit("chat", response);
+        socket.on('connectchat',(chatId) => {
+            onlineUsers.push({user:socket,chat:chatId});
+            console.log(socket.id,"Connected to: ",chatId);
         });
+
+        socket.on('newmessage', (information) => {
+            console.log("NEW MESSAGE!")
+            const text = information.text;
+            const chat = information.chat;
+            const senderId = information.userId
+
+            const response = {"text":text,"idUser":senderId};
+            
+            onlineUsers.forEach((element) => {
+                if(element.chat == chat){
+                    console.log("Sending to: ",element.user.id)
+                    element.user.emit("arrivingmessage",response);
+                }
+            })
+
+        });
+
+        socket.on('disconnect',() => {
+            let index = 0;
+            onlineUsers.forEach((user,i) => {
+                if(user.user.id == socket.id) index = i
+            });
+            onlineUsers.splice(index,1);
+        });
+
     });
 
 
