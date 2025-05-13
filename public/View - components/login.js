@@ -28,6 +28,11 @@ const createLogin = () => {
         getUserData: () => {
             return tempUser;
         },
+        
+        setUserData: (data) => {
+            tempUser = data;
+        },
+        
         // Metodo per confermare la login
         confirmLogin: function () {
             isLogged = true;

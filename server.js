@@ -91,25 +91,27 @@ app.post("/getmessages/:id", async (req, res) => {
 });
 
 app.post("/login", async (req,res) => {
-    const {username, password} = req.body; // Ottiene username e password dalla richiesta
-
+    const username = req.body.username;
+    const password = req.body.password;
+    console.log("ENTRATO DENTRO SERVER PER LOGIN", username, password);
     try {
-        //Chiamata alla funzone downloadUser per recuperare l'utente dal DB usando lo username
-        const result = await database.downloadUser(username);
+        const result = await database.queries.downloadUserByName(username);
 
-        console.log("FETCH login - -   ", { username, password });
+        console.log("PASSWORD PRESA DAL DB: ", result[0].password);
+        console.log("PASSWORD INSERITA DALL'UTENTE: ", password);
+
 
         //Se l'utente non esiste
-        if(result.length === 0) {
-            return res.json({result: "ko", message: "Utente non trovato"});
+        if(result[0].password.length === 0) {
+            return res.json({result: "ko"});
         }
 
-        //Confronta la password 
-        if (user.password !== password){
-            return res.json({result: "ko", message: "Password errata!"});
+        //Confronta la password
+        if (parseInt(result[0].password) !== parseInt(password)){
+            return res.json({result: "ko"});
         }
         // Se la password è corretta, invia la risposta con i dati dell'utente
-        res.json({ result: "ok", user });
+        res.json({ result: "ok", user: result[0]});
     }catch(e){
         console.log(e);
         res.json({result: "ko", message: "C'è stato un errore"})
@@ -254,6 +256,7 @@ app.post('/getuserbyname', async (req,res) => {
     }
 
 })
+
 
 //----------------------------------------------SERVER IO----------------------------------------------
 //LETTURA

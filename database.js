@@ -169,7 +169,7 @@ const database = {
 
       downloadUserByName: async (username) => {
          let query = `
-            SELECT id,username,picture,email
+            SELECT id, username, password, email, public_key, private_key, picture 
             FROM "User"
             WHERE username = $1
          `;
