@@ -5,7 +5,9 @@ const createLogin = () => {
         username: null,
         password: null,
         email: null,
-        picture: null
+        picture: null,
+        public_key: "prova",
+        private_key: "prova"
     };
 
     return {

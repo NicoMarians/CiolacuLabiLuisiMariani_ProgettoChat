@@ -14,10 +14,15 @@ const username_choice_btn = document.getElementById("add_username");
 
 const password_input_register = document.getElementById("password_input");
 
-import CryptoJS from './node_modules/crypto-js/crypto-js.js';
 
-function stringToHash(string) {
-    return CryptoJS.SHA256(string).toString(CryptoJS.enc.Hex);
+function stringToHash(str) {
+    let hash = 0;
+    for (let i = 0, len = str.length; i < len; i++) {
+        let chr = str.charCodeAt(i);
+        hash = (hash << 5) - hash + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
 }
 
 
@@ -91,7 +96,8 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     username_choice_btn.onclick = async () => {
         const username = document.getElementById("username_input").value;
-        console.log("USER TEMP DATA: ", loginComp.getUserData())
+        loginComp.setUsername(username);
+        console.log("USER TEMP DATA: ", loginComp.getUserData());
         await middleware.createUser(loginComp.getUserData());
 
         document.getElementById("username_input").value = "";
