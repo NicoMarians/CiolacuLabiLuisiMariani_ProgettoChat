@@ -50,8 +50,9 @@ const userProva = {
 let user = {}
 
 fetch("./conf.json").then(r => r.json()).then(conf => {
+    let user2 = {};
     const middleware = createMiddleware();
-    const chatComp = createChatComp(divChatMess,pubsub)
+    const chatComp = createChatComp(divChatMess);
     const navigator = createNavigator(document.querySelector(".flock-space"));
     const chatListComp = createChatList(divChatList);
 
@@ -136,12 +137,15 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         if (result.result == "ok") {
             console.log("Login effettuata: ", user)
             user = result.user;
+            user2 = result.user;
             
             //loginComp.setUserData(user)
             window.location.href = "#chatSpace-container";
             console.log("USER.USERNAME", user);
             document.getElementById("username_homepage").innerHTML = user.username;
+            chatComp.setUser(user);
         }
+
     }
     
 
@@ -172,16 +176,24 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     pubsub.subscribe("downloadMessages", async (idChat) => {
         const newMessages = await middleware.downloadMessages(idChat);
-        chatComp.setMess(newMessages);
+        console.log("INDEX.JS 179: ", newMessages)
+        chatComp.setMess(newMessages.data);
+        return;
     })
 
     pubsub.subscribe("getUser", () => {
+        console.log("USER RETURN IN INDEX.JS: ", user);
         return user;
     })
 
-    pubsub.subscribe("createMessage", middleware.createMessage);
+    pubsub.subscribe("createMessage", async (dizMess) => {
+        await middleware.createMessage(dizMess);
+        chatComp.render();
+    });
 
-    pubsub.subscribe("setChat", chatComp.setCurChat);
+    pubsub.subscribe("setChat", (chat_id) => {
+        chatComp.setCurChat(chat_id)
+    });
 
 })
 

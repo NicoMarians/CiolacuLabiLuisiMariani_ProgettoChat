@@ -83,8 +83,8 @@ app.get("/getmessages/:id", async (req, res) => {
     const idChat = req.params.id;
     console.log("FETCH getmessages - -   ", idChat);
     try {
-        await database.queries.downloadMessages(idChat);
-        res.json({result: "ok"});
+        const data = await database.queries.downloadMessages(idChat);
+        res.json({result: "ok", data: data});
     } catch (e) {
         console.log(e);
         res.json({result: "ko"});

@@ -78,10 +78,15 @@ export function createChatList(bindingElement) {
                 document.getElementById(`chat_${chat.id}`).onclick = async () => {
                     window.location.href = `#MesschatSpace`;
                     console.log("CHAT RENDER -> ", chat);
-                    pubsub.publish("setChat",chat);
+                    pubsub.publish("setChat", chat);
 
                     await pubsub.publish("downloadMessages", chat.id);
+
+                    //METTO IL TIME OUT PERCHè RENDERIZZA PRIMA DI CARICARE I DATI
+                    await new Promise(resolve => setTimeout(resolve, 200));
                     pubsub.publish("render-chat");
+
+
                 }
             });
         }
