@@ -12,10 +12,10 @@ const createMessageFun = (content, time_stamp, idUser, idChat) => {
     }
 }
 
-export const createChatComp = (parentElementIn, user) => {
+export const createChatComp = (parentElementIn, userIn) => {
     let parentElement = parentElementIn;
     let listMess = [];
-    let user = user; //USER CORRENTE
+    let cur_user = userIn; //USER CORRENTE
     
     return {
         render: () => { 
@@ -23,7 +23,7 @@ export const createChatComp = (parentElementIn, user) => {
             const template_ricevente = `<div class="chat-message self-start bg-zinc-500 text-white max-w-xs rounded-lg px-3 py-1.5 text-sm">%MESSRICEVENTE</div>`
 
             listMess.forEach(messaggio => {
-                if (messaggio.idUser == user.id) {
+                if (messaggio.idUser == cur_user.id) {
                     html += template_mandante.replace("%MESSMANDANTE", messaggio.content);
                 } else {
                     html += template_mandante.replace("%MESSRICEVENTE", messaggio.content);
@@ -31,7 +31,7 @@ export const createChatComp = (parentElementIn, user) => {
             });
 
             document.getElementById("sendButtonMess").onclick = () => {
-                
+
             }
 
             console.log("CHAT RENDERIZZATA", listMess)

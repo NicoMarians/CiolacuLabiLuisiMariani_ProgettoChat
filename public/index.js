@@ -51,7 +51,7 @@ const userProva = {
 
 fetch("./conf.json").then(r => r.json()).then(conf => {
     const middleware = createMiddleware();
-    const chatComp = createChatComp(divChatMess,pubsub)
+    //const chatComp = createChatComp(divChatMess)
     const navigator = createNavigator(document.querySelector(".flock-space"));
     const chatListComp = createChatList(divChatList);
 
