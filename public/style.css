@@ -2,6 +2,22 @@
   display: block;
 }
 
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* Evita lo scorrimento orizzontale */
+  width: 100%;
+}
+
+.flock-space {
+  max-width: 100vw;
+  /* Limita la larghezza al 100% della finestra */
+  overflow-x: hidden;
+  /* Evita lo scorrimento orizzontale */
+}
+
 
 .home{
   text-align: center;
@@ -101,7 +117,11 @@
 /* -  - - - -   - - - - - - - - --  - - - -*/
   
 body {
-  font-family: Arial, sans-serif;
+  touch-action: pan-y;
+    /* Permette solo lo scorrimento verticale */
+    overscroll-behavior-x: none;
+    /* Evita lo scorrimento orizzontale */
+  font-family: Helvetica, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f9f9f9;
@@ -172,10 +192,7 @@ body {
 }
 
 
-  
-.hidden {
-  display: none;
-}
+
 
 .usernameHome {
   color: black;
@@ -395,4 +412,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+}
+
+.hidden {
+  display: none;
 }
