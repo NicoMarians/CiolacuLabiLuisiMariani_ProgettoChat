@@ -67,7 +67,8 @@ export function createChatList(bindingElement) {
                 document.getElementById(`chat_${chat.id}`).onclick = async () => {
                     window.location.href = `#chat_${chat.id}`;
                     console.log("CHAT RENDER -> ", chat);
-
+                    pubsub.publish("setChat",chat);
+                    
                     await pubsub.publish("downloadMessages", chat.id);
                     pubsub.publish("render-chat");
                 }
@@ -77,7 +78,8 @@ export function createChatList(bindingElement) {
                 document.getElementById(`chat_${chat.id}`).onclick = async () => {
                     window.location.href = `#MesschatSpace`;
                     console.log("CHAT RENDER -> ", chat);
-                    
+                    pubsub.publish("setChat",chat);
+
                     await pubsub.publish("downloadMessages", chat.id);
                     pubsub.publish("render-chat");
                 }

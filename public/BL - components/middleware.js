@@ -15,12 +15,7 @@ export const createMiddleware = () => {
 
             downloadMessages: async (idChat) => {
             // Funzione che restituisce tutti i messaggi di una specifica chat
-            const response = await fetch(`/getmessages/${idChat}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
+            const response = await fetch(`/getmessages/${idChat}`)
             const json = await response.json();
             return json;
             },

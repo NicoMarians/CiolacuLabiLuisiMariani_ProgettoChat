@@ -78,7 +78,7 @@ app.post("/getuser/:id", async (req, res) => {
     }
 });
 
-app.post("/getmessages/:id", async (req, res) => {
+app.get("/getmessages/:id", async (req, res) => {
     //RICHIESTA AL DB che restiuisce tutti i messaggi di uno SPECIFICO CHAT
     const idChat = req.params.id;
     console.log("FETCH getmessages - -   ", idChat);

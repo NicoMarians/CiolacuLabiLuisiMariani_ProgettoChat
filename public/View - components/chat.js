@@ -18,9 +18,10 @@ export const createChatComp = (parentElementIn) => {
     
     return {
         render: () => {
-            const template_mandante = `<div class="chat-message self-end bg-blue-500 text-white max-w-xs rounded-lg px-3 py-1.5 text-sm">%MESSMANDANTE</div>`
-            const template_ricevente = `<div class="chat-message self-start bg-zinc-500 text-white max-w-xs rounded-lg px-3 py-1.5 text-sm">%MESSRICEVENTE</div>`
-            let html = "";
+            const template_mandante = `<div>%MESSMANDANTE</div>`
+            const template_ricevente = `<div>%MESSRICEVENTE</div>`
+            console.log(cur_chat)
+            let html = `<div>${cur_chat.picture} <h2>${cur_chat.name}</h2></div>`;
 
             listMess.forEach(messaggio => {
                 if (messaggio.idUser == cur_user.id) {
@@ -31,8 +32,8 @@ export const createChatComp = (parentElementIn) => {
             });
 
             html += `<div>
-                    <input id=input_messaggio placeholder="Message">
-                    <button id=sendButtonMess > Invia </button>
+                    <input id="input_messaggio" placeholder="Message">
+                    <button id="sendButtonMess" > Invia </button>
                 </div> 
             `;
 
@@ -40,8 +41,9 @@ export const createChatComp = (parentElementIn) => {
 
             document.getElementById("sendButtonMess").onclick = () => {
                 const message = document.getElementById("input_messaggio").value;
+
                 const currentTime = new Date().toISOString().slice(0,19).split("T").join(" ");
-                pubsub.publish("createMessage",{"chat_id":cur_chat,"user_id":cur_user,"type_id":1,"text":message,"image":null,"timestamp":currentTime});
+                pubsub.publish("createMessage",{"chat_id":cur_chat.id,"user_id":cur_user.id,"type_id":1,"text":message,"image":null,"timestamp":currentTime});
             }
 
             console.log("CHAT RENDERIZZATA", listMess)
@@ -54,6 +56,10 @@ export const createChatComp = (parentElementIn) => {
             //FNZ CHE AGGIUNGE UN OGGETTO MESS ALLA LISTA INTERNA DEL COMPONENTE
             //PASSARE UN DIZIONARIO CON (CONTENT, TIME, IDUSER, IDCHAT)
             listMess.push(messObj);
+        },
+
+        setCurChat: (newChat) => {
+            cur_chat = newChat;
         }
     }
 }

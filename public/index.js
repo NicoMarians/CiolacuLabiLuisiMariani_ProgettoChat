@@ -172,7 +172,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     pubsub.subscribe("downloadMessages", async (idChat) => {
         const newMessages = await middleware.downloadMessages(idChat);
-        list.chatComp.setMess(newMessages);
+        chatComp.setMess(newMessages);
     })
 
     pubsub.subscribe("getUser", () => {
@@ -180,6 +180,8 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     })
 
     pubsub.subscribe("createMessage", middleware.createMessage);
+
+    pubsub.subscribe("setChat", chatComp.setCurChat);
 
 })
 

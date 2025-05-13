@@ -187,7 +187,7 @@ const database = {
             FROM "User"
             JOIN "Message" ON "User".id = "Message".user_id
             WHERE "Message".chat_id = $1
-            ORDER BY "Message".timestamp ascending
+            ORDER BY "Message".timestamp
          `;
 
          const values = [
@@ -287,6 +287,8 @@ const database = {
             messageData.image, 
             messageData.timestamp
          ];
+
+         console.log("database 291",values)
 
          return await executeQuery(query,values)
       },
