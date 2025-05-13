@@ -46,7 +46,7 @@ const userProva = {
     picture: null    
 }
 
-const user = {}
+let user = {}
 
 fetch("./conf.json").then(r => r.json()).then(conf => {
     const middleware = createMiddleware();
@@ -170,6 +170,10 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     pubsub.subscribe("downloadMessages",async () => {
         const newMessages = await middleware.downloadMessages();
         list.chatComp.setMess(newMessages);
+    })
+
+    pubsub.subscribe("getUser", () => {
+        return user;
     })
 
 
