@@ -14,6 +14,12 @@ const username_choice_btn = document.getElementById("add_username");
 
 const password_input_register = document.getElementById("password_input");
 
+import CryptoJS from './node_modules/crypto-js/crypto-js.js';
+
+function stringToHash(string) {
+    return CryptoJS.SHA256(string).toString(CryptoJS.enc.Hex);
+}
+
 
 // -- Business Logic -- 
 import {pubsub} from './BL - components/pubsub.js';
@@ -58,7 +64,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     
     register_btn.onclick = async () => {    
-        window.location.href = "registrati-container";
+        window.location.href = "#registrati-container";
     }   
 
     email_btn.onclick = async () => {
@@ -72,21 +78,25 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     password_check_register_btn.onclick = async () => {
         const password = password_input_register.value;
         
+        console.log(" - - - - - - - - -PASSWORD IN INPUT : ", password)
         const response = await middleware.checkPassword(password);
         
         if (response.result == "ok") {
             window.location.href = "#username-container";
+            loginComp.setPassword(stringToHash(password));
         } else {
             document.getElementById("messErrorIfNotPsw").innerText = "Password errata";
-            loginComp.setUsername()
         }
     }
 
     username_choice_btn.onclick = async () => {
         const username = document.getElementById("username_input").value;
-        await middleware.createUser(loginComp.getUserData);
+        console.log("USER TEMP DATA: ", loginComp.getUserData())
+        await middleware.createUser(loginComp.getUserData());
+
         document.getElementById("username_input").value = "";
         window.location.href = "#chatSpace";
+        console.log("UTENTE CREATO")
     }
 
     

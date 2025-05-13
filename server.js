@@ -16,13 +16,11 @@ const bodyParser = require("body-parser");
 
 
 function stringToHash(string) {
-    return string.split('').reduce((hash, char) => {
-        return char.charCodeAt(0) + (hash << 6) + (hash << 16) - hash;
-    }, 0);
+    return crypto.createHash('sha256').update(string).digest('hex');
 }
 
 const generatePassword = (length) => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&';
     let password = '';
     for (let i = 0; i < length; i++) {
         const indxRandom = Math.floor(Math.random() * chars.length);
@@ -213,8 +211,12 @@ app.post('/mailer', async (req,res) => {
 });
 
 app.post('/checkpassword', async (req, res) => {
+    console.log("RIGA 217, SERVER: ", req.body);
     const password = req.body.password;
-    if (password === password_user_temp) {
+    console.log("PASSWORD INPUT : ", stringToHash(password))
+    console.log("PASSWORD CHECK : ", password_user_temp)
+    
+    if (stringToHash(password) == password_user_temp) {
         res.json({result: "ok"});
     } else {
         res.json({result: "ko"});

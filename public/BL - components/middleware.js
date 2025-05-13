@@ -104,19 +104,20 @@ export const createMiddleware = () => {
                 return json;
             },
             
-            sendMail: async (mail) => {
+            sendMail: async (email) => {
                 const response = await fetch(`/mailer`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ "mail": email })
+                        body: JSON.stringify({ "email": email })
                 });
                 const password = await response.json();
                 return password;
             },
 
             checkPassword: async (psw_in) => {
+                console.log("RIGA 120  ", psw_in)
                 const response = await fetch(`/checkpassword`, {
                     method: "POST",
                     headers: {
