@@ -72,8 +72,6 @@ export const createChatComp = (parentElementIn) => {
 
                 pubsub.publish("sendMessage",{"text":message,"chat":cur_chat.id,"userId":cur_user.id});
 
-            }
-
             console.log("CHAT RENDERIZZATA", listMess)
         },
         setMess: (ListIn) => {
