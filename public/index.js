@@ -59,8 +59,8 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     
     middleware.downloadCommunityAll(userProva.id).then(datiTemp => {
         console.log("CHAT SCARICATE ------------>   ", datiTemp.data);
-        //chatListComp.setCommunities(datiTemp);
-        //chatListComp.render();
+        chatListComp.setCommunities(datiTemp);
+        chatListComp.render();
     }).catch(error => {
         console.error("Errore durante il download delle chat:", error);
     });
@@ -120,7 +120,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     }); 
 
     pubsub.subscribe("set-chat-list", (list) => {
-        
+
     })
 
     pubsub.subscribe("set-data-mess", (list) =>{
