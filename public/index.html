@@ -12,15 +12,14 @@
     <div class="flock-space" >
 
         <!--HOME-->
-        <div class="page home visible" id="home">
-            <h1>Benvenuto su Flock</h1>
-            <div id="login-container" class="login-container">
-                <button type="button" id="login_btn">Login</button>
-            </div>
-
-            <div id="register-container" class="register-container">
-                <button type="button" id="register_btn">Registrati</button>
-            </div>
+        <div class="page home visible flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800" id="home">
+            <h1 class="home-title text-4xl font-bold mb-6">Benvenuto su <span class="text-blue-500">Flock</span></h1>
+            <p class="text-lg text-gray-600 mb-8">Connettiti e comunica con facilità.</p>
+        
+            <div class="flex space-x-4">
+                <button type="button" id="login_btn" class="btn-primary">Login</button>
+                <button type="button" id="register_btn" class="btn-secondary">Registrati</button>
+            </div>  
         </div>
 
         
