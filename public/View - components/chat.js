@@ -27,6 +27,7 @@ export const createChatComp = (parentElementIn) => {
             //console.log(cur_chat)
             let html = `
             <div class="card-header">
+                <a href="#chatSpace-container"><-</a>
                 <div class="img-avatar">${cur_chat.picture}</div> 
                 <div class="text-chat">${cur_chat.name}</div>
             </div>`;
