@@ -52,7 +52,7 @@ const user = {
 
 fetch("./conf.json").then(r => r.json()).then(conf => {
     const middleware = createMiddleware();
-    //const chatComp = createChatComp(divChatMess)
+    const chatComp = createChatComp(divChatMess,pubsub)
     const navigator = createNavigator(document.querySelector(".flock-space"));
     const chatListComp = createChatList(divChatList);
 
@@ -70,18 +70,15 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     
     register_btn.onclick = async () => {    
-        loginComp.setRegisterState([true,false,false]);
         window.location.href = "#registrati-container";
-
     }   
 
     email_btn.onclick = async () => {
         const email = document.getElementById("email_input").value;
         document.getElementById("email_input").value = "";
         await middleware.sendMail(email)
-        loginComp.setRegisterState([false,true,false]);
         window.location.href = "#register-password-container";
-        loginComp.setEmail(email);
+        loginComp.setEmail(email)
     }
 
     password_check_register_btn.onclick = async () => {
@@ -91,7 +88,6 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         const response = await middleware.checkPassword(password);
         
         if (response.result == "ok") {
-            loginComp.setRegisterState([false,false,true]);
             window.location.href = "#username-container";
             loginComp.setPassword(stringToHash(password));
         } else {
@@ -106,7 +102,6 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         await middleware.createUser(loginComp.getUserData());
 
         document.getElementById("username_input").value = "";
-        loginComp.setRegisterState([false,false,false]);
         window.location.href = "#chatSpace";
         console.log("UTENTE CREATO")
         user = await middleware.getUserByName(username).data;
@@ -134,7 +129,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     }); 
 
     pubsub.subscribe("set-chat-list", (list) => {
-
+        
     })
 
     pubsub.subscribe("set-data-mess", (list) =>{

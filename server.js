@@ -5,6 +5,8 @@ const path = require('path');
 const app = express();
 const multer  = require('multer');
 const crypto = require('crypto')
+const { Server } = require('socket.io'); // importazione oggetto Server da socket.io
+const result = require('./mailer.js');
 
 
 const database = require('./database.js');
@@ -47,8 +49,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage}).single('file');
 
-const { Server } = require('socket.io'); // importazione oggetto Server da socket.io
-const result = require('./mailer.js');
+
 let conf = JSON.parse(fs.readFileSync('public/conf.json'));
 
 
@@ -141,7 +142,6 @@ app.get("/getcommunity", async (req, res) => {
         res.json({result: "ko"});
     }
 });
-
 
 app.post("/createuser", async (req, res) => {
     //RICHIESTA AL DB che CREA L'UTENTE, PASSARGLI UN DIZIONARIO CON TUTTE LE INFORMAZIONI 
@@ -242,7 +242,6 @@ app.post('/joinchat', async (req,res) => {
 
 })
 
-
 app.post('/getuserbyname', async (req,res) => {
     const username = req.body.username;
     try {
@@ -257,18 +256,26 @@ app.post('/getuserbyname', async (req,res) => {
 
 //----------------------------------------------SERVER IO----------------------------------------------
 //LETTURA
-const server = http.createServer(app);
-const io = new Server(server);
-io.on('connect', (socket) => {
-   console.log("socket connected: " + socket.id);
-   io.emit("chat", "new client: " + socket.id);
-   
-   socket.on('message', (message) => {
-      const response = socket.id + ': ' + message;
-      console.log(response);
-      io.emit("chat", response);
-   });
-});
+
+
+
+app.use("/", express.static(path.join(__dirname, "public")));
+    
+    const server = http.createServer(app);
+    const io = new Server(server);
+
+    console.log("server running on port: " + conf.port);
+
+    io.on('connect', (socket) => {
+        console.log("socket connected: " + socket.id);
+        io.emit("chat", "new client: " + socket.id);
+
+        socket.on('message', (message) => {
+            const response = socket.id + ': ' + message;
+            console.log(response);
+            io.emit("chat", response);
+        });
+    });
 
 
 
