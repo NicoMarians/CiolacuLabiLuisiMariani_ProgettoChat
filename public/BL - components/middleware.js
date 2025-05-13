@@ -126,6 +126,17 @@ export const createMiddleware = () => {
                     body: JSON.stringify({ "password": psw_in })
                 });
                 return await response.json();
+            },
+
+            getUserByName: async (username) => {
+                const response = await fetch(`/getuserbyname`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ "username": username })
+                });
+                return await response.json();
             }
             
     }
