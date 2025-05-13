@@ -20,6 +20,7 @@ export const createChatComp = (parentElementIn) => {
         render: () => {
             const template_mandante = `<div class="chat-message self-end bg-blue-500 text-white max-w-xs rounded-lg px-3 py-1.5 text-sm">%MESSMANDANTE</div>`
             const template_ricevente = `<div class="chat-message self-start bg-zinc-500 text-white max-w-xs rounded-lg px-3 py-1.5 text-sm">%MESSRICEVENTE</div>`
+            let html = "";
 
             listMess.forEach(messaggio => {
                 if (messaggio.idUser == cur_user.id) {
@@ -34,6 +35,8 @@ export const createChatComp = (parentElementIn) => {
                     <button id=sendButtonMess > Invia </button>
                 </div> 
             `;
+
+            parentElement.innerHTML = html;
 
             document.getElementById("sendButtonMess").onclick = () => {
                 const message = document.getElementById("input_messaggio").value;
