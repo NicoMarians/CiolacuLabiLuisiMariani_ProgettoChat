@@ -1,61 +1,51 @@
-
 .visible {
-    display: block;
-  }
-   
-  .hidden {
-    display: none;
-  }
+  display: block;
+}
 
-  .page {
-    opacity: 100%;
-  }
 
-  .home{
-    text-align: center;
-  }
+.home{
+  text-align: center;
+}
 
-  .entra{
-    transform: scale(3);
-  }
+.entra{
+  transform: scale(3);
+}
 
-  .accedi{
-    padding: 30px;
-    transform: scale(3);
-  }
+.accedi{
+  padding: 30px;
+  transform: scale(3);
+}
 
-  
+.email{
+  text-align: center;
+  padding: 10px;
+  transform: scale(2);
+}
 
-  .email{
-    text-align: center;
-    padding: 10px;
-    transform: scale(2);
-  }
+.password{
+  text-align: center;
+  padding: 10px;
+  transform: scale(2);
+}
 
-  .password{
-    text-align: center;
-    padding: 10px;
-    transform: scale(2);
-  }
+.username{
+  text-align: center;
+  padding: 10px;
+  transform: scale(2);
+}
 
-  .username{
-    text-align: center;
-    padding: 10px;
-    transform: scale(2);
-  }
+.button{
+  border-radius: 50%;
+}
 
-  .button{
-    border-radius: 50%;
-  }
-
-  .indietro{
-    background-color: red;
-    display: inline-block;
-    color: white;
-  }
-  .seleziona{
-    padding-left: 50px;
-  }
+.indietro{
+  background-color: red;
+  display: inline-block;
+  color: white;
+}
+.seleziona{
+  padding-left: 50px;
+}
 
 
 /* 
@@ -177,4 +167,10 @@ body {
   font-size: 1.125rem;
   color: #666;
   text-align: center;
+}
+
+
+  
+.hidden {
+  display: none;
 }
