@@ -1,0 +1,31 @@
+{
+  "name": "ciolaculabiluisimariani_progettochat",
+  "version": "1.0.0",
+  "main": "database.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.6",
+    "bcrypt": "^6.0.0",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.2.0",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "mailer": "^0.6.6",
+    "multer": "^1.4.5-lts.2",
+    "mysql2": "^3.14.1",
+    "node": "^22.15.0",
+    "nodemailer": "^7.0.3",
+    "pg": "^8.15.6",
+    "postgres": "^3.4.5",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

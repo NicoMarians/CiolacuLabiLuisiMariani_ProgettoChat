@@ -1,3 +1,5 @@
+import { loginComp } from "./login.js";
+
 const hide = (elements) => {
    elements.forEach((element) => {
       element.classList.add("hidden");
@@ -15,17 +17,17 @@ export const createNavigator = (parentElement) => {
 
    const render = () => {
       const pageName = window.location.hash.replace("#", ""); 
-      const selected = pages.find((page) => page.id === pageName);
+      const selected = pages.find((page) => {page.id === pageName});
 
       if (selected) {
-         hide(pages); 
+         hide(pages);
          show(selected);
+      
       } else {
          console.error(`Pagina con id "${pageName}" non trovata.`);
       }
    };
 
-   
    window.addEventListener("hashchange", render);
 
    render();

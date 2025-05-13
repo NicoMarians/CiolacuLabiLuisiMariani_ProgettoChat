@@ -243,7 +243,7 @@ app.post('/joinchat', async (req,res) => {
 })
 
 
-app.post('getUserByName', async (req,res) => {
+app.post('/getuserbyname', async (req,res) => {
     const username = req.body.username;
     try {
         const userData = await database.queries.downloadUserByName(username);

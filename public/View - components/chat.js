@@ -1,5 +1,7 @@
 //import { pubsub } from "../BL - components/pubsub";
 
+import { use } from "react";
+
 const createMessageFun = (content, time_stamp, idUser, idChat) => {
     // TIME stamp contiene data e ora
     return {
@@ -10,21 +12,28 @@ const createMessageFun = (content, time_stamp, idUser, idChat) => {
     }
 }
 
-export const createChatComp = (parentElementIn) => {
+export const createChatComp = (parentElementIn, userIn) => {
     let parentElement = parentElementIn;
     let listMess = [];
+    let cur_user = userIn; //USER CORRENTE
+    
     return {
-        createMessage: (content, time_stamp, idUser, idChat) => {
-            const newMess = createMessageFun(content, time_stamp, idUser, idChat)
-            listMess.push(newMess);
-            //pubsub.publish("render-chat", listMess); //CREARE LA FUNZIONE PUBSUB ("render-chat") DENTRO INDEX.JS
-        },
-
         render: () => { 
-            const template = `<li>%CHAT</li>`
+            const template_mandante = `<div class="chat-message self-end bg-blue-500 text-white max-w-xs rounded-lg px-3 py-1.5 text-sm">%MESSMANDANTE</div>`
+            const template_ricevente = `<div class="chat-message self-start bg-zinc-500 text-white max-w-xs rounded-lg px-3 py-1.5 text-sm">%MESSRICEVENTE</div>`
+
             listMess.forEach(messaggio => {
-                html += template.replace("%CHAT", messaggio.content);
+                if (messaggio.idUser == cur_user.id) {
+                    html += template_mandante.replace("%MESSMANDANTE", messaggio.content);
+                } else {
+                    html += template_mandante.replace("%MESSRICEVENTE", messaggio.content);
+                }
             });
+
+            document.getElementById("sendButtonMess").onclick = () => {
+
+            }
+
             console.log("CHAT RENDERIZZATA", listMess)
         },
         setMess: (ListIn) => {
