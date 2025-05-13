@@ -8,30 +8,20 @@ const createLogin = () => {
         picture: null
     };
 
+    let registerState = [false,false,false];
+
     return {
         setUsername: (username) => {
             tempUser.username = username;
         },
-        getUsername: () => {
-            return tempUser.username;
-        },
         setPassword: (password) => {
             tempUser.password = password;
-        },
-        getPassword: () => {
-            return tempUser.password;
         },
         setEmail: (email) => {
             tempUser.email = email;
         },
-        getEmail: () => {
-            return tempUser.email;
-        },
         setPicture: (picture) => {
             tempUser.picture = picture;
-        },
-        getPicture: () => {
-            return tempUser.picture;
         },
         getUserData: () => {
             return tempUser;
@@ -43,7 +33,11 @@ const createLogin = () => {
         // Metodo per verificare lo stato di login
         checkIsLogged: function () {
             return isLogged;
-        }
+        },
+        // Ritorina a che stato della registrazione e' (per il navigator)
+        getRegisterStatus: () => {
+            return registerState;
+        },
     };
 };
 
