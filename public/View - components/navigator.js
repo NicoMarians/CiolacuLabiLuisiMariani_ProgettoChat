@@ -17,11 +17,9 @@ export const createNavigator = (parentElement) => {
 
    const render = () => {
       const pageName = window.location.hash.replace("#", ""); 
-      let selected = pages.find((page) => {page.id === pageName});
+      const selected = pages.find((page) => {page.id === pageName});
 
       if (selected) {
-         console.log(selected)
-
          hide(pages);
          show(selected);
       
