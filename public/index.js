@@ -138,8 +138,9 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
             //loginComp.setUserData(user)
             window.location.href = "#chatSpace";
         }
-
     }
+    
+    document.getElementById("username_homepage").innerHTML = user.username;
     
 
 

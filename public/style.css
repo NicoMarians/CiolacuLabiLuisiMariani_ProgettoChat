@@ -174,3 +174,8 @@ body {
 .hidden {
   display: none;
 }
+
+.usernameHome {
+  color: black;
+  background-color: red;
+}

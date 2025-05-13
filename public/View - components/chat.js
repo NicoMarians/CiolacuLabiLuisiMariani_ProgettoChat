@@ -1,4 +1,4 @@
-//import { pubsub } from "../BL - components/pubsub";
+import { pubsub } from "../BL - components/pubsub.js";
 
 const createMessageFun = (content, time_stamp, idUser, idChat) => {
     // TIME stamp contiene data e ora
@@ -10,13 +10,13 @@ const createMessageFun = (content, time_stamp, idUser, idChat) => {
     }
 }
 
-export const createChatComp = (parentElementIn, userIn) => {
+export const createChatComp = (parentElementIn) => {
     let parentElement = parentElementIn;
     let listMess = [];
-    let cur_user = userIn; //USER CORRENTE
+    let cur_user = pubsub.publish("getUser"); //USER CORRENTE
     
     return {
-        render: () => { 
+        render: () => {
             const template_mandante = `<div class="chat-message self-end bg-blue-500 text-white max-w-xs rounded-lg px-3 py-1.5 text-sm">%MESSMANDANTE</div>`
             const template_ricevente = `<div class="chat-message self-start bg-zinc-500 text-white max-w-xs rounded-lg px-3 py-1.5 text-sm">%MESSRICEVENTE</div>`
 

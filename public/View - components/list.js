@@ -1,4 +1,4 @@
-import { pubsub } from '../BL - components/pubsub.js';
+//import { pubsub } from '../BL - components/pubsub.js';
 
 const confData = await fetch("../conf.json")//.then(r => r.json());
 
@@ -6,7 +6,7 @@ export function createChatList(bindingElement) {
     const parentElement = bindingElement;
     let listChats = [];
     let listCommunities = [];
-    let filter = null;                   // Funzione di filtro 
+    let filter = null;                   // Funzione di filtro
 
     // Ritorna l'oggetto con i metodi per interagire con la lista
     return {
