@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 .visible {
     display: block;
   }
