@@ -46,9 +46,7 @@ const userProva = {
     picture: null    
 }
 
-const user = {
-
-}
+const user = {}
 
 fetch("./conf.json").then(r => r.json()).then(conf => {
     const middleware = createMiddleware();
@@ -62,6 +60,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         console.log("CHAT SCARICATE ------------>   ", datiTemp.data);
         chatListComp.setCommunities(datiTemp);
         chatListComp.render();
+
     }).catch(error => {
         console.error("Errore durante il download delle chat:", error);
     });
@@ -77,6 +76,8 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         const email = document.getElementById("email_input").value;
         document.getElementById("email_input").value = "";
         await middleware.sendMail(email)
+
+        loginComp.setRegisterState([false,true,false]);
         window.location.href = "#register-password-container";
         loginComp.setEmail(email)
     }
@@ -113,6 +114,34 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         });
         */
     }
+
+    //- -   -   -   -   -LOGIN- -   -   -   -   -   
+    document.getElementById("login_btn").onclick = () => {
+        window.location.href = "#login-container";
+    }
+
+    document.getElementById("login_btn_login_space").onclick = async () => {
+        //PRENDE I DATI E FA UNA RICHIESTA AL SERVER PER LA LOGIN
+        
+        const username = document.getElementById("username_login_input").value;
+        const password = document.getElementById("password_login_input").value;
+
+
+        console.log("Dati inviati al server:", { username, password });
+        const result = await middleware.login(username, stringToHash(password));
+
+        console.log("RESULT--- , " ,result);
+        if (result.result == "ok") {
+            console.log("Login effettuata: ", user)
+            user = result.user;
+            
+            //loginComp.setUserData(user)
+            window.location.href = "#chatSpace";
+        }
+
+    }
+    
+
 
     
 

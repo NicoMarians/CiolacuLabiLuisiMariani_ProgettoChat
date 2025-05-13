@@ -12,7 +12,7 @@
     <div class="flock-space" >
 
         <!--HOME-->
-        <div class="page home visible flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800" id="home">
+        <div id="home" class="page home visible flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
             <h1 class="home-title text-4xl font-bold mb-6">Benvenuto su <span class="text-blue-500">Flock</span></h1>
             <p class="text-lg text-gray-600 mb-8">Connettiti e comunica con facilità.</p>
         
@@ -49,11 +49,18 @@
 
         <!--  --------LOGIN--------  -->
 
+        <div class="page hidden" id="login-container">
+            <label for="username_login_input">username:</label>
+            <input type="text" id="username_login_input">
+            
+            <label for="password_login_input">Password:</label>
+            <input type="text" id="password_login_input">
 
-        <div class="page hidden" id="recupera">
-            <div id="recupera-container" class="login-container"></div>
+            <button type="button" id="login_btn_login_space" class="">Entra</button>
         </div>
 
+
+        <!--  --------CHAT--------  -->
 
         <div class="page hidden" id="chatSpace"></div>
         
