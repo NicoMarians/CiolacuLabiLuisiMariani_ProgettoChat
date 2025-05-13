@@ -1,6 +1,6 @@
 import { pubsub } from '../BL - components/pubsub.js';
 
-const confData = await fetch("./../conf.json").then(r => r.json());
+const confData = await fetch("../conf.json")//.then(r => r.json());
 
 export function createChatList(bindingElement) {
     const parentElement = bindingElement;

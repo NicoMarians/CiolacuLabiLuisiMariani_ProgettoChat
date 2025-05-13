@@ -40,6 +40,9 @@ const createLogin = () => {
         getRegisterStatus: () => {
             return registerState;
         },
+        setRegisterState: (newData) => {
+            registerState = newData;
+        }
     };
 };
 
