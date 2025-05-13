@@ -5,30 +5,26 @@ const hide = (elements) => {
       element.classList.add("hidden");
       element.classList.remove("visible");
    });
-};
+}
 
 const show = (element) => {
    element.classList.add("visible");
-   element.classList.remove("hidden");
-};
+   element.classList.remove("hidden");   
+}
 
 export const createNavigator = (parentElement) => {
    const pages = Array.from(parentElement.querySelectorAll(".page"));
-
+   
    const render = () => {
-      const pageName = window.location.hash.replace("#", ""); 
-      const selected = pages.find((page) => {page.id == pageName});
+      const url = new URL(document.location.href);
+      const pageName = url.hash.replace("#", "");
+      const selected = pages.filter((page) => page.id === pageName)[0] || pages[0]
 
-      if (selected) {
-         hide(pages);
-         show(selected);
-      
-      } else {
-         console.error(`Pagina con id "${pageName}" non trovata.`);
-      }
-   };
+      hide(pages);
+      show(selected);
 
-   window.addEventListener("hashchange", render);
-
-   render();
-};
+      console.log(selected)
+   }
+   window.addEventListener('popstate', render); 
+   render();   
+}
