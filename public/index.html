@@ -12,8 +12,8 @@
     <div class="flock-space" >
 
         <!--HOME-->
-        <div id="home" class="page home visible flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
-            <h1 class="home-title text-4xl font-bold mb-6">Benvenuto su <span class="text-blue-500">Flock</span></h1>
+        <div id="home" class="page home">
+            <h1 class="home-title text-4xl font-bold mb-6">Benvenuto su <span class="">Flock</span></h1>
             <p class="text-lg text-gray-600 mb-8">Connettiti e comunica con facilità.</p>
         
             <div class="flex space-x-4">
@@ -32,7 +32,6 @@
             <button type="button" id="invia_email_password" class="">-></button>
         </div>
 
-
         <!--PASSWORD-->
         <div class="page hidden" id="register-password-container">
             <h2 id="messErrorIfNotPsw">Inserisci la password che ti è arrivata</h2>
@@ -50,12 +49,27 @@
         <!--  --------LOGIN--------  -->
 
         <div class="page hidden" id="login-container">
-            <label for="username_login_input">username:</label>
-            <input type="text" id="username_login_input">  
-            <label for="password_login_input">Password:</label>
-            <input type="text" id="password_login_input">
+            <form class="form">
+                <p class="form-title">Entra nel tuo account</p>
+                <div class="input-container">
+                    <input type="text" id="username_login_input" placeholder="Inserisci username">
+                    
+                    <span>
+                    </span>
+                </div>
+                <div class="input-container">
+                    <input type="text" id="password_login_input" placeholder="Enter password">
 
-            <button type="button" id="login_btn_login_space" class="">Entra</button>
+                </div>
+                <button type="button" id="login_btn_login_space" class="submit">Entra</button>
+
+            
+                <p class="signup-link">
+                    No account?
+                    <a href="#registrati-container">registrati</a>
+                </p>
+            </form>
+         
         </div>
 
 
@@ -67,7 +81,7 @@
             <div id="chatSpace"></div>
         </div>
         
-        <div class="page chatDiv hidden" id="MesschatSpace">
+        <div class="page card-container hidden" id="MesschatSpace">
             
         </div>
         

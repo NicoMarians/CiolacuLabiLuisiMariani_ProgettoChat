@@ -70,6 +70,7 @@ export function createChatList(bindingElement) {
                     pubsub.publish("setChat",chat);
 
                     await pubsub.publish("downloadMessages", chat.id);
+                    //pubsub.publish("render-chat");
                     pubsub.publish("render-chat");
 
                     pubsub.publish("connectChat",chat.id);
@@ -85,8 +86,8 @@ export function createChatList(bindingElement) {
 
                     await pubsub.publish("downloadMessages", chat.id);
 
-                    //METTO IL TIME OUT PERCHè RENDERIZZA PRIMA DI CARICARE I DATI
-                    await new Promise(resolve => setTimeout(resolve, 200));
+                    // Utilizzo di un evento o una promise per assicurarmi che i dati siano caricati prima di renderizzare
+                    await new Promise(resolve => setTimeout(resolve, 250));
                     pubsub.publish("render-chat");
                     
                     pubsub.publish("connectChat",chat.id);
