@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"  href="style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <link href="style.css" rel="stylesheet">
+    <link href="./output.css" rel="stylesheet">
+
     <script src="/socket.io/socket.io.js"></script>
 
     <title>Flock</title>
@@ -11,18 +15,21 @@
 <body>
     <div class="flock-space" >
 
-        <!--HOME-->
-        <div class="page home visible" id="home">
-            <h1>Benvenuto su Flock</h1>
-            <div id="login-container" class="login-container">
-                <button type="button" id="login_btn">Login</button>
-            </div>
-
-            <div id="register-container" class="register-container">
-                <button type="button" id="register_btn">Registrati</button>
-            </div>
-        </div>
-
+        <!-- HOME -->
+        <div id="home" class="page home visible flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
+            <h1 class="text-4xl font-bold mb-6">Benvenuto su <span class="text-blue-600">Flock</span></h1>
+            <p class="text-lg text-gray-600 mb-8">Connettiti e comunica con facilità.</p>
+        
+            <div class="flex space-x-4">
+                <button type="button" id="login_btn"
+                    class="px-6 py-3 bg-gray-800 text-white font-medium rounded-lg shadow hover:bg-gray-700 transition duration-300">
+                    Login
+                </button>
+                <button type="button" id="register_btn"
+                    class="px-6 py-3 bg-gray-200 text-gray-800 font-medium rounded-lg shadow hover:bg-gray-300 transition duration-300">
+                    Registrati
+                </button>
+            </div>  </div>
         
         <!--  --------REGISTRAZIONE--------  -->
 
@@ -57,8 +64,54 @@
 
 
         <div class="page hidden" id="chatSpace"></div>
-        
-        <div class="page chatDiv hidden" id="MesschatSpace"></div>
+
+
+
+        <!--  --------SPAZIO MESSAGGI--------  -->
+
+        <div class="page hidden" id="MesschatSpace">
+            <!-- From Uiverse.io by Cybercom682 -->
+            <div class="max-w-md mx-auto bg-white dark:bg-zinc-800 shadow-md rounded-lg overflow-hidden">
+                <div class="flex flex-col h-[400px]">
+                    <div class="px-4 py-3 border-b dark:border-zinc-700">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-lg font-semibold text-zinc-800 dark:text-white">
+                                %NOMECHAT
+                            </h2>
+                            <div class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                                Online
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 p-3 overflow-y-auto flex flex-col space-y-2" id="chatDisplay">
+
+
+                        <div class="chat-message self-end bg-blue-500 text-white max-w-xs rounded-lg px-3 py-1.5 text-sm">
+                           %MESSMANDANTE
+                        </div>
+                        <div class="chat-message self-start bg-zinc-500 text-white max-w-xs rounded-lg px-3 py-1.5 text-sm">
+                            %MESSRICEVENTE
+                        </div>
+                        
+                    </div>
+
+
+                    <div class="px-3 py-2 border-t dark:border-zinc-700">
+                        <div class="flex gap-2">
+                            <input placeholder="Type your message..."
+                                class="flex-1 p-2 border rounded-lg dark:bg-zinc-700 dark:text-white dark:border-zinc-600 text-sm"
+                                id="chatInput" type="text" />
+                            <button
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded-lg transition duration-300 ease-in-out text-sm"
+                                id="sendButtonMess">
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         
         
     </div>
