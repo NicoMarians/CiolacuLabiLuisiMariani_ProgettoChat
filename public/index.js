@@ -46,8 +46,9 @@ const userProva = {
     picture: null    
 }
 
+const user = {
 
-
+}
 
 fetch("./conf.json").then(r => r.json()).then(conf => {
     const middleware = createMiddleware();
@@ -103,6 +104,14 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         document.getElementById("username_input").value = "";
         window.location.href = "#chatSpace";
         console.log("UTENTE CREATO")
+        user = await middleware.getUserByName(username).data;
+        /*Fa joinare l'utente a tutte le community
+        const communities = await middleware.downloadCommunityAll();
+        communities.forEach((community) => {
+            const result = middleware.joinChat()
+            
+        });
+        */
     }
 
     
