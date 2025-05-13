@@ -187,6 +187,7 @@ const database = {
             FROM "User"
             JOIN "Message" ON "User".id = "Message".user_id
             WHERE "Message".chat_id = $1
+            ORDER BY "Message".timestamp ascending
          `;
 
          const values = [

@@ -26,6 +26,7 @@ function stringToHash(str) {
 }
 
 
+
 // -- Business Logic -- 
 import {pubsub} from './BL - components/pubsub.js';
 import {createMiddleware} from './BL - components/middleware.js';
@@ -178,8 +179,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         return user;
     })
 
-
-
+    pubsub.subscribe("createMessage", middleware.createMessage);
 
 })
 

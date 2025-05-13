@@ -14,6 +14,7 @@ export const createChatComp = (parentElementIn) => {
     let parentElement = parentElementIn;
     let listMess = [];
     let cur_user = pubsub.publish("getUser"); //USER CORRENTE
+    let cur_chat;
     
     return {
         render: () => {
@@ -28,8 +29,16 @@ export const createChatComp = (parentElementIn) => {
                 }
             });
 
-            document.getElementById("sendButtonMess").onclick = () => {
+            html += `<div>
+                    <input id=input_messaggio placeholder="Message">
+                    <button id=sendButtonMess > Invia </button>
+                </div> 
+            `;
 
+            document.getElementById("sendButtonMess").onclick = () => {
+                const message = document.getElementById("input_messaggio").value;
+                const currentTime = new Date().toISOString().slice(0,19).split("T").join(" ");
+                pubsub.publish("createMessage",{"chat_id":cur_chat,"user_id":cur_user,"type_id":1,"text":message,"image":null,"timestamp":currentTime});
             }
 
             console.log("CHAT RENDERIZZATA", listMess)
