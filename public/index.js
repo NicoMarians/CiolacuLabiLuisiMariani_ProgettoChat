@@ -86,6 +86,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         const password = password_input_register.value;
         
         console.log(" - - - - - - - - -PASSWORD IN INPUT : ", password)
+        password_input_register.value = "";
         const response = await middleware.checkPassword(password);
         
         if (response.result == "ok") {
@@ -103,7 +104,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         await middleware.createUser(loginComp.getUserData());
 
         document.getElementById("username_input").value = "";
-        window.location.href = "#chatSpace";
+        window.location.href = "#chatSpace-container";
         console.log("UTENTE CREATO")
         user = await middleware.getUserByName(username).data;
         /*Fa joinare l'utente a tutte le community
@@ -136,11 +137,11 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
             user = result.user;
             
             //loginComp.setUserData(user)
-            window.location.href = "#chatSpace";
+            window.location.href = "#chatSpace-container";
+            console.log("USER.USERNAME", user);
+            document.getElementById("username_homepage").innerHTML = user.username;
         }
     }
-    
-    document.getElementById("username_homepage").innerHTML = user.username;
     
 
 
@@ -168,8 +169,8 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         middleware.createMessage()
     });
 
-    pubsub.subscribe("downloadMessages",async () => {
-        const newMessages = await middleware.downloadMessages();
+    pubsub.subscribe("downloadMessages", async (idChat) => {
+        const newMessages = await middleware.downloadMessages(idChat);
         list.chatComp.setMess(newMessages);
     })
 

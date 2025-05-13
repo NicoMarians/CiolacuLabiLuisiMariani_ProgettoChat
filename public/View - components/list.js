@@ -1,4 +1,4 @@
-//import { pubsub } from '../BL - components/pubsub.js';
+import { pubsub } from '../BL - components/pubsub.js';
 
 const confData = await fetch("../conf.json")//.then(r => r.json());
 
@@ -65,8 +65,20 @@ export function createChatList(bindingElement) {
 
             listChats.forEach((chat) => {
                 document.getElementById(`chat_${chat.id}`).onclick = async () => {
-                    window.location.hash = "#chat";
-                    await pubsub.publish("downloadMessages");
+                    window.location.href = `#chat_${chat.id}`;
+                    console.log("CHAT RENDER -> ", chat);
+
+                    await pubsub.publish("downloadMessages", chat.id);
+                    pubsub.publish("render-chat");
+                }
+            });
+
+            listCommunities.forEach((chat) => {
+                document.getElementById(`chat_${chat.id}`).onclick = async () => {
+                    window.location.href = `#MesschatSpace`;
+                    console.log("CHAT RENDER -> ", chat);
+                    
+                    await pubsub.publish("downloadMessages", chat.id);
                     pubsub.publish("render-chat");
                 }
             });
