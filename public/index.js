@@ -119,7 +119,11 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         chatComp.render();
     }); 
 
-    pubsub.subscribe("set-data", (list) =>{
+    pubsub.subscribe("set-chat-list", (list) => {
+        
+    })
+
+    pubsub.subscribe("set-data-mess", (list) =>{
         //PASSARE UNA LISTA DI DIZIONARIO CON SEGUENTE FORMATO -> content, time_stamp, idUser, idChat
         chatComp.addMess(list);
         middleware.createMessage()
