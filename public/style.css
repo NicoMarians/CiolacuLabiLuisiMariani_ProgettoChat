@@ -30,6 +30,13 @@ html {
   text-align: center;
 }
 
+.Flock{
+  transform: scale(2);
+  color: #a400ea;
+  font-weight: bold;
+  padding-bottom: 50px ;
+}
+
 .entra{
   transform: scale(3);
 }
@@ -70,6 +77,12 @@ html {
   padding-left: 50px;
 }
 
+.summit{
+  margin-top: 250px;
+  margin-left: 800px;
+  border-radius: 50%;
+  transform: scale(3);
+}
 
 /* 
 - - - - - - - - - - - -   - - - CLASSI CHAT LIST - - - - - - - -- - 
@@ -99,7 +112,7 @@ html {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #007bff;
+  background-color: #a400ea;
   color: white;
   display: flex;
   align-items: center;
@@ -153,7 +166,7 @@ body {
 }
 
 .home-title span {
-  color: #4F46E5;
+  color: #a400ea;
   font-weight: bold;
 }
 
