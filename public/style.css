@@ -117,10 +117,10 @@ html {
 /* -  - - - -   - - - - - - - - --  - - - -*/
   
 body {
+  /* solo lo scorrimento verticale */
+  /*evita lo scorrimento orizzontale */
   touch-action: pan-y;
-    /* Permette solo lo scorrimento verticale */
-    overscroll-behavior-x: none;
-    /* Evita lo scorrimento orizzontale */
+  overscroll-behavior-x: none;
   font-family: Helvetica, sans-serif;
   margin: 0;
   padding: 0;
