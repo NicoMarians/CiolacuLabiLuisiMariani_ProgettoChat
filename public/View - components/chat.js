@@ -73,8 +73,9 @@ export const createChatComp = (parentElementIn) => {
             }   
 
 
-            console.log("CHAT RENDERIZZATA", listMess)
-        },
+                //console.log("CHAT RENDERIZZATA", listMess);
+        
+            },
         setMess: (ListIn) => {
             //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)
             listMess = ListIn;
