@@ -4,7 +4,7 @@
 .visible {
   display: block;
 }
-<<<<<<< HEAD
+
 .fisso-sopra {
   position: fixed;
 }
@@ -112,6 +112,7 @@ html {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  background-color: #007bff;
   background-color: #a400ea;
   color: white;
   display: flex;
@@ -135,7 +136,7 @@ html {
 
 
 /* -  - - - -   - - - - - - - - --  - - - -*/
-  
+
 body {
   /* solo lo scorrimento verticale */
   /*evita lo scorrimento orizzontale */
@@ -166,6 +167,7 @@ body {
 }
 
 .home-title span {
+  color: #4F46E5;
   color: #a400ea;
   font-weight: bold;
 }
@@ -382,7 +384,7 @@ body {
   outline: none;
   border: 1px solid #e5e7eb;
   margin: 8px 0;
-  
+
 }
 
 .input-container input {
@@ -431,8 +433,9 @@ body {
   min-height: 100vh;
 }
 
-=======
->>>>>>> 1a1dc857fead99293364e2e8eae34e9ae1423c07
+.hidden {
+  display: none;
+}
 
 
 
@@ -620,7 +623,7 @@ body {
       margin-left: 32px;
       /* Allinea i messaggi a sinistra */
     }
-  
+
     .conversation-item.receiver .conversation-item-text {
       background-color: var(--blue-100);
       /* Colore di sfondo per i messaggi del ricevente */
@@ -632,7 +635,7 @@ body {
       margin-left: 32px;
       /* Allinea i messaggi a sinistra */
     }
-  
+
     .conversation-item.receiver .conversation-item-time {
       color: var(--blue-700);
       /* Colore del timestamp */
