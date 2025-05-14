@@ -76,6 +76,8 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         window.location.href = "#registrati-container";
     }   
 
+
+    //INSERIMENTO MAIL REGISTER
     email_btn.onclick = async () => {
         const email = document.getElementById("email_input").value;
         document.getElementById("email_input").value = "";
@@ -86,6 +88,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         loginComp.setEmail(email)
     }
 
+    //CONTROLLO PASSWORD REGISTER
     password_check_register_btn.onclick = async () => {
         const password = password_input_register.value;
         
@@ -101,6 +104,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         }
     }
 
+    //INSERIMENTO USERNAME REGISTRAZIONE
     username_choice_btn.onclick = async () => {
         const username = document.getElementById("username_input").value;
         loginComp.setUsername(username);
@@ -159,7 +163,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         "Connesso alla chat!";
     });
 
-    socket.on("arrivingMessage",(messageData) => {
+    socket.on("arrivingmessage",(messageData) => {
         console.log("165 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         chatComp.addMess(messageData);
         chatComp.render();
@@ -204,6 +208,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     });
 
     pubsub.subscribe("sendMessage",(messageInformation) => {
+        console.log("SENDING MESSAGE!!!!!")
         socket.emit('newmessage', messageInformation);
     })
 

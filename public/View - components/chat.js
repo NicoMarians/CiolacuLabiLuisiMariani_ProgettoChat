@@ -68,9 +68,10 @@ export const createChatComp = (parentElementIn) => {
                     "timestamp":currentTime
                 });
                 pubsub.publish("render-chat");
-            }   
 
                 pubsub.publish("sendMessage",{"text":message,"chat":cur_chat.id,"userId":cur_user.id});
+            }   
+
 
             console.log("CHAT RENDERIZZATA", listMess)
         },

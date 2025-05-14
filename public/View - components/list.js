@@ -70,9 +70,7 @@ export function createChatList(bindingElement) {
                     pubsub.publish("setChat",chat);
 
                     await pubsub.publish("downloadMessages", chat.id);
-                    //pubsub.publish("render-chat");
                     pubsub.publish("render-chat");
-
                     pubsub.publish("connectChat",chat.id);
 
                 }
