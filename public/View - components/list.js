@@ -17,11 +17,6 @@ export function createChatList(bindingElement) {
 
         setCommunities: (newData) => {
             listCommunities = newData.data;
-            if (newData) {
-                console.log("COMY CARICATE SU COMP -> ", listCommunities)
-            } else {
-                listCommunities = []
-            }
         },
 
         // Imposta una funzione di filtro per applicarla alla lista delle chat
@@ -38,7 +33,6 @@ export function createChatList(bindingElement) {
         render: () => {
             //RENDER COMMUNITIES
             let line = `<h4>Community</h4>`;
-            console.log("LIT COMMY DENTRO RENDER LIST ----->  ", listCommunities)
             line += listCommunities.map((chat) => {
                 const picture = chat.picture == null ? "" : `../../images/${chat.picture}`;
                     return `
@@ -61,12 +55,10 @@ export function createChatList(bindingElement) {
             }).join("");
 
             parentElement.innerHTML = line;
-            console.log(line)
 
             listChats.forEach((chat) => {
                 document.getElementById(`chat_${chat.id}`).onclick = async () => {
                     window.location.href = `#chat_${chat.id}`;
-                    console.log("CHAT RENDER -> ", chat);
                     pubsub.publish("setChat",chat);
 
                     await pubsub.publish("downloadMessages", chat.id);
@@ -79,7 +71,6 @@ export function createChatList(bindingElement) {
             listCommunities.forEach((chat) => {
                 document.getElementById(`chat_${chat.id}`).onclick = async () => {
                     window.location.href = `#MesschatSpace`;
-                    console.log("CHAT RENDER -> ", chat);
                     pubsub.publish("setChat", chat);
 
                     await pubsub.publish("downloadMessages", chat.id);

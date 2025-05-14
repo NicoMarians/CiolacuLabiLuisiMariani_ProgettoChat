@@ -23,7 +23,6 @@ export const createNavigator = (parentElement) => {
       hide(pages);
       show(selected);
 
-      console.log(selected)
    }
    window.addEventListener('popstate', render); 
    render();   

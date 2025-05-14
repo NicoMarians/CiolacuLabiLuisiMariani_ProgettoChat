@@ -24,10 +24,9 @@ export const createChatComp = (parentElementIn) => {
         render: () => {
             const template_mandante = `<div class="message-box left"><p>%MESSMANDANTE</p></div>`
             const template_ricevente = `<div class="message-box right"><p>%MESSRICEVENTE</p></div>`
-            //console.log(cur_chat)
             let html = `
             <div class="card-header">
-                <a href="#chatSpace-container"><-</a>
+                <a id="buttonBackChat" href="#chatSpace-container" style="left: 100%"><-</a>
                 <div class="img-avatar">${cur_chat.picture}</div> 
                 <div class="text-chat">${cur_chat.name}</div>
             </div>`;
@@ -36,10 +35,8 @@ export const createChatComp = (parentElementIn) => {
                         <div class="messages-container">`;
             
             
-            console.log("LIST MESS CHAT.JS 29: ", listMess);
-
             listMess.forEach(messaggio => {
-                if (messaggio.username == cur_user.username) {
+                if (messaggio.userid == cur_user.id) {
                     html += template_mandante.replace("%MESSMANDANTE", messaggio.text);
                 } else {
                     html += template_ricevente.replace("%MESSRICEVENTE", messaggio.text);
@@ -58,7 +55,6 @@ export const createChatComp = (parentElementIn) => {
                 const message = document.getElementById("input_messaggio").value;
 
                 const currentTime = new Date().toISOString().slice(0,19).split("T").join(" ");
-                console.log("CUR USER CHAT.JS 48 ", cur_user)
                 pubsub.publish("createMessage",{
                     "chat_id":cur_chat.id,
                     "user_id":cur_user.id,
@@ -70,16 +66,18 @@ export const createChatComp = (parentElementIn) => {
                 pubsub.publish("render-chat");
 
                 pubsub.publish("sendMessage",{"text":message,"chat":cur_chat.id,"userId":cur_user.id});
-            }   
+            }
+            
+            document.getElementById("buttonBackChat").onclick = () => {
+                pubsub.publish("disconnectChat");
+            }
 
 
-                //console.log("CHAT RENDERIZZATA", listMess);
         
             },
         setMess: (ListIn) => {
             //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)
             listMess = ListIn;
-            console.log("CHAT.JS 68: ", ListIn)
         },
         addMess: (messObj) => {
             //FNZ CHE AGGIUNGE UN OGGETTO MESS ALLA LISTA INTERNA DEL COMPONENTE
