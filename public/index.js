@@ -126,6 +126,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     //- -   -   -   -   -LOGIN- -   -   -   -   -   
     document.getElementById("login_btn").onclick = () => {
+        console.log("ENTRATO IN AREA LOGIN")
         window.location.href = "#login-container";
     }
 

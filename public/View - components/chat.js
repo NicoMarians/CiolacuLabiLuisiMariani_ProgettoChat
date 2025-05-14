@@ -22,11 +22,23 @@ export const createChatComp = (parentElementIn) => {
         },
         
         render: () => {
-            const template_mandante = `<div class="message-box left"><p>%MESSMANDANTE</p></div>`
-            const template_ricevente = `<div class="message-box right"><p>%MESSRICEVENTE</p></div>`
-            //console.log(cur_chat)
+            const template_mandante = `
+                <div class="conversation-item-box">
+                    <div class="conversation-item-text">
+                        <p>%MESSMANDANTE</p>
+                    <div class="conversation-item-time">%ORA</div>
+                </div>`
+
+                const template_ricevente = `
+                <div class="conversation-item-box">
+                    <div class="conversation-item-text">
+                        <p>%MESSRICEVENTE</p>
+                    <div class="conversation-item-time">%ORA</div>
+                </div>`
+
+                //console.log(cur_chat)
             let html = `
-            <div class="card-header">
+            <div class="card-header fisso-sopra">
                 <a href="#chatSpace-container"><-</a>
                 <div class="img-avatar">${cur_chat.picture}</div> 
                 <div class="text-chat">${cur_chat.name}</div>
@@ -40,9 +52,14 @@ export const createChatComp = (parentElementIn) => {
 
             listMess.forEach(messaggio => {
                 if (messaggio.username == cur_user.username) {
-                    html += template_mandante.replace("%MESSMANDANTE", messaggio.text);
+                    let temp = template_mandante.replace("%MESSMANDANTE", messaggio.text);
+                    temp = temp.replace("%ORA", messaggio.timestamp);
+                    html += temp;
+                    
                 } else {
-                    html += template_ricevente.replace("%MESSRICEVENTE", messaggio.text);
+                    let temp = template_ricevente.replace("%MESSRICEVENTE", messaggio.text);
+                    temp = temp.replace("%ORA", messaggio.timestamp);
+                    html += temp;
                 }
             });
             html += "</div>";

@@ -47,9 +47,8 @@
         </div>
 
         <!--  --------LOGIN--------  -->
-
-        <div class="page hidden" id="login-container">
-            <form class="form">
+        <div class="page hidden form" id="login-container">
+            
                 <p class="form-title">Entra nel tuo account</p>
                 <div class="input-container">
                     <input type="text" id="username_login_input" placeholder="Inserisci username">
@@ -67,9 +66,7 @@
                 <p class="signup-link">
                     No account?
                     <a href="#registrati-container">registrati</a>
-                </p>
-            </form>
-         
+                </p>         
         </div>
 
 
@@ -81,9 +78,18 @@
             <div id="chatSpace"></div>
         </div>
         
-        <div class="page card-container hidden" id="MesschatSpace">
-            
-        </div>
+        
+            <div class="conversation-item-wrapper" id="MesschatSpace">
+
+                <div class="conversation-item-box">
+                    <div class="conversation-item-text">
+                        <p>%MESSMANDANTE</p>
+                        <div class="conversation-item-time">%ORA</div>
+                    </div>
+                </div>
+
+            </div>
+        
         
         
     </div>
