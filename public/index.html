@@ -13,22 +13,24 @@
 
         <!--HOME-->
         <div id="home" class="page home">
-            <h1 class="home-title text-4xl font-bold mb-6">Benvenuto su <span class="">Flock</span></h1>
+            <h1 class="home-title text-4xl font-bold mb-6">Benvenuto su </h1>
+            <div class="Flock"><h1>Flock</h1></div>
             <p class="text-lg text-gray-600 mb-8">Connettiti e comunica con facilità.</p>
-        
-            <div class="">
-                <button type="button" id="login_btn" class="">Login</button>
-                <button type="button" id="register_btn" class="">Registrati</button>
+
+            <div class="flex space-x-4">
+                <button type="button" id="login_btn" class="btn-primary">Login</button>
+                <button type="button" id="register_btn" class="btn-secondary">Registrati</button>
             </div>  
         </div>
 
-        
+
         <!--  --------REGISTRAZIONE--------  -->
 
         <!--MAIL-->
         <div class="page hidden" id="registrati-container">
             <h2>Inserisci la tua email</h2>
             <input type="text" id="email_input"> 
+            <button type="button" id="invia_email_password" class="">-></button>
             <button type="button" id="invia_email_password" class="summit">-></button>
         </div>
 
@@ -36,6 +38,7 @@
         <div class="page hidden" id="register-password-container">
             <h2 id="messErrorIfNotPsw">Inserisci la password che ti è arrivata</h2>
             <input type="text" id="password_input">
+            <button type="button" id="check_password" class="">-></button>
             <button type="button" id="check_password" class="summit">-></button>
         </div>
 
@@ -43,30 +46,26 @@
         <div class="page hidden" id="username-container">
             <h2>Scegli l'username</h2>
             <input type="text" id="username_input">
+            <button type="button" id="add_username" class="">-></button>
             <button type="button" id="add_username" class="summit">-></button>
         </div>
 
         <!--  --------LOGIN--------  -->
-        <div class="page hidden" id="login-container">
-            
-                <p class="">Entra nel tuo account</p>
-                <div class="">
-                    <input type="text" id="username_login_input" placeholder="Inserisci username">
-                    
-                    <span>
-                    </span>
-                </div>
-                <div class="">
-                    <input type="text" id="password_login_input" placeholder="Enter password">
-
-                </div>
-                <button type="button" id="login_btn_login_space" class="">Entra</button>
-
-            
-                <p class="">
-                    No account?
-                    <a href="#registrati-container">registrati</a>
-                </p>         
+        <div class="page hidden form" id="login-container">
+            <p class="form-title">Entra nel tuo account</p>
+            <div class="input-container">
+                <input type="text" id="username_login_input" placeholder="Inserisci username">
+                <span>
+                </span>
+            </div>
+            <div class="input-container">
+                <input type="text" id="password_login_input" placeholder="Enter password">
+            </div>
+            <button type="button" id="login_btn_login_space" class="submit">Entra</button>
+            <p class="signup-link">
+                Non hai un account?
+                <a href="#registrati-container">registrati</a>
+            </p>         
         </div>
 
 
@@ -74,17 +73,24 @@
 
 
         <div class="page hidden" id="chatSpace-container">
-            <h1 id="username_homepage" class=""></h1>
+            <h1 id="username_homepage" class="usernameHome"></h1>
             <div id="chatSpace"></div>
         </div>
-        
-        
-            <div class="page hidden" id="MesschatSpace">
+
+
+            <div class="conversation-item-wrapper" id="MesschatSpace">
+
+                <div class="conversation-item-box">
+                    <div class="conversation-item-text">
+                        <p>%MESSMANDANTE</p>
+                        <div class="conversation-item-time">%ORA</div>
+                    </div>
+                </div>
 
             </div>
-        
-        
-        
+
+
+
     </div>
     <script src="index.js" type="module"></script>
 </body>
