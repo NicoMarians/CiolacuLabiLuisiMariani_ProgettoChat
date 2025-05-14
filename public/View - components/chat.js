@@ -48,8 +48,6 @@ export const createChatComp = (parentElementIn) => {
                         <div class="messages-container">`;
             
             
-            console.log("LIST MESS CHAT.JS 29: ", listMess);
-
             listMess.forEach(messaggio => {
                 if (messaggio.username == cur_user.username) {
                     let temp = template_mandante.replace("%MESSMANDANTE", messaggio.text);
@@ -75,7 +73,6 @@ export const createChatComp = (parentElementIn) => {
                 const message = document.getElementById("input_messaggio").value;
 
                 const currentTime = new Date().toISOString().slice(0,19).split("T").join(" ");
-                console.log("CUR USER CHAT.JS 48 ", cur_user)
                 pubsub.publish("createMessage",{
                     "chat_id":cur_chat.id,
                     "user_id":cur_user.id,
@@ -87,16 +84,18 @@ export const createChatComp = (parentElementIn) => {
                 pubsub.publish("render-chat");
 
                 pubsub.publish("sendMessage",{"text":message,"chat":cur_chat.id,"userId":cur_user.id});
-            }   
+            }
+            
+            document.getElementById("buttonBackChat").onclick = () => {
+                pubsub.publish("disconnectChat");
+            }
 
 
-                //console.log("CHAT RENDERIZZATA", listMess);
         
             },
         setMess: (ListIn) => {
             //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)
             listMess = ListIn;
-            console.log("CHAT.JS 68: ", ListIn)
         },
         addMess: (messObj) => {
             //FNZ CHE AGGIUNGE UN OGGETTO MESS ALLA LISTA INTERNA DEL COMPONENTE

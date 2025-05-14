@@ -58,10 +58,8 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     const navigator = createNavigator(document.querySelector(".flock-space"));
     const chatListComp = createChatList(divChatList);
 
-    console.log("PROVA QUERY: ", middleware.downloadChatAll(userProva.id))
     
     middleware.downloadCommunityAll(userProva.id).then(datiTemp => {
-        console.log("CHAT SCARICATE ------------>   ", datiTemp.data);
         chatListComp.setCommunities(datiTemp);
         chatListComp.render();
 
@@ -92,7 +90,6 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     password_check_register_btn.onclick = async () => {
         const password = password_input_register.value;
         
-        console.log(" - - - - - - - - -PASSWORD IN INPUT : ", password)
         password_input_register.value = "";
         const response = await middleware.checkPassword(password);
         
@@ -108,12 +105,10 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     username_choice_btn.onclick = async () => {
         const username = document.getElementById("username_input").value;
         loginComp.setUsername(username);
-        console.log("USER TEMP DATA: ", loginComp.getUserData());
         await middleware.createUser(loginComp.getUserData());
 
         document.getElementById("username_input").value = "";
         window.location.href = "#chatSpace-container";
-        console.log("UTENTE CREATO")
         user = await middleware.getUserByName(username).data;
         /*Fa joinare l'utente a tutte le community
         const communities = await middleware.downloadCommunityAll();
@@ -137,18 +132,14 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         const password = document.getElementById("password_login_input").value;
 
 
-        console.log("Dati inviati al server:", { username, password });
         const result = await middleware.login(username, stringToHash(password));
 
-        console.log("RESULT--- , " ,result);
         if (result.result == "ok") {
-            console.log("Login effettuata: ", user)
             user = result.user;
             user2 = result.user;
             
             //loginComp.setUserData(user)
             window.location.href = "#chatSpace-container";
-            console.log("USER.USERNAME", user);
             document.getElementById("username_homepage").innerHTML = user.username;
             chatComp.setUser(user);
         }
@@ -165,7 +156,6 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     });
 
     socket.on("arrivingmessage",(messageData) => {
-        console.log("165 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         chatComp.addMess(messageData);
         chatComp.render();
         
@@ -189,13 +179,11 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     pubsub.subscribe("downloadMessages", async (idChat) => {
         const newMessages = await middleware.downloadMessages(idChat);
-        console.log("INDEX.JS 179: ", newMessages)
         chatComp.setMess(newMessages.data);
         return;
     })
 
     pubsub.subscribe("getUser", () => {
-        console.log("USER RETURN IN INDEX.JS: ", user);
         return user;
     })
 
@@ -209,12 +197,15 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     });
 
     pubsub.subscribe("sendMessage",(messageInformation) => {
-        console.log("SENDING MESSAGE!!!!!")
         socket.emit('newmessage', messageInformation);
-    })
+    });
 
     pubsub.subscribe("connectChat",(chatId) => {
         socket.emit("connectchat",chatId);
+    });
+
+    pubsub.subscribe("disconnectChat",() => {
+        socket.emit("disconnect");
     })
 });
 

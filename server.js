@@ -68,7 +68,6 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 app.post("/getuser/:id", async (req, res) => {
     //RICHIESTA AL DB che restiuisce informazioni su uno SPECIFICO USER
     const idUser = req.params.id;
-    console.log("FETCH getuser - -   ", idUser);
     try {
         await database.queries.downloadUser(idUser);
         res.json(result);
@@ -81,7 +80,6 @@ app.post("/getuser/:id", async (req, res) => {
 app.get("/getmessages/:id", async (req, res) => {
     //RICHIESTA AL DB che restiuisce tutti i messaggi di uno SPECIFICO CHAT
     const idChat = req.params.id;
-    console.log("FETCH getmessages - -   ", idChat);
     try {
         const data = await database.queries.downloadMessages(idChat);
         res.json({result: "ok", data: data});
@@ -94,13 +92,8 @@ app.get("/getmessages/:id", async (req, res) => {
 app.post("/login", async (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
-    console.log("ENTRATO DENTRO SERVER PER LOGIN", username, password);
     try {
         const result = await database.queries.downloadUserByName(username);
-
-        console.log("PASSWORD PRESA DAL DB: ", result[0].password);
-        console.log("PASSWORD INSERITA DALL'UTENTE: ", password);
-
 
         //Se l'utente non esiste
         if(result[0].password.length === 0) {
@@ -122,10 +115,8 @@ app.post("/login", async (req,res) => {
 app.get("/getchat/:id", async (req, res) => {
     // RICHIESTA AL DB che restituisce tutte le CHAT di uno specifico USER
     const idUser = req.params.id;
-    console.log("FETCH getchat - -   ", idUser);
     try {
         data = await database.queries.downloadChatAll(idUser);
-        console.log("ENTRATO IN SERVER")
         res.json({result: "ok", "data": data});
     } catch (e) {
         console.log(e);
@@ -137,7 +128,6 @@ app.get("/getcommunity", async (req, res) => {
     //RICHIESTA AL DB che restiuisce tutte le community in cui sei dentro 
     try {
         data = await database.queries.downloadCommunityAll();
-        console.log("DATA COMMUNIY ---> ", data)
         res.json({result: "ok", "data": data});
     } catch (e) {
         console.log(e);
@@ -148,7 +138,6 @@ app.get("/getcommunity", async (req, res) => {
 app.post("/createuser", async (req, res) => {
     //RICHIESTA AL DB che CREA L'UTENTE, PASSARGLI UN DIZIONARIO CON TUTTE LE INFORMAZIONI 
     const datiUser = req.body;
-    console.log("FETCH createuser - -   ", datiUser);
     try {
         data = await database.queries.createUser(datiUser);
         res.json({result: "ok", "data": data});
@@ -165,7 +154,6 @@ app.post("/createchat", async (req, res) => {
     const nomeChat = req.body.nomeChat;
     const immagineChat = req.body.immagineChat;
 
-    console.log("FETCH createchat - -   ", { userId_1, userId_2 });
     try {
         const chatId = await database.queries.createChat(nomeChat, immagineChat);
         let result = await database.queries.createUserChat(userId_1,chatId);
@@ -181,7 +169,6 @@ app.post("/createchat", async (req, res) => {
 app.post("/createmessage", async (req, res) => {
     // Funzione che crea un nuovo messaggio, passando tutte le informazioni come oggetto
     const dizDati = req.body;
-    console.log("FETCH createmessage - -   ", dizDati);
     try {
         data = await database.queries.createMessage(dizDati);
         res.json({ result: "ok" , "data": data});
@@ -193,7 +180,6 @@ app.post("/createmessage", async (req, res) => {
 
 app.delete("/deletechat", async (req, res) => {
     const { idUser, idChat } = req.body;
-    console.log("FETCH deletechat - -   ", { idUser, idChat });
     try {
         data = await database.queries.deleteChat(idUser, idChat);
         res.json({ result: "ok" , "data": data});
@@ -219,10 +205,7 @@ app.post('/mailer', async (req,res) => {
 });
 
 app.post('/checkpassword', async (req, res) => {
-    console.log("RIGA 217, SERVER: ", req.body);
     const password = req.body.password;
-    console.log("PASSWORD INPUT : ", stringToHash(password))
-    console.log("PASSWORD CHECK : ", password_user_temp)
     
     if (stringToHash(password) == password_user_temp) {
         res.json({result: "ok"});
@@ -268,24 +251,20 @@ app.use("/chatsocket", express.static(path.join(__dirname, "public")));
     const io = new Server(server);
 
     io.on('connect', (socket) => {
-        console.log("socket connected: " + socket.id);
 
         socket.on('connectchat',(chatId) => {
             onlineUsers.push({user:socket,chat:chatId});
-            console.log(socket.id,"Connected to: ",chatId);
         });
 
         socket.on('newmessage', (information) => {
-            console.log("NEW MESSAGE!")
             const text = information.text;
             const chat = information.chat;
-            const senderId = information.userId
+            const senderId = information.userId;
 
             const response = {"text":text,"idUser":senderId};
             
             onlineUsers.forEach((element) => {
                 if(element.chat == chat){
-                    console.log("Sending to: ",element.user.id)
                     element.user.emit("arrivingmessage",response);
                 }
             })
