@@ -28,14 +28,12 @@ function stringToHash(str) {
 
 const createCookie = (username) => {
     let expire = new Date();
-    //expire.setDate(expire.getDate() + 10);
-    expire.setDate(expire.getDate() - 1000);
-    expire = expire.toISOString().slice(0,-1).split("T").join(" ");
-    console.log(expire)
+    expire.setDate(expire.getDate() + 10);
+    expire = expire.toUTCString();
     const line = `username = ${username}; expires = ${expire};`
     //const line = `username = ${username}; expires = ;`
 
-    document.cookie =  line;
+    document.cookie = line;
 }
 
 
@@ -68,8 +66,8 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     }).catch(error => {
         console.error("Errore durante il download delle chat:", error);
     });
-    window.location.href = "#starterPage";
     
+    window.location.href = "#starterPage";
 
 
     
@@ -115,30 +113,28 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         await middleware.createUser(loginComp.getUserData());
 
         document.getElementById("username_input").value = "";
-        window.location.href = "#homePage";
         user = await middleware.getUserByName(username).data;
-        /*Fa joinare l'utente a tutte le community
-        const communities = await middleware.downloadCommunityAll();
-        communities.forEach((community) => {
-            const result = middleware.joinChat()
-            
-        });
-        */
+        window.location.href = "#homePage";
+
     }
     
 
     //- -   -   -   -   -LOGIN- -   -   -   -   -   
-    document.getElementById("login_btn").onclick = () => {
+    document.getElementById("login_btn").onclick = async () => {
         console.log("ENTRATO IN AREA LOGIN")
-        window.location.href = "#loginPage";
-
+        if(document.cookie != ""){
+            const result = await middleware.getUserByName(document.cookie.split("=")[1]);
+            user = result.data[0]
+            document.getElementById("username_homepage").innerHTML = user.username;
+            chatComp.setUser(user);
+            window.location.href = "#homePage"
+        } else window.location.href = "#loginPage";
+        
     }
 
     document.getElementById("login_btn_login_space").onclick = async () => {
         //PRENDE I DATI E FA UNA RICHIESTA AL SERVER PER LA LOGIN
 
-        const cookies = document.cookie;
-        console.log(cookies)
         const username = document.getElementById("username_login_input").value;
         const password = document.getElementById("password_login_input").value;
         
@@ -153,9 +149,10 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
             createCookie(username)
             
             //loginComp.setUserData(user)
-            window.location.href = "#homePage";
             document.getElementById("username_homepage").innerHTML = user.username;
             chatComp.setUser(user);
+            window.location.href = "#homePage";
+
         }
 
     }
@@ -178,7 +175,6 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     socket.on("arrivingmessage",(messageData) => {
         chatComp.addMess(messageData);
-        console.log("MESSAGGIO ARRIVATO: ", messageData);
         chatComp.render();
         window.scrollTo(0, document.body.scrollHeight);
     });
