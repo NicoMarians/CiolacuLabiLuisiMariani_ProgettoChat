@@ -48,7 +48,7 @@ export const createChatComp = (parentElementIn) => {
             
             listMess.forEach(messaggio => {
                 //console.log(messaggio);
-                console.log(cur_user)
+                //console.log(cur_user)
                 if (messaggio.userid == cur_user.id) {
                     let temp = template_mandante.replace("%MESSMANDANTE", messaggio.text);
                     temp = temp.replace("%ORA", messaggio.timestamp.split("T")[1].slice(0,5));
@@ -94,6 +94,7 @@ export const createChatComp = (parentElementIn) => {
         addMess: (messObj) => {
             //FNZ CHE AGGIUNGE UN OGGETTO MESS ALLA LISTA INTERNA DEL COMPONENTE
             //PASSARE UN DIZIONARIO CON (CONTENT, TIME, IDUSER, IDCHAT)
+            console.log("MESSAGGIO AGGIUNTO")
             listMess.push(messObj);
         },
 
