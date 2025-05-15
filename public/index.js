@@ -93,13 +93,17 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         const password = password_input_register.value;
         
         password_input_register.value = "";
-        const response = await middleware.checkPassword(password);
+        if (password){
+            const response = await middleware.checkPassword(password);
+        }
         
         if (response.result == "ok") {
             window.location.href = "#registerUsernameage";
             loginComp.setPassword(stringToHash(password));
         } else {
             document.getElementById("messErrorIfNotPsw").innerText = "Password errata";
+            alert("Password errata!")
+            console.log("Password errata");
         }
     }
 
