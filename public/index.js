@@ -145,10 +145,17 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         }
 
     }
-    
 
+        /*
+    buttonCreateChat.onclick = async () => {
+        //MOSTRARE INPUT CHE CHIEDE NOME DI UTENTE CON CUI FARE CHAT
 
-    
+    }
+
+    document.getElementById("buttonInviteChat").onclick = async () => {
+        const utentiDaAggiungere 
+    }
+    */
 
     // - - - - FUNZIONI SOCKET -  - -
     socket.on("connect",() => {
@@ -208,16 +215,3 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         socket.emit("disconnect");
     })
 });
-
-/*
-buttonCreateChat.onclick = async () => {
-    //MOSTRARE INPUT CHE CHIEDE NOME DI UTENTE CON CUI FARE CHAT
-    // ID LO RICAVIAMO CON UNA QUERY
-
-    const userId = 2;
-
-    await middleware.createChat(userId.id,userId);
-
-
-}
-    */

@@ -58,11 +58,12 @@ export function createChatList(bindingElement) {
 
             listChats.forEach((chat) => {
                 document.getElementById(`chat_${chat.id}`).onclick = async () => {
-                    window.location.href = `#chat_${chat.id}`;
                     pubsub.publish("setChat",chat);
 
                     await pubsub.publish("downloadMessages", chat.id);
                     pubsub.publish("render-chat");
+                    window.location.href = `#chat_${chat.id}`;
+
                     pubsub.publish("connectChat",chat.id);
 
                 }
@@ -70,7 +71,6 @@ export function createChatList(bindingElement) {
 
             listCommunities.forEach((chat) => {
                 document.getElementById(`chat_${chat.id}`).onclick = async () => {
-                    window.location.href = `#MesschatSpace`;
                     pubsub.publish("setChat", chat);
 
                     await pubsub.publish("downloadMessages", chat.id);
@@ -78,6 +78,7 @@ export function createChatList(bindingElement) {
                     // Utilizzo di un evento o una promise per assicurarmi che i dati siano caricati prima di renderizzare
                     await new Promise(resolve => setTimeout(resolve, 250));
                     pubsub.publish("render-chat");
+                    window.location.href = `#MesschatSpace`;
                     
                     pubsub.publish("connectChat",chat.id);
                 }
