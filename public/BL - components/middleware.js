@@ -112,7 +112,6 @@ export const createMiddleware = () => {
             },
 
             checkPassword: async (psw_in) => {
-                console.log("RIGA 120  ", psw_in)
                 const response = await fetch(`/checkpassword`, {
                     method: "POST",
                     headers: {

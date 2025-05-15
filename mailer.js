@@ -18,7 +18,6 @@ transporter.verify((err, success) => {
     if (err) {
         console.error(err);
     } else {
-        console.log('Your node mailer config is correct');
     }
 });
 
@@ -32,7 +31,6 @@ const result = {
                 text: text
             })
         } catch (error) {
-            console.log("Error sending email:")
             console.log(error);
         }
     },

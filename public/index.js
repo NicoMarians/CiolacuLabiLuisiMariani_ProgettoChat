@@ -6,13 +6,14 @@ const searchBar = document.getElementById("seatchBar");
 const divUsername = document.getElementById("divUsername");
 const divProfilePicture = document.getElementById("divProfilePicture");
 const divChatList = document.getElementById("chatSpace");
-const divChatMess = document.getElementById("MesschatSpace");
+const divChatMess = document.getElementById("chatSpace-container");
 const register_btn = document.getElementById("register_btn");
 const email_btn = document.getElementById("invia_email_password");
 const password_check_register_btn = document.getElementById("check_password");
 const username_choice_btn = document.getElementById("add_username");
 
 const password_input_register = document.getElementById("password_input");
+
 
 
 function stringToHash(str) {
@@ -58,58 +59,62 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     const navigator = createNavigator(document.querySelector(".flock-space"));
     const chatListComp = createChatList(divChatList);
 
-    console.log("PROVA QUERY: ", middleware.downloadChatAll(userProva.id))
     
     middleware.downloadCommunityAll(userProva.id).then(datiTemp => {
-        console.log("CHAT SCARICATE ------------>   ", datiTemp.data);
         chatListComp.setCommunities(datiTemp);
         chatListComp.render();
 
     }).catch(error => {
         console.error("Errore durante il download delle chat:", error);
     });
-    window.location.href = "#home";
+    window.location.href = "#starterPage";
+    
 
 
     
     register_btn.onclick = async () => {    
-        window.location.href = "#registrati-container";
+        window.location.href = "#registerMailPage";
     }   
 
+
+    //INSERIMENTO MAIL REGISTER
     email_btn.onclick = async () => {
         const email = document.getElementById("email_input").value;
         document.getElementById("email_input").value = "";
         await middleware.sendMail(email)
 
         loginComp.setRegisterState([false,true,false]);
-        window.location.href = "#register-password-container";
+        window.location.href = "#registerPasswordPage";
         loginComp.setEmail(email)
     }
 
+    //CONTROLLO PASSWORD REGISTER
     password_check_register_btn.onclick = async () => {
         const password = password_input_register.value;
         
-        console.log(" - - - - - - - - -PASSWORD IN INPUT : ", password)
         password_input_register.value = "";
-        const response = await middleware.checkPassword(password);
+        if (password){
+            const response = await middleware.checkPassword(password);
+        }
         
         if (response.result == "ok") {
-            window.location.href = "#username-container";
+            window.location.href = "#registerUsernameage";
             loginComp.setPassword(stringToHash(password));
         } else {
             document.getElementById("messErrorIfNotPsw").innerText = "Password errata";
+            alert("Password errata!")
+            console.log("Password errata");
         }
     }
 
+    //INSERIMENTO USERNAME REGISTRAZIONE
     username_choice_btn.onclick = async () => {
         const username = document.getElementById("username_input").value;
         loginComp.setUsername(username);
-        console.log("USER TEMP DATA: ", loginComp.getUserData());
         await middleware.createUser(loginComp.getUserData());
 
         document.getElementById("username_input").value = "";
-        window.location.href = "#chatSpace-container";
-        console.log("UTENTE CREATO")
+        window.location.href = "#homePage";
         user = await middleware.getUserByName(username).data;
         /*Fa joinare l'utente a tutte le community
         const communities = await middleware.downloadCommunityAll();
@@ -119,10 +124,12 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         });
         */
     }
+    
 
     //- -   -   -   -   -LOGIN- -   -   -   -   -   
     document.getElementById("login_btn").onclick = () => {
-        window.location.href = "#login-container";
+        console.log("ENTRATO IN AREA LOGIN")
+        window.location.href = "#loginPage";
     }
 
     document.getElementById("login_btn_login_space").onclick = async () => {
@@ -132,35 +139,36 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         const password = document.getElementById("password_login_input").value;
 
 
-        console.log("Dati inviati al server:", { username, password });
         const result = await middleware.login(username, stringToHash(password));
 
-        console.log("RESULT--- , " ,result);
         if (result.result == "ok") {
-            console.log("Login effettuata: ", user)
             user = result.user;
             user2 = result.user;
             
             //loginComp.setUserData(user)
-            window.location.href = "#chatSpace-container";
-            console.log("USER.USERNAME", user);
+            window.location.href = "#homePage";
             document.getElementById("username_homepage").innerHTML = user.username;
             chatComp.setUser(user);
         }
 
     }
-    
 
 
-    
+    buttonCreateChat.onclick = async () => {
+        //MOSTRARE INPUT CHE CHIEDE NOME DI UTENTE CON CUI FARE CHAT
+
+    }
+
+    document.getElementById("buttonInviteChat").onclick = async () => {
+        //const utentiDaAggiungere 
+    }
 
     // - - - - FUNZIONI SOCKET -  - -
     socket.on("connect",() => {
         "Connesso alla chat!";
     });
 
-    socket.on("arrivingMessage",(messageData) => {
-        console.log("165 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    socket.on("arrivingmessage",(messageData) => {
         chatComp.addMess(messageData);
         chatComp.render();
         
@@ -184,13 +192,11 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     pubsub.subscribe("downloadMessages", async (idChat) => {
         const newMessages = await middleware.downloadMessages(idChat);
-        console.log("INDEX.JS 179: ", newMessages)
         chatComp.setMess(newMessages.data);
         return;
     })
 
     pubsub.subscribe("getUser", () => {
-        console.log("USER RETURN IN INDEX.JS: ", user);
         return user;
     })
 
@@ -205,22 +211,13 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     pubsub.subscribe("sendMessage",(messageInformation) => {
         socket.emit('newmessage', messageInformation);
-    })
+    });
 
     pubsub.subscribe("connectChat",(chatId) => {
         socket.emit("connectchat",chatId);
+    });
+
+    pubsub.subscribe("disconnectChat",() => {
+        socket.emit("disconnect");
     })
 });
-
-/*
-buttonCreateChat.onclick = async () => {
-    //MOSTRARE INPUT CHE CHIEDE NOME DI UTENTE CON CUI FARE CHAT
-    // ID LO RICAVIAMO CON UNA QUERY
-
-    const userId = 2;
-
-    await middleware.createChat(userId.id,userId);
-
-
-}
-    */

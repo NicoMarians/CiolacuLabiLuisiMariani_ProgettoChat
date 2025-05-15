@@ -8,7 +8,6 @@ let conf = JSON.parse(fs.readFileSync('public/conf.json'));
 conf.ssl = {
     ca: fs.readFileSync(__dirname + '/ca.pem')
 }
-console.log(conf.database);
 const pool = new Pool({
     user: conf.database.user,         
     host: conf.database.host,        
@@ -31,12 +30,9 @@ pool.connect((err, client, release) => {
 // - - - END CONNECTION 
 
 const executeQuery = async (sql, params = []) => {
-   console.log("ENTRATO IN EXEC QUERY")
-   console.log("SQL - ", sql);
-   console.log("PARAMS - ", params);
+
     try {
         const result = await pool.query(sql, params);
-        console.log("Risultato della query:", result.rows);
         return result.rows;
     } catch (err) {
         console.error('Errore: ', err);
@@ -183,7 +179,7 @@ const database = {
 
       downloadMessages : async (chatId) => {
          let query = `
-            SELECT "Message".timestamp, "Message".type_id, "Message".text, "Message".image, "User".username
+            SELECT "Message".timestamp, "Message".type_id, "Message".text, "Message".image, "User".username, "User".id as userid
             FROM "User"
             JOIN "Message" ON "User".id = "Message".user_id
             WHERE "Message".chat_id = $1
@@ -205,7 +201,6 @@ const database = {
             WHERE "chat_user".user_id = $1
             AND "Chat".id_tipo = 1
          `;
-         console.log('ENTTRATP IN DB ______')
 
          const values = [
             userId
@@ -288,7 +283,6 @@ const database = {
             messageData.timestamp
          ];
 
-         console.log("database 291",values)
 
          return await executeQuery(query,values)
       },
