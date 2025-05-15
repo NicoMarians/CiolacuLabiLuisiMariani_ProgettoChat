@@ -19,16 +19,16 @@ export const createChatComp = (parentElementIn) => {
     //-------AGGIUNGERE CLASSI--------//
     const template_mandante = `
     <div>
-        <p>%MESSMANDANTE</p>
-        <div>%ORA</div>
+        <p class="messaggio-mandante">%MESSMANDANTE</p>
+        <div class="timestamp-mandante">%ORA</div>
     </div>`;
 
     const template_ricevente = `
-    <div>
-        <p>%MESSMANDANTE</p>
-        <div>%ORA</div>
+    <div class="messaggio-ricevente">
+        <p class="messaggio-ricevente">%MESSMANDANTE</p>
+        <div class="timestamp-ricevente">%ORA</div>
     </div>`;
-    
+
     return {
         setUser: (user) => {
             cur_user = user;
@@ -49,12 +49,12 @@ export const createChatComp = (parentElementIn) => {
             listMess.forEach(messaggio => {
                 if (messaggio.username == cur_user.username) {
                     let temp = template_mandante.replace("%MESSMANDANTE", messaggio.text);
-                    temp = temp.replace("%ORA", messaggio.timestamp);
+                    temp = temp.replace("%ORA", messaggio.timestamp.slice(10, 15));
                     html += temp;
                     
                 } else {
                     let temp = template_ricevente.replace("%MESSMANDANTE", messaggio.text);
-                    temp = temp.replace("%ORA", messaggio.timestamp);
+                    temp = temp.replace("%ORA", messaggio.timestamp.slice(10, 15));
                     html += temp;
                 }
             });
@@ -82,9 +82,7 @@ export const createChatComp = (parentElementIn) => {
             document.getElementById("buttonBackChat").onclick = () => {
                 pubsub.publish("disconnectChat");
             }
-
-
-        
+            
             },
         setMess: (ListIn) => {
             //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)

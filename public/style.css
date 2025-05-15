@@ -15,9 +15,38 @@ h1 {
   font-weight: bold;
 }
 
+.lista-chat {
+  padding: 20px;
+}
+
+
+.input-register-width {
+  max-width: 350px;
+}
+
 .page {
   opacity: 100%;
 }
+
+.messaggio-mandante {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  background-color: #0dcaf0;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  max-width: 75%; /* Occupies at most 3/4 of the screen horizontally */
+  margin-left: auto; /* Pushes the element to the right */
+}
+
+.timestamp-mandante {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.8rem;
+  color: #6c757d;
+  text-align: right;
+}
+
+
 
 .hidden {
   display: none;

@@ -36,9 +36,19 @@ export function createChatList(bindingElement) {
             line += listCommunities.map((chat) => {
                 const picture = chat.picture == null ? "" : `../../images/${chat.picture}`;
                     return `
-                    <div class = "chatDiv" id="chat_${chat.id}">
-                        <img src="${picture}" alt="${chat.name[0].toUpperCase()}">
-                        <p> ${chat.name} </p>
+                    <div class = "card h-100" id="chat_${chat.id}">
+                        <div class="row gx-5">
+                            <div class="col-auto">
+                            <img src="${picture}" alt="${chat.name[0].toUpperCase()}">
+                            
+                            <div class="col">
+                                <div class="card-body">
+                                    <p> ${chat.name} </p>
+                                </div>
+                            </div>
+                            
+                            </div>
+                        </div>
                     </div>
                 `
             }).join("");
@@ -65,6 +75,7 @@ export function createChatList(bindingElement) {
                     window.location.href = `#chatPage`;
 
                     pubsub.publish("connectChat",chat.id);
+                    window.scrollTo(0, document.body.scrollHeight);
 
                 }
             });
@@ -81,6 +92,8 @@ export function createChatList(bindingElement) {
                     window.location.href = `#chatPage`;
                     
                     pubsub.publish("connectChat",chat.id);
+                    window.scrollTo(0, document.body.scrollHeight);
+
                 }
             });
         }
