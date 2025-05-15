@@ -74,7 +74,7 @@ export const createChatComp = (parentElementIn) => {
 
             document.getElementById("sendButtonMess").onclick = () => {
                 const message = document.getElementById("input_messaggio").value;
-
+            if (message.strip()) {
                 const currentTime = new Date().toISOString().slice(0,19).split("T").join(" ");
                 pubsub.publish("createMessage",{
                     "chat_id":cur_chat.id,
@@ -95,11 +95,11 @@ export const createChatComp = (parentElementIn) => {
                 window.scrollTo(0, document.body.scrollHeight);
             }
             
-            document.getElementById("buttonBackChat").onclick = () => {
-                pubsub.publish("disconnectChat");
+                document.getElementById("buttonBackChat").onclick = () => {
+                    pubsub.publish("disconnectChat");
+                };
             }
-            
-            },
+        },
         setMess: (ListIn) => {
             //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)
             listMess = ListIn;
