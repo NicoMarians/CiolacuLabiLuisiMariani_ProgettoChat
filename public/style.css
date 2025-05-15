@@ -16,7 +16,7 @@ h1 {
 }
 
 .lista-chat {
-    padding: 20px;
+      padding: 20px;
 }
 
 .paragrafo-sopra-nome {
@@ -68,6 +68,10 @@ h1 {
   font-size: 0.8rem;
   color: #6c757d;
   text-align: right;
+}
+
+.chat-container-class {
+  padding: 20px;
 }
 
 .messaggio-ricevente {
