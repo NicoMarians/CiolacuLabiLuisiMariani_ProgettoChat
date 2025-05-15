@@ -32,7 +32,7 @@ export function createChatList(bindingElement) {
         // Mostra la lista delle chat (filtrata o completa)
         render: () => {
             //RENDER COMMUNITIES
-            let line = `<h4>Community</h4>`;
+            let line = `<div class="list-separated-chat" ><h4>Community</h4>`;
             line += listCommunities.map((chat) => {
                 const picture = chat.picture == null ? "" : `../../images/${chat.picture}`;
                     return `
@@ -52,8 +52,10 @@ export function createChatList(bindingElement) {
                     </div>
                 `
             }).join("");
+            line += `</div>`;
+
             //RENDER CHATS (CON GRUPPI)
-            line += `<h4>Private chat</h4>`;
+            line += `<div class="list-separated-chat" ><h4>Private chat</h4>`;
             line += listChats.map((chat) => {
                 if (chat.name && filter && chat.name.includes(filter)) {
                     const picture = chat.picture == null ? "" : `../../images/${chat.picture}`;
@@ -63,7 +65,7 @@ export function createChatList(bindingElement) {
                     </div>
                 `}
             }).join("");
-
+            line += `</div>`;
             parentElement.innerHTML = line;
 
             listChats.forEach((chat) => {

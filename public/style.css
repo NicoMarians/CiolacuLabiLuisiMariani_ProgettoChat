@@ -16,9 +16,31 @@ h1 {
 }
 
 .lista-chat {
-  padding: 20px;
+    padding: 20px;
 }
 
+.paragrafo-sopra-nome {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  color: #c4c4c4;
+  font-style: italic;
+  padding-left: 20px;
+}
+
+.usernameHome {
+  font-family: 'Roboto', sans-serif;
+  font-size: 2.5rem;
+  color: #dcdcdf;
+  font-weight: bold;
+  padding-left: 20px;
+}
+
+.list-separated-chat {
+  background-color: #033640;
+  padding: 5px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
 
 .input-register-width {
   max-width: 350px;
