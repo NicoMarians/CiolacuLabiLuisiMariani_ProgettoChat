@@ -16,7 +16,6 @@ const bodyParser = require("body-parser");
 
 //app.use(cors());
 
-
 function stringToHash(str) {
     let hash = 0;
     for (let i = 0, len = str.length; i < len; i++) {
@@ -64,6 +63,17 @@ app.use(express.json());
 
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/files", express.static(path.join(__dirname, "files")));
+
+app.post('/upload-img', (req, res) => {
+    upload(req, res, (err) => {
+        
+    console.log(req.file.filename);    
+    res.json({url: "./files/" + req.file.filename});    
+  })
+});
+
+
+
 
 app.post("/getuser/:id", async (req, res) => {
     //RICHIESTA AL DB che restiuisce informazioni su uno SPECIFICO USER

@@ -118,3 +118,22 @@ h1 {
   font-size: 0.8rem;
   font-style: italic;
 }
+
+
+
+/*----------------------------INPUT FOTO---------------------------- */
+.inputImgChat {
+  display: inline-block;
+  width: 30px; /* Larghezza dell'icona */
+  height: 30px; /* Altezza dell'icona */
+  background-color: #f1f1f1; /* Colore di sfondo */
+  border: 1px solid #ccc; /* Bordo sottile */
+  border-radius: 50%; /* Forma circolare */
+  background-image: url('https://cdn-icons-png.flaticon.com/512/1829/1829586.png'); /* Icona di esempio */
+  background-size: 60%; /* Dimensione dell'icona */
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  overflow: hidden; /* Nasconde il vero input file */
+  position: relative;
+}
