@@ -270,5 +270,10 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     pubsub.subscribe("disconnectChat",() => {
         socket.emit("disconnect");
-    })
+    });
+
+
+    pubsub.subscribe("upload-img", async (option) => {
+        return await middleware.uploadImg(option);
+    });
 });

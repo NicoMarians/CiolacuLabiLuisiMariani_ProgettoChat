@@ -141,6 +141,10 @@ export const createMiddleware = () => {
                     body: JSON.stringify({ "username": username , "password": password})
                 });
                 return await response.json();               
+            },
+            uploadImg: async (options) => {
+                const response = await fetch("/upload-img", options);
+                return await response.json();
             }
             
     }

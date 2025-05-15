@@ -267,8 +267,13 @@ app.use("/", express.static(path.join(__dirname, "public")));
             const chat = information.chat;
             const senderId = information.userId;
             const timestamp = information.timestamp
+            const image = information.image
 
-            const response = {"text":text,"userid":senderId,"timestamp":timestamp};
+            if (image) {
+                const response = {"text":text, "userid":senderId, "timestamp":timestamp, "image": image};
+            } else {
+                const response = {"text":text, "userid":senderId, "timestamp":timestamp};
+            }
             
             onlineUsers.forEach((element) => {
                 if(element.chat == chat){
