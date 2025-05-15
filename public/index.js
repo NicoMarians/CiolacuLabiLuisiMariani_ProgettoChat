@@ -26,6 +26,17 @@ function stringToHash(str) {
     return hash;
 }
 
+const createCookie = (username) => {
+    let expire = new Date();
+    //expire.setDate(expire.getDate() + 10);
+    expire.setDate(expire.getDate() - 1000);
+    expire = expire.toISOString().slice(0,-1).split("T").join(" ");
+    console.log(expire)
+    const line = `username = ${username}; expires = ${expire};`
+    //const line = `username = ${username}; expires = ;`
+
+    document.cookie =  line;
+}
 
 
 // -- Business Logic -- 
@@ -37,16 +48,6 @@ import { createChatComp } from './View - components/chat.js'
 
 // -- View --
 import { loginComp } from './View - components/login.js';
-
-const userProva = {
-    id: 3,
-    username: "matmeg",
-    password: "fabiocontessotto",
-    email: "matmeg@skibidi.com",
-    public_key: "yuh",
-    private_key: "yoh",
-    picture: null    
-}
 
 let user = {}
 
@@ -60,7 +61,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     const chatListComp = createChatList(divChatList);
 
     
-    middleware.downloadCommunityAll(userProva.id).then(datiTemp => {
+    middleware.downloadCommunityAll(user.id).then(datiTemp => {
         chatListComp.setCommunities(datiTemp);
         chatListComp.render();
 
@@ -130,20 +131,26 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     document.getElementById("login_btn").onclick = () => {
         console.log("ENTRATO IN AREA LOGIN")
         window.location.href = "#loginPage";
+
     }
 
     document.getElementById("login_btn_login_space").onclick = async () => {
         //PRENDE I DATI E FA UNA RICHIESTA AL SERVER PER LA LOGIN
-        
+
+        const cookies = document.cookie;
+        console.log(cookies)
         const username = document.getElementById("username_login_input").value;
         const password = document.getElementById("password_login_input").value;
-
+        
+        
 
         const result = await middleware.login(username, stringToHash(password));
 
         if (result.result == "ok") {
             user = result.user;
             user2 = result.user;
+
+            createCookie(username)
             
             //loginComp.setUserData(user)
             window.location.href = "#homePage";
@@ -155,12 +162,13 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
 
     buttonCreateChat.onclick = async () => {
-        //MOSTRARE INPUT CHE CHIEDE NOME DI UTENTE CON CUI FARE CHAT
-
+        window.location.href = "#searchUserPage";
     }
 
     document.getElementById("buttonInviteChat").onclick = async () => {
-        //const utentiDaAggiungere 
+    }
+
+    document.getElementById("buttonInviteChat").onclick = async () => {
     }
 
     // - - - - FUNZIONI SOCKET -  - -

@@ -260,8 +260,9 @@ app.use("/", express.static(path.join(__dirname, "public")));
             const text = information.text;
             const chat = information.chat;
             const senderId = information.userId;
+            const timestamp = information.timestamp
 
-            const response = {"text":text,"idUser":senderId};
+            const response = {"text":text,"userid":senderId,"timestamp":timestamp};
             
             onlineUsers.forEach((element) => {
                 if(element.chat == chat){
