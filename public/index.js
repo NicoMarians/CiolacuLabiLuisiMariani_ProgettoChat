@@ -124,7 +124,9 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     document.getElementById("login_btn").onclick = async () => {
         
         if(document.cookie != "" && document.cookie != null && document.cookie != undefined){
-            console.log("ENTRATO IN AREA LOGIN", document.cookie.split("=")[2])
+
+            console.log("ENTRATO IN AREA LOGIN", document.cookie)
+            
 
             const result = await middleware.getUserByName(document.cookie.split("=")[2]);
             user = result.data[0]
