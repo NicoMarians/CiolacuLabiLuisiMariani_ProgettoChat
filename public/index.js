@@ -202,13 +202,20 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         window.location.href = "#starterPage";
     }
 
-    
-    document.querySelectorAll(".buttonToHomePage").onclick = () => {
+    document.getElementById("buttonBackChat").onclick = () => {
         document.getElementById("input_messaggio").value = "";
+        socket.emit("disconnectchat");
+        window.location.href = "#homePage";
+
+    }
+
+    
+    document.getElementById("buttonBackCerca").onclick = () => {
         document.getElementById("inputRicercaUtenti").value = "";
 
         window.location.href = "#homePage";
     }
+
 
     // - - - - FUNZIONI SOCKET -  - -
     socket.on("connect",() => {
@@ -242,9 +249,14 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     });
 
     pubsub.subscribe("downloadMessages", async (idChat) => {
-        const newMessages = await middleware.downloadMessages(idChat);
-        chatComp.setMess(newMessages.data);
-        return;
+        const newData = await middleware.downloadMessages(idChat);
+        console.log(newData);
+        return newData;
+    })
+
+    pubsub.subscribe("setChatMessages",async (messages) => {
+        console.log(messages)
+        chatComp.setMess(messages)
     })
 
     pubsub.subscribe("getUser", () => {
@@ -268,9 +280,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         socket.emit("connectchat",chatId);
     });
 
-    pubsub.subscribe("disconnectChat",() => {
-        socket.emit("disconnect");
-    });
+    pubsub.subscribe("getListMess",chatComp.getChatList);
 
 
     pubsub.subscribe("upload-img", async (option) => {

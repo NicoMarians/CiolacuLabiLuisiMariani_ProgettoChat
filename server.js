@@ -283,13 +283,15 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
         });
 
-        socket.on('disconnect',() => {
+        socket.on('disconnectchat',() => {
             let index = 0;
             onlineUsers.forEach((user,i) => {
                 if(user.user.id == socket.id) index = i
             });
             onlineUsers.splice(index,1);
         });
+
+
 
     });
 

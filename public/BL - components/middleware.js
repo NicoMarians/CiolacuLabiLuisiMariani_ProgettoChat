@@ -17,7 +17,8 @@ export const createMiddleware = () => {
             // Funzione che restituisce tutti i messaggi di una specifica chat
             const response = await fetch(`/getmessages/${idChat}`)
             const json = await response.json();
-            return json;
+            console.log(json.data)
+            return json.data;
             },
             
             downloadChatAll: async (idUser) => {
@@ -131,7 +132,7 @@ export const createMiddleware = () => {
                 });
                 return await response.json();
             },
-            
+
             login: async (username, password) => {
                 const response = await fetch(`/login`, {
                     method: "POST",

@@ -21,13 +21,15 @@ export const createChatComp = (parentElementIn) => {
     <div>
         <p class="messaggio-mandante">%MESSMANDANTE</p>
         <div class="timestamp-mandante">%ORA</div>
-    </div>`;
+    </div>
+    `;
 
     const template_ricevente = `
     <div>
         <p class="messaggio-ricevente">%MESSRICEVENTE</p>
         <div class="timestamp-ricevente">%ORA</div>
-    </div>`;
+    </div>
+    `;
 
 
     //-------CHAT TEMPLATE (COMMUNITY)--------//
@@ -38,7 +40,8 @@ export const createChatComp = (parentElementIn) => {
             <p>%MESSRICEVENTE</p>
         </div>
         <div class="timestamp-ricevente">%ORA</div>
-    </div>`;
+    </div>
+    `;
 
     const template_ricevente_community_img = `
     <div>
@@ -47,7 +50,8 @@ export const createChatComp = (parentElementIn) => {
             <p>%MESSRICEVENTE</p>
         </div>
         <div class="timestamp-ricevente">%ORA</div>
-    </div>`;
+    </div>
+    `;
 
 
 
@@ -59,7 +63,8 @@ export const createChatComp = (parentElementIn) => {
             <img src="%IMG">
         </div>
         <div class="timestamp-ricevente">%ORA</div>
-    </div>`;
+    </div>
+    `;
 
     const template_ricevente_img = `
     <div>
@@ -67,7 +72,8 @@ export const createChatComp = (parentElementIn) => {
             <img src="%IMG">
         </div>
         <div class="timestamp-ricevente">%ORA</div>
-    </div>`;
+    </div>
+    `;
 
 
 
@@ -77,12 +83,15 @@ export const createChatComp = (parentElementIn) => {
         setUser: (user) => {
             cur_user = user;
         },
+
+        getChatList: () => {
+            return listMess;
+        },
         
         render: () => {
             //console.log("LIST MESSAGGI: ", listMess);
             let html = `
             <div class="card-header fisso-sopra">
-                <a href="#chatSpace-container"><-</a>
                 <div class="img-avatar">${cur_chat.picture}</div> 
                 <div class="text-chat">${cur_chat.name}</div>
             </div>`;
@@ -95,9 +104,7 @@ export const createChatComp = (parentElementIn) => {
             listMess.forEach(messaggio => {
                 let newDate = messaggio.timestamp.split("T")[0];
                 if (newDate != lastDate) {
-                    html += `<div class="data-mess">
-                        ${newDate}
-                    </div>`;
+                    html += `<div class="data-mess">${newDate}</div>`;
                     lastDate = newDate;
                 }
                 //console.log(messaggio);
@@ -146,7 +153,8 @@ export const createChatComp = (parentElementIn) => {
                     }
                 }
             });
-            html += "</div>";
+
+            html += "</div> </div>"
 
             parentElement.innerHTML = html;
 
@@ -218,13 +226,6 @@ export const createChatComp = (parentElementIn) => {
                 }
 
             };
-            
-            document.getElementById("buttonBackChat").onclick = () => {
-                pubsub.publish("disconnectChat");
-            };
-        
-
-
         },
         setMess: (ListIn) => {
             //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)
