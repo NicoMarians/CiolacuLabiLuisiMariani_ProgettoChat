@@ -11,10 +11,10 @@
         <title>Flock</title>
 </head>
 <body data-bs-theme="dark">
-    <div class="flock-space " >
+    <div class="flock-space">
 
         <!--HOME-->
-        <div id="home" class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden">
+        <div id="starterPage" class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden">
             <h1 class="">Benvenuto su </h1>
             <div class="Flock"><h1>Flock</h1></div>
             <p class="">Connettiti e comunica con facilità.</p>
@@ -29,30 +29,28 @@
         <!--  --------REGISTRAZIONE--------  -->
 
         <!--MAIL-->
-        <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="registrati-container">
+        <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="registerMailPage">
             <h3 class="form-title mb-2">Inserisci la tua email</h3>
             <input type="text" id="email_input"> 
             <button type="button" id="invia_email_password" class="">-></button>
         </div>
 
         <!--PASSWORD-->
-        <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="register-password-container">
+        <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="registerPasswordPage">
             <h2 id="messErrorIfNotPsw">Inserisci la password che ti è arrivata</h2>
             <input type="text" id="password_input" placeholder="Inserisci password">
             <button type="button" id="check_password" class="summit">-></button>
         </div>
-        </div>
 
         <!--USERNAME-->
-        <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="username-container">
+        <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="registerUsernamePage">
             <h2>Scegli l'username</h2>
             <input type="text" id="username_input" placeholder="inserisci username">
             <button type="button" id="add_username" class="summit">-></button>
         </div>
-        </div>
 
         <!--  --------LOGIN--------  -->
-        <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="login-container">
+        <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="loginPage">
             <h3 class="form-title mb-2">Entra nel tuo account</h3>
             <div class="input-container mb-2">
                 <input type="text" id="username_login_input" placeholder="Inserisci username" class="form-control mb-2">
@@ -65,41 +63,48 @@
             <button type="button" id="login_btn_login_space" class="btn btn-outline-info mb-2">Entra</button>
             <p class="signup-link">
                 Non hai un account?
-                <a class="p-1 rounded"  href="#registrati-container">registrati</a>
+                <a class="p-1 rounded"  href="#registerMailPage">registrati</a>
             </p>         
         </div>
 
 
-        <!--  --------CHAT--------  -->
+        <!--  --------HOME--------  -->
 
 
-        <div class="page hidden" id="chatSpace-container">
+        <div class="page hidden" id="homePage">
+            <button class="btn" id="buttonCreateChat">Back</button>
+            <div id="divInserimentoUtentiChat">
+                <input>
+                <button id="buttonInviteChat">Aggiungi</button>
+            </div>
             <h1 id="username_homepage" class="usernameHome"></h1>
             <div id="chatSpace"></div>
         </div>
 
 
-        <button class="btn "></button>
-            <div class="page hidden" id="MesschatSpace">
 
-                <div class="page hidden" id="chatSpace-container">
-                    <div class="conversation-item-box">
-                        <div class="conversation-item-text">
-                            <p>%MESSMANDANTE</p>
-                            <div class="conversation-item-time">%ORA</div>
-                        </div>
-                    </div>
-                </div>
+        <!--  --------CHAT--------  -->
 
-                <div class="conversation-item-box">
-                    <div class="conversation-item-text">
-                        <p>%MESSMANDANTE</p>
-                        <div class="conversation-item-time">%ORA</div>
-                    </div>
-                </div>
+        <div class="page hidden" id="chatPage">
 
+            <div id="chatSpace-container">
+                
             </div>
 
+            <div class="inputGroup">
+                <input id="input_messaggio" placeholder="Message" class="message-send">
+                <button id="sendButtonMess" class="btn-primary"> Invia </button>
+            </div> 
+        </div>
+
+        <!--  --------CERCA UTENTI--------  -->
+        <div id="searchUserPage" class="page hidden">
+            <input id="inputRicercaUtenti" placeholder="⌕ Cerca utente">
+
+            <div id="utentiTrovati">
+                
+            </div>
+        </div>
 
 
     </div>

@@ -15,6 +15,19 @@ export const createChatComp = (parentElementIn) => {
     let listMess = [];
     let cur_user; //USER CORRENTE
     let cur_chat;
+
+    //-------AGGIUNGERE CLASSI--------//
+    const template_mandante = `
+    <div>
+        <p>%MESSMANDANTE</p>
+        <div>%ORA</div>
+    </div>`;
+
+    const template_ricevente = `
+    <div>
+        <p>%MESSMANDANTE</p>
+        <div>%ORA</div>
+    </div>`;
     
     return {
         setUser: (user) => {
@@ -22,21 +35,6 @@ export const createChatComp = (parentElementIn) => {
         },
         
         render: () => {
-            const template_mandante = `
-                <div class="conversation-item-box">
-                    <div class="conversation-item-text">
-                        <p>%MESSMANDANTE</p>
-                    <div class="conversation-item-time">%ORA</div>
-                </div>`
-
-                const template_ricevente = `
-                <div class="conversation-item-box">
-                    <div class="conversation-item-text">
-                        <p>%MESSRICEVENTE</p>
-                    <div class="conversation-item-time">%ORA</div>
-                </div>`
-
-                //console.log(cur_chat)
             let html = `
             <div class="card-header fisso-sopra">
                 <a href="#chatSpace-container"><-</a>
@@ -55,17 +53,12 @@ export const createChatComp = (parentElementIn) => {
                     html += temp;
                     
                 } else {
-                    let temp = template_ricevente.replace("%MESSRICEVENTE", messaggio.text);
+                    let temp = template_ricevente.replace("%MESSMANDANTE", messaggio.text);
                     temp = temp.replace("%ORA", messaggio.timestamp);
                     html += temp;
                 }
             });
             html += "</div>";
-            html += `<div class="inputGroup">
-                    <input id="input_messaggio" placeholder="Message" class="message-send">
-                    <button id="sendButtonMess" class="btn-primary"> Invia </button>
-                </div> 
-            `;
 
             parentElement.innerHTML = html;
 

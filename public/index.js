@@ -6,7 +6,7 @@ const searchBar = document.getElementById("seatchBar");
 const divUsername = document.getElementById("divUsername");
 const divProfilePicture = document.getElementById("divProfilePicture");
 const divChatList = document.getElementById("chatSpace");
-const divChatMess = document.getElementById("MesschatSpace");
+const divChatMess = document.getElementById("chatSpace-container");
 const register_btn = document.getElementById("register_btn");
 const email_btn = document.getElementById("invia_email_password");
 const password_check_register_btn = document.getElementById("check_password");
@@ -14,17 +14,7 @@ const username_choice_btn = document.getElementById("add_username");
 
 const password_input_register = document.getElementById("password_input");
 
-const makeHidden = (pe) => {
-    document.getElementById(pe).classList.add("hidden");
-    document.getElementById(pe).classList.remove("visible");
-    document.getElementById(pe).style.display = "none";
-}
 
-const makeVisible = (pe) => {
-    document.getElementById(pe).classList.add("visible");
-    document.getElementById(pe).classList.remove("hidden");
-    document.getElementById(pe).style.display = "block";
-}
 
 function stringToHash(str) {
     let hash = 0;
@@ -77,13 +67,13 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     }).catch(error => {
         console.error("Errore durante il download delle chat:", error);
     });
-    window.location.href = "#home";
+    window.location.href = "#starterPage";
     
 
 
     
     register_btn.onclick = async () => {    
-        window.location.href = "#registrati-container";
+        window.location.href = "#registerMailPage";
     }   
 
 
@@ -94,7 +84,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         await middleware.sendMail(email)
 
         loginComp.setRegisterState([false,true,false]);
-        window.location.href = "#register-password-container";
+        window.location.href = "#registerPasswordPage";
         loginComp.setEmail(email)
     }
 
@@ -106,7 +96,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         const response = await middleware.checkPassword(password);
         
         if (response.result == "ok") {
-            window.location.href = "#username-container";
+            window.location.href = "#registerUsernameage";
             loginComp.setPassword(stringToHash(password));
         } else {
             document.getElementById("messErrorIfNotPsw").innerText = "Password errata";
@@ -120,7 +110,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         await middleware.createUser(loginComp.getUserData());
 
         document.getElementById("username_input").value = "";
-        window.location.href = "#chatSpace-container";
+        window.location.href = "#homePage";
         user = await middleware.getUserByName(username).data;
         /*Fa joinare l'utente a tutte le community
         const communities = await middleware.downloadCommunityAll();
@@ -135,8 +125,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     //- -   -   -   -   -LOGIN- -   -   -   -   -   
     document.getElementById("login_btn").onclick = () => {
         console.log("ENTRATO IN AREA LOGIN")
-        makeHidden("home");
-        window.location.href = "#login-container";
+        window.location.href = "#loginPage";
     }
 
     document.getElementById("login_btn_login_space").onclick = async () => {
@@ -153,23 +142,22 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
             user2 = result.user;
             
             //loginComp.setUserData(user)
-            window.location.href = "#chatSpace-container";
+            window.location.href = "#homePage";
             document.getElementById("username_homepage").innerHTML = user.username;
             chatComp.setUser(user);
         }
 
     }
 
-        /*
+
     buttonCreateChat.onclick = async () => {
         //MOSTRARE INPUT CHE CHIEDE NOME DI UTENTE CON CUI FARE CHAT
 
     }
 
     document.getElementById("buttonInviteChat").onclick = async () => {
-        const utentiDaAggiungere 
+        //const utentiDaAggiungere 
     }
-    */
 
     // - - - - FUNZIONI SOCKET -  - -
     socket.on("connect",() => {
