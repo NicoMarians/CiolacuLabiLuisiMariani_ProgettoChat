@@ -262,7 +262,7 @@ app.post('/getuserbyname', async (req,res) => {
 
 let onlineUsers = [];
 
-app.use("/chatsocket", express.static(path.join(__dirname, "public")));
+app.use("/", express.static(path.join(__dirname, "public")));
     
     const server = http.createServer(app);
     const io = new Server(server);
