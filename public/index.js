@@ -178,8 +178,9 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     socket.on("arrivingmessage",(messageData) => {
         chatComp.addMess(messageData);
+        console.log("MESSAGGIO ARRIVATO: ", messageData);
         chatComp.render();
-        
+        window.scrollTo(0, document.body.scrollHeight);
     });
     // - - - - - - -- 
 
