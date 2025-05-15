@@ -24,8 +24,8 @@ export const createChatComp = (parentElementIn) => {
     </div>`;
 
     const template_ricevente = `
-    <div class="messaggio-ricevente">
-        <p class="messaggio-ricevente">%MESSMANDANTE</p>
+    <div>
+        <p class="messaggio-ricevente">%MESSRICEVENTE</p>
         <div class="timestamp-ricevente">%ORA</div>
     </div>`;
 
@@ -49,12 +49,12 @@ export const createChatComp = (parentElementIn) => {
             listMess.forEach(messaggio => {
                 if (messaggio.username == cur_user.username) {
                     let temp = template_mandante.replace("%MESSMANDANTE", messaggio.text);
-                    temp = temp.replace("%ORA", messaggio.timestamp.slice(10, 15));
+                    temp = temp.replace("%ORA", messaggio.timestamp.slice(11, 16));
                     html += temp;
                     
                 } else {
-                    let temp = template_ricevente.replace("%MESSMANDANTE", messaggio.text);
-                    temp = temp.replace("%ORA", messaggio.timestamp.slice(10, 15));
+                    let temp = template_ricevente.replace("%MESSRICEVENTE", messaggio.text);
+                    temp = temp.replace("%ORA", messaggio.timestamp.slice(11, 16));
                     html += temp;
                 }
             });

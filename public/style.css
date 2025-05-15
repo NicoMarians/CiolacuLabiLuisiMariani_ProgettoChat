@@ -35,8 +35,10 @@ h1 {
   color: white;
   border-radius: 10px;
   padding: 10px;
-  max-width: 75%; /* Occupies at most 3/4 of the screen horizontally */
-  margin-left: auto; /* Pushes the element to the right */
+  max-width: 75%;
+  /* Occupies at most 3/4 of the screen horizontally */
+  margin-left: auto;
+  /* Pushes the element to the right */
 }
 
 .timestamp-mandante {
@@ -44,6 +46,27 @@ h1 {
   font-size: 0.8rem;
   color: #6c757d;
   text-align: right;
+}
+
+.messaggio-ricevente {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  background-color: #1e2126;
+  color: #dcdcdf;
+  border-radius: 10px;
+  padding: 10px;
+
+  max-width: 75%;
+  /* Occupies at most 3/4 of the screen horizontally */
+  margin-right: auto;
+  /* Pushes the element to the left */
+}
+
+.timestamp-ricevente {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.8rem;
+  color: #6c757d;
+  text-align: left;
 }
 
 
