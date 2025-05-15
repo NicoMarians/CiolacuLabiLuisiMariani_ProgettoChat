@@ -186,9 +186,6 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     }
 
-    document.getElementById("buttonInviteChat").onclick = async () => {
-    }
-
     // - - - - FUNZIONI SOCKET -  - -
     socket.on("connect",() => {
         "Connesso alla chat!";
