@@ -117,18 +117,24 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         window.location.href = "#homePage";
 
     }
+
     
 
     //- -   -   -   -   -LOGIN- -   -   -   -   -   
     document.getElementById("login_btn").onclick = async () => {
-        console.log("ENTRATO IN AREA LOGIN")
-        if(document.cookie != ""){
-            const result = await middleware.getUserByName(document.cookie.split("=")[1]);
+        
+        if(document.cookie != "" && document.cookie != null && document.cookie != undefined){
+            console.log("ENTRATO IN AREA LOGIN", document.cookie.split("=")[2])
+
+            const result = await middleware.getUserByName(document.cookie.split("=")[2]);
             user = result.data[0]
+            console.log("USER SPLI: ", result)
             document.getElementById("username_homepage").innerHTML = user.username;
             chatComp.setUser(user);
+
             window.location.href = "#homePage"
-        } else window.location.href = "#loginPage";
+        } else{ 
+            window.location.href = "#loginPage"};
         
     }
 
@@ -163,6 +169,11 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     }
 
     document.getElementById("buttonInviteChat").onclick = async () => {
+        console.log("ENTRATO IN RICERCA");
+        userAdd = document.getElementById("inviteInput").value;
+        userRicercato = await middleware.getUserByName(userAdd);
+        console.log("RICERCA USER", userRicercato)
+
     }
 
     document.getElementById("buttonInviteChat").onclick = async () => {

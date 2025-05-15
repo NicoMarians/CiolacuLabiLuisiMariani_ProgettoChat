@@ -50,6 +50,10 @@ h1 {
   opacity: 100%;
 }
 
+
+
+/* ---------------------------------MESSAGGI--------------------------------- */
+
 .messaggio-mandante {
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
@@ -95,10 +99,22 @@ h1 {
   text-align: left;
 }
 
-
+.data-mess {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  padding: 10px;
+  font-size: 1rem;
+  color: #4b5157;
+  text-align: center;
+  font-style: italic;
+}
 
 .hidden {
   display: none;
 }
 
-
+.username_ricevente {
+  color: #5a6372;
+  font-size: 0.8rem;
+  font-style: italic;
+}

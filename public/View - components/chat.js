@@ -16,7 +16,7 @@ export const createChatComp = (parentElementIn) => {
     let cur_user; //USER CORRENTE
     let cur_chat;
 
-    //-------AGGIUNGERE CLASSI--------//
+    //-------CHAT TEMPLATE (CHAT PRIVATE)--------//
     const template_mandante = `
     <div>
         <p class="messaggio-mandante">%MESSMANDANTE</p>
@@ -29,12 +29,26 @@ export const createChatComp = (parentElementIn) => {
         <div class="timestamp-ricevente">%ORA</div>
     </div>`;
 
+
+    //-------CHAT TEMPLATE (COMMUNITY)--------//
+    const template_ricevente_community = `
+    <div>
+        <div class="messaggio-ricevente">
+            <p class="username_ricevente" >%RICEVENTE</p>
+            <p>%MESSRICEVENTE</p>
+        </div>
+        <div class="timestamp-ricevente">%ORA</div>
+    </div>`;
+
+
+
     return {
         setUser: (user) => {
             cur_user = user;
         },
         
         render: () => {
+            //console.log("LIST MESSAGGI: ", listMess);
             let html = `
             <div class="card-header fisso-sopra">
                 <a href="#chatSpace-container"><-</a>
@@ -50,7 +64,7 @@ export const createChatComp = (parentElementIn) => {
             listMess.forEach(messaggio => {
                 let newDate = messaggio.timestamp.split("T")[0];
                 if (newDate != lastDate) {
-                    html += `<div>
+                    html += `<div class="data-mess">
                         ${newDate}
                     </div>`;
                     lastDate = newDate;
@@ -63,9 +77,18 @@ export const createChatComp = (parentElementIn) => {
                     html += temp;
                     
                 } else {
-                    let temp = template_ricevente.replace("%MESSRICEVENTE", messaggio.text);
-                    temp = temp.replace("%ORA", messaggio.timestamp.split("T")[1].slice(0,5));
-                    html += temp;
+                    if (messaggio.type_id == 1) {
+                        let temp = template_ricevente.replace("%MESSRICEVENTE", messaggio.text);
+                        temp = temp.replace("%ORA", messaggio.timestamp.split("T")[1].slice(0,5));
+                        html += temp;
+
+                    } else if (messaggio.type_id == 2) {
+                        //CHAT COMMUNITY
+                        let temp = template_ricevente_community.replace("%MESSRICEVENTE", messaggio.text);
+                        temp = temp.replace("%RICEVENTE", messaggio.username);
+                        temp = temp.replace("%ORA", messaggio.timestamp.split("T")[1].slice(0,5));
+                        html += temp;
+                    }
                 }
             });
             html += "</div>";
@@ -74,7 +97,7 @@ export const createChatComp = (parentElementIn) => {
 
             document.getElementById("sendButtonMess").onclick = () => {
                 const message = document.getElementById("input_messaggio").value;
-            if (message.strip()) {
+            if (message.replaceAll(" ", "")) {
                 const currentTime = new Date().toISOString().slice(0,19).split("T").join(" ");
                 pubsub.publish("createMessage",{
                     "chat_id":cur_chat.id,
