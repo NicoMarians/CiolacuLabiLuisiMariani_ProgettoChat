@@ -41,7 +41,8 @@ import {pubsub} from './BL - components/pubsub.js';
 import {createMiddleware} from './BL - components/middleware.js';
 import {createChatList} from './View - components/list.js';
 import { createNavigator } from './View - components/navigator.js';
-import { createChatComp } from './View - components/chat.js'
+import { createChatComp } from './View - components/chat.js';
+import { createNewChat} from './View - newChat.js';
 
 // -- View --
 import { loginComp } from './View - components/login.js';
@@ -56,6 +57,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     const chatComp = createChatComp(divChatMess);
     const navigator = createNavigator(document.querySelector(".flock-space"));
     const chatListComp = createChatList(divChatList);
+    const newChat = createNewChat(document.getElementById("utentiTrovati"))
 
     
     middleware.downloadCommunityAll(user.id).then(datiTemp => {
@@ -214,6 +216,10 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         //PASSARE UNA LISTA DI DIZIONARIO CON SEGUENTE FORMATO -> content, time_stamp, idUser, idChat
         chatComp.addMess(list);
         middleware.createMessage()
+    });
+
+    pubsub.subscribe("createNewChat",async (chatData) => {
+        middleware.createChat()
     });
 
     pubsub.subscribe("downloadMessages", async (idChat) => {
