@@ -199,7 +199,7 @@ app.post('/mailer', async (req,res) => {
     const subject = "Benvenuto su Flock! Visualizza la tua password";
     const text = ("Questa è la tua password:  " + password);
 
-    
+    console.log("Email inviata a : " + email);
     mailer.send(email, subject, text);
     res.json({ result: "ok"});
 });

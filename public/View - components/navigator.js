@@ -1,5 +1,3 @@
-import { loginComp } from "./login.js";
-
 const hide = (elements) => {
    elements.forEach((element) => {
       element.classList.add("hidden");
