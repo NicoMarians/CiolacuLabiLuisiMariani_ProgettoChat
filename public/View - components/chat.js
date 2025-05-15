@@ -80,6 +80,11 @@ export const createChatComp = (parentElementIn) => {
 
                 const newCurrentTime = new Date().toISOString().slice(0,19);
                 pubsub.publish("sendMessage",{"text":message,"chat":cur_chat.id,"userId":cur_user.id,"timestamp":newCurrentTime});
+
+                window.scrollTo(0, document.body.scrollHeight);
+                document.getElementById("input_messaggio").value = "";
+                pubsub.publish("render-chat");
+                window.scrollTo(0, document.body.scrollHeight);
             }
             
             document.getElementById("buttonBackChat").onclick = () => {
