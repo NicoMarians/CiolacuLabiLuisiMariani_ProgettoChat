@@ -130,9 +130,9 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
             console.log("ENTRATO IN AREA LOGIN")
             let cookies = document.cookie.split(";");
             let username = "";
-
+            
             cookies.forEach((cookie) => {
-                if(cookie.split("=")[0] == "username"){
+                if(cookie.split("=")[0].replaceAll(" ", "") == "username"){
                     username = cookie.split("=")[1];
                 }
             })
@@ -178,7 +178,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         window.location.href = "#searchUserPage";
     }
 
-    document.getElementById("buttonInviteChat").onclick = async () => {
+    document.getElementById("buttonCreateChat").onclick = async () => {
         console.log("ENTRATO IN RICERCA");
         userAdd = document.getElementById("inviteInput").value;
         userRicercato = await middleware.getUserByName(userAdd);
