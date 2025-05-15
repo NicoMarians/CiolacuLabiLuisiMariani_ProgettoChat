@@ -19,7 +19,6 @@ export const createMiddleware = () => {
             const json = await response.json();
             return json;
             },
-
             
             downloadChatAll: async (idUser) => {
                 //Funz che restiuisce tutte le CHAT di uno specifico USER
@@ -132,6 +131,7 @@ export const createMiddleware = () => {
                 });
                 return await response.json();
             },
+            
             login: async (username, password) => {
                 const response = await fetch(`/login`, {
                     method: "POST",

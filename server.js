@@ -159,17 +159,13 @@ app.post("/createuser", async (req, res) => {
 
 app.post("/createchat", async (req, res) => {
     // RICHIESTA AL DB PER CREARE SIA Chat che Chat_user
-    const userId_1 = req.body.user_1;
-    const userId_2 = req.body.user_2;
-    const nomeChat = req.body.nomeChat;
-    const immagineChat = req.body.immagineChat;
+    const nomeChat = req.body.nome;
+    const immagineChat = req.body.immagine;
 
     try {
         const chatId = await database.queries.createChat(nomeChat, immagineChat);
-        let result = await database.queries.createUserChat(userId_1,chatId);
-        result = await database.queries.createUserChat(userId_2,chatId);
 
-        res.json({ result: "ok"});
+        res.json({ result: "ok",data:chatId});
     } catch (e) {
         console.log(e);
         res.json({ result: "ko" });

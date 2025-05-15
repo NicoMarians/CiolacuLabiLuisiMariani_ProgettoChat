@@ -1,6 +1,6 @@
 import { pubsub } from "../BL - components/pubsub.js";
 
-const createNewChat = (newElement) => {
+export const createNewChat = (newElement) => {
     const bindingElement = newElement;
     let filteredUsers;
     let addedUsers = [];
@@ -15,7 +15,8 @@ const createNewChat = (newElement) => {
         },
 
         render: () => {
-            let line = filteredUsers.map((user) => {
+            let line = `<div id=creaChatErrorDiv></div>`;
+            line = filteredUsers.map((user) => {
                 return `<div id="divUser_${user.id}">
                     <h3>${user.username}</h3>
                 </div>`
@@ -32,8 +33,23 @@ const createNewChat = (newElement) => {
                 }
             });
 
-            document.getElementById("completaCreaChat").onclick = () => {
-                pubsub.createNewChat()
+            document.getElementById("completaCreaChat").onclick = async () => {
+                if(addedUsers.length > 0){
+                    const nomeChat = document.getElementById("inputNomeChat").value;
+                    const immagineChat = document.getElementById("inputImmagineChat").value;
+                    if (nomeChat){
+                        const chatId = await pubsub.publish("createNewChat",{"nome":nomeChat,"immagine":immagineChat});
+                        addedUsers.forEach(async (user) => {
+                            await pubsub.publish("joinChat",user.id,chatId);
+                        });
+                    } else {
+                        document.getElementById("creaChatErrorDiv").innerHTML = "Inserire un nome della chat valido";
+                    }
+                } else {
+                    document.getElementById("creaChatErrorDiv").innerHTML = "Aggiungere almeno una persona";
+                }
+                
+                
             }
         }
     }

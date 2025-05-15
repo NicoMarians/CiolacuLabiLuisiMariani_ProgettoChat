@@ -25,9 +25,9 @@ function stringToHash(str) {
     return hash;
 }
 
-const createCookie = (username) => {
+const createCookie = (username,time) => {
     let expire = new Date();
-    expire.setDate(expire.getDate() + 10);
+    expire.setDate(expire.getDate() + time);
     expire = expire.toUTCString();
     const line = `username = ${username}; expires = ${expire};`
     //const line = `username = ${username}; expires = ;`
@@ -42,7 +42,7 @@ import {createMiddleware} from './BL - components/middleware.js';
 import {createChatList} from './View - components/list.js';
 import { createNavigator } from './View - components/navigator.js';
 import { createChatComp } from './View - components/chat.js';
-import { createNewChat} from './View - newChat.js';
+import { createNewChat} from './View - components/newChat.js';
 
 // -- View --
 import { loginComp } from './View - components/login.js';
@@ -164,7 +164,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
             user = result.user;
             user2 = result.user;
 
-            createCookie(username)
+            createCookie(username,10)
             
             //loginComp.setUserData(user)
             document.getElementById("username_homepage").innerHTML = user.username;
@@ -172,24 +172,43 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
             window.location.href = "#homePage";
 
         }
-
     }
 
+    // ----------------- LOGOUT -----------------//
 
-    buttonCreateChat.onclick = async () => {
-        window.location.href = "#searchUserPage";
+    document.getElementById("buttonLogout").onclick = async () => {
+        
+        createCookie(user.username,-1000);
+
+        user = {};
+        window.location.href = "#starterPage";
     }
-
-    document.getElementById("buttonCreateChat").onclick = async () => {
-        console.log("ENTRATO IN RICERCA");
-        userAdd = document.getElementById("inviteInput").value;
-        userRicercato = await middleware.getUserByName(userAdd);
-        console.log("RICERCA USER", userRicercato)
-
-    }
-
 
     
+    buttonCreateChat.onclick = async () => {
+        window.location.href = "#searchUserPage";
+
+    }  
+
+    // ----------------- BOTTONI BACK -----------------//
+
+    document.querySelectorAll(".buttonToStarterPage").onclick = () => {
+        document.getElementById("email_input").value = "";
+        document.getElementById("password_input_register").value = "";
+        document.getElementById("username_input").value = "";
+        document.getElementById("password_login_input").value = "";
+        document.getElementById("username_login_input").value = "";
+
+        window.location.href = "#starterPage";
+    }
+
+    
+    document.querySelectorAll(".buttonToHomePage").onclick = () => {
+        document.getElementById("input_messaggio").value = "";
+        document.getElementById("inputRicercaUtenti").value = "";
+
+        window.location.href = "#homePage";
+    }
 
     // - - - - FUNZIONI SOCKET -  - -
     socket.on("connect",() => {
@@ -219,7 +238,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     });
 
     pubsub.subscribe("createNewChat",async (chatData) => {
-        middleware.createChat()
+        middleware.createChat(chatData)
     });
 
     pubsub.subscribe("downloadMessages", async (idChat) => {

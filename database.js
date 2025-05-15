@@ -242,6 +242,7 @@ const database = {
          let query = `
             INSERT INTO "Chat"(name, picture)
             VALUES ('$1', $2);
+            RETURNING id
          `;
 
          const values = [
@@ -249,7 +250,7 @@ const database = {
             picture
          ];
 
-         return await executeQuery(query,values)     
+         return await executeQuery(query,values) 
       },
 
       createUserChat : async (userId,chatId) => {

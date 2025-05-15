@@ -25,7 +25,6 @@
             </div>  
         </div>
 
-
         <!--  --------REGISTRAZIONE--------  -->
 
         <!--MAIL-->
@@ -60,6 +59,7 @@
 
         <!--  --------LOGIN--------  -->
         <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="loginPage">
+            <button class="btn buttonToStarterPage" >Back</button>
             <h3 class="form-title mb-2">Entra nel tuo account</h3>
             <div class="input-container mb-2">
                 <input type="text" id="username_login_input" placeholder="Inserisci username" class="form-control mb-2">
@@ -78,9 +78,10 @@
 
         <!--  --------HOME--------  -->
         <div class="page hidden" id="homePage">
+            <button type="button" id="buttonLogout">Logout</button>
             <div id="divInserimentoUtentiChat">
                 <div class="input-group px-4 mt-4">
-                    <input type="text" id="inviteInput" class="form-control" placeholder="&#x1F50E;&#xFE0E; Cerca">
+                    <input type="text" id="filterChat" class="form-control" placeholder="&#x1F50E;&#xFE0E; Cerca">
                     <button type="button" id="buttonCreateChat" class="btn btn-outline-info">✚</button>
                 </div>
             </div>
@@ -93,9 +94,7 @@
 
         <!--  --------CHAT--------  -->
         <div class="page hidden" id="chatPage">
-                <div>
-                    <button type="button" id="buttonBackChat" class="btn btn-light">Back</button>
-                </div>
+            <button type="button" class="btn btn-light buttonToHomePage">Back</button>
 
             <div id="chatSpace-container" class="chat-container-class">
 
@@ -110,8 +109,8 @@
 
         <!--  --------CERCA UTENTI--------  -->
         <div id="searchUserPage" class="page hidden">
-            <button class="btn" id="buttonCercaUtentiBack">Back</button>
-            <input id="inputRicercaUtenti" placeholder="⌕ Cerca utente">
+            <button class="btn buttonToHomePage" type="button">Back</button>
+            <input type="text" id="inputRicercaUtenti" placeholder="⌕ Cerca utente">
             <button type="button" id="buttonRicercaUtenti">Cerca</button>
 
             <div id="utentiTrovati">
