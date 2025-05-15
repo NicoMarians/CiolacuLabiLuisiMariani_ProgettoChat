@@ -14,6 +14,17 @@ const username_choice_btn = document.getElementById("add_username");
 
 const password_input_register = document.getElementById("password_input");
 
+const makeHidden = (pe) => {
+    document.getElementById(pe).classList.add("hidden");
+    document.getElementById(pe).classList.remove("visible");
+    document.getElementById(pe).style.display = "none";
+}
+
+const makeVisible = (pe) => {
+    document.getElementById(pe).classList.add("visible");
+    document.getElementById(pe).classList.remove("hidden");
+    document.getElementById(pe).style.display = "block";
+}
 
 function stringToHash(str) {
     let hash = 0;
@@ -67,6 +78,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         console.error("Errore durante il download delle chat:", error);
     });
     window.location.href = "#home";
+    
 
 
     
@@ -118,10 +130,12 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         });
         */
     }
+    
 
     //- -   -   -   -   -LOGIN- -   -   -   -   -   
     document.getElementById("login_btn").onclick = () => {
         console.log("ENTRATO IN AREA LOGIN")
+        makeHidden("home");
         window.location.href = "#login-container";
     }
 
