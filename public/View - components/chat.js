@@ -122,6 +122,26 @@ export const createChatComp = (parentElementIn) => {
                     pubsub.publish("disconnectChat");
                 };
             }
+
+
+            inputImgChat.onclick = async (event) => {
+                const formData = new FormData();
+                formData.append("file", inputFile.files[0]);
+                const body = formData;
+                body.description = inputDescription.value;
+                const fetchOptions = {
+                    method: 'post',
+                    body: body
+                };
+                try {
+                    const res = await fetch("/upload", fetchOptions);
+                    const data = await res.json();
+                    link.setAttribute("href", data.url);
+                    link.innerText = data.url;
+                } catch (e) {
+                    console.log(e);
+                }
+              }
         },
         setMess: (ListIn) => {
             //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)

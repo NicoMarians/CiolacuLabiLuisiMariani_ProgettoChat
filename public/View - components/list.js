@@ -76,6 +76,7 @@ export function createChatList(bindingElement) {
                     window.location.href = `#chatPage`;
                     
                     pubsub.publish("connectChat",chat.id);
+
                     pubsub.publish("render-chat");
                     window.scrollTo(0, document.body.scrollHeight);
 
@@ -89,10 +90,11 @@ export function createChatList(bindingElement) {
                     await pubsub.publish("downloadMessages", chat.id);
 
                     // Utilizzo di un evento o una promise per assicurarmi che i dati siano caricati prima di renderizzare
-                    await new Promise(resolve => setTimeout(resolve, 250));
+                    await new Promise(resolve => setTimeout(resolve, 300));
                     window.location.href = `#chatPage`;
                     
                     pubsub.publish("connectChat",chat.id);
+                    
                     pubsub.publish("render-chat");
                     window.scrollTo(0, document.body.scrollHeight);
 
