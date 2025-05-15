@@ -11,8 +11,7 @@ const register_btn = document.getElementById("register_btn");
 const email_btn = document.getElementById("invia_email_password");
 const password_check_register_btn = document.getElementById("check_password");
 const username_choice_btn = document.getElementById("add_username");
-
-const password_input_register = document.getElementById("password_input");
+const password_input_register = document.getElementById("password_input_register");
 
 
 
@@ -94,16 +93,20 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         password_input_register.value = "";
         if (password){
             const response = await middleware.checkPassword(password);
+            if (response.result == "ok") {
+                document.getElementById("username_homepage").innerHTML = user.username;
+                window.location.href = "#registerUsernamePage";
+                loginComp.setPassword(stringToHash(password));
+            } else {
+                document.getElementById("messErrorIfNotPsw").innerText = "Password errata";
+                alert("Password errata!")
+                console.log("Password errata");
+            }
+        } else {
+            document.getElementById("messErrorIfNotPsw").innerText = "Errore!";
         }
         
-        if (response.result == "ok") {
-            window.location.href = "#registerUsernameage";
-            loginComp.setPassword(stringToHash(password));
-        } else {
-            document.getElementById("messErrorIfNotPsw").innerText = "Password errata";
-            alert("Password errata!")
-            console.log("Password errata");
-        }
+        
     }
 
     //INSERIMENTO USERNAME REGISTRAZIONE
@@ -124,13 +127,18 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     document.getElementById("login_btn").onclick = async () => {
         
         if(document.cookie != "" && document.cookie != null && document.cookie != undefined){
+            console.log("ENTRATO IN AREA LOGIN")
+            let cookies = document.cookie.split(";");
+            let username = "";
 
-            console.log("ENTRATO IN AREA LOGIN", document.cookie)
-            
+            cookies.forEach((cookie) => {
+                if(cookie.split("=")[0] == "username"){
+                    username = cookie.split("=")[1];
+                }
+            })
 
-            const result = await middleware.getUserByName(document.cookie.split("=")[2]);
-            user = result.data[0]
-            console.log("USER SPLI: ", result)
+            const result = await middleware.getUserByName(username);
+            user = result.data[0];
             document.getElementById("username_homepage").innerHTML = user.username;
             chatComp.setUser(user);
 

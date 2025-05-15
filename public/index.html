@@ -13,7 +13,7 @@
 <body data-bs-theme="dark">
     <div class="flock-space">
 
-        <!--HOME-->
+        <!--STARTER PAGE-->
         <div id="starterPage" class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden">
             <h1 class="">Benvenuto su </h1>
             <div class="Flock"><h1>Flock</h1></div>
@@ -30,25 +30,27 @@
 
         <!--MAIL-->
         <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="registerMailPage">
+            <button class="btn buttonToStarterPage" >Back</button>
             <h3 class="form-title mb-2">Inserisci la tua email</h3>
                 <div class="input-group px-4 mt-4 input-register-width mb-10" >
                     <input type="text" id="email_input" class="form-control" placeholder="Inserisci email">
                     <button type="button" id="invia_email_password" class="btn btn-outline-info">➤</button>
-                </div>
-              
+                </div> 
         </div>
 
         <!--PASSWORD-->
         <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="registerPasswordPage">
-            <h2 id="messErrorIfNotPsw">Inserisci la password che ti è arrivata</h2>
+            <button class="btn buttonToStarterPage" >Back</button>
+            <h2 id="messErrorIfNotPsw">Inserisci la password che ti è arrivata sulla mail inserita</h2>
                 <div class="input-group px-4 mt-4 input-register-width">
-                    <input type="text" id="password_input" class="form-control" placeholder="Inserisci password">
+                    <input type="text" id="password_input_register" class="form-control" placeholder="Inserisci password">
                     <button type="button" id="check_password" class="btn btn-outline-info">➤</button>
                 </div>
         </div>
 
         <!--USERNAME-->
         <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="registerUsernamePage">
+            <button class="btn buttonToStarterPage" >Back</button>
             <h2>Scegli l'username</h2>
             <div class="input-group px-4 mt-4 input-register-width">
                 <input type="text" id="username_input" class="form-control" placeholder="inserisci username">
@@ -74,14 +76,12 @@
             </p>         
         </div>
 
-
         <!--  --------HOME--------  -->
         <div class="page hidden" id="homePage">
-            <button class="btn" id="buttonCreateChat">Back</button>
             <div id="divInserimentoUtentiChat">
                 <div class="input-group px-4 mt-4">
                     <input type="text" id="inviteInput" class="form-control" placeholder="&#x1F50E;&#xFE0E; Cerca">
-                    <button type="button" id="buttonInviteChat" class="btn btn-outline-info">✚</button>
+                    <button type="button" id="buttonCreateChat" class="btn btn-outline-info">✚</button>
                 </div>
             </div>
 
@@ -91,10 +91,7 @@
             <div id="chatSpace" class="card-list lista-chat"></div>
         </div>
 
-
-
         <!--  --------CHAT--------  -->
-
         <div class="page hidden" id="chatPage">
                 <div>
                     <button type="button" id="buttonBackChat" class="btn btn-light">Back</button>
@@ -112,7 +109,9 @@
 
         <!--  --------CERCA UTENTI--------  -->
         <div id="searchUserPage" class="page hidden">
+            <button class="btn" id="buttonCercaUtentiBack">Back</button>
             <input id="inputRicercaUtenti" placeholder="⌕ Cerca utente">
+            <button type="button" id="buttonRicercaUtenti">Cerca</button>
 
             <div id="utentiTrovati">
                 
