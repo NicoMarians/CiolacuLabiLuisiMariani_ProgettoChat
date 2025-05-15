@@ -46,7 +46,15 @@ export const createChatComp = (parentElementIn) => {
                         <div class="messages-container">`;
             
             
+            let lastDate = "";
             listMess.forEach(messaggio => {
+                let newDate = messaggio.timestamp.split("T")[0];
+                if (newDate != lastDate) {
+                    html += `<div>
+                        ${newDate}
+                    </div>`;
+                    lastDate = newDate;
+                }
                 //console.log(messaggio);
                 //console.log(cur_user)
                 if (messaggio.userid == cur_user.id) {
