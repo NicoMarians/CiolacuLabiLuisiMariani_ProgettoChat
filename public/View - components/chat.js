@@ -47,14 +47,16 @@ export const createChatComp = (parentElementIn) => {
             
             
             listMess.forEach(messaggio => {
-                if (messaggio.username == cur_user.username) {
+                //console.log(messaggio);
+                console.log(cur_user)
+                if (messaggio.userid == cur_user.id) {
                     let temp = template_mandante.replace("%MESSMANDANTE", messaggio.text);
-                    temp = temp.replace("%ORA", messaggio.timestamp.slice(11, 16));
+                    temp = temp.replace("%ORA", messaggio.timestamp.split("T")[1].slice(0,5));
                     html += temp;
                     
                 } else {
                     let temp = template_ricevente.replace("%MESSRICEVENTE", messaggio.text);
-                    temp = temp.replace("%ORA", messaggio.timestamp.slice(11, 16));
+                    temp = temp.replace("%ORA", messaggio.timestamp.split("T")[1].slice(0,5));
                     html += temp;
                 }
             });
@@ -76,7 +78,8 @@ export const createChatComp = (parentElementIn) => {
                 });
                 pubsub.publish("render-chat");
 
-                pubsub.publish("sendMessage",{"text":message,"chat":cur_chat.id,"userId":cur_user.id});
+                const newCurrentTime = new Date().toISOString().slice(0,19);
+                pubsub.publish("sendMessage",{"text":message,"chat":cur_chat.id,"userId":cur_user.id,"timestamp":newCurrentTime});
             }
             
             document.getElementById("buttonBackChat").onclick = () => {
