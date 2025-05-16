@@ -5,8 +5,7 @@ import {middleware} from "../BL - components/middleware.js"
 export const createChatComp = (parentElementIn) => {
     let parentElement = parentElementIn;
     let listMess = [];
-    let cur_user; //USER CORRENTE
-    let cur_chat;
+    
 
     //-------CHAT TEMPLATE (CHAT PRIVATE)--------//
     const template_mandante = `

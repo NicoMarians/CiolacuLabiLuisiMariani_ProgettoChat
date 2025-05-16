@@ -26,7 +26,6 @@ const CreatePresenter = () => {
     pubsub.subscribe("sendOne", (dizDati) => {
         //richiamato da form.js, prende il contenuto del messaggio e:  lo invia alle altre socket | lo salva sul database
         //- passare dizionario già creato correttamente -> objMess
-
         middleware.createMessage(dizDati)
     });
 
