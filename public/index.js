@@ -49,7 +49,6 @@ import { loginComp } from './View - components/login.js';
 
 let user = {}
 
-const socket = io();
 
 fetch("./conf.json").then(r => r.json()).then(conf => {
     let user2 = {};
@@ -222,20 +221,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     }
 
 
-    // - - - - FUNZIONI SOCKET -  - -
-    socket.on("connect",() => {
-        "Connesso alla chat!";
-    });
-
-    socket.on("arrivingmessage",(messageData) => {
-        chatComp.addMess(messageData);
-        chatComp.render();
-        window.scrollTo(0, document.body.scrollHeight);
-    });
-    // - - - - - - -- 
-
     //PUBSUB SUBSCRIBES
-    
 
     pubsub.subscribe("set-chat-list", (list) => {
         

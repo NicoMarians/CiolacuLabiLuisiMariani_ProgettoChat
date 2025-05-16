@@ -141,77 +141,12 @@ export const createChatComp = (parentElementIn) => {
         html += "</div> </div>"
 
         parentElement.innerHTML = html;
-
-        document.getElementById("sendButtonMess").onclick = () => {
-            const inputFile = document.getElementById("inputImgChat");
-            const message = document.getElementById("input_messaggio").value;
-            
-            if (message.replaceAll(" ", "")) {
-                const currentTime = new Date().toISOString().slice(0,19).split("T").join(" ");
-                pubsub.publish("createMessage",{
-                    "chat_id":cur_chat.id,
-                    "user_id":cur_user.id,
-                    "type_id": 2,
-                    "text":message,
-                    "image":null,
-                    "timestamp":currentTime
-                });
-                pubsub.publish("render-chat");
-
-                const newCurrentTime = new Date().toISOString().slice(0,19);
-                pubsub.publish("sendMessage",{"text":message,"chat":cur_chat.id,"userId":cur_user.id,"timestamp":newCurrentTime});
-
-                window.scrollTo(0, document.body.scrollHeight);
-                document.getElementById("input_messaggio").value = "";
-                pubsub.publish("render-chat");
-                window.scrollTo(0, document.body.scrollHeight);
-        
-            } else { 
-                console.log("MESSAGGIO VUOTO", inputFile.files[0])
-                //SE L'INPUT è VUOTO CONTROLLO SE L'UTENTE HA AGGIUNTO UN'IMMAGINE, SE SI CREA UN NUOVO MESSAGGIO E LO MANDA CON LA SOCKET
-                if (inputFile.files != "") {async () => {
-                    console.log("SALVATAGGIO IMG");
-                    const formData = new FormData();
-                    formData.append("file", inputFile.files[0]);
-                    const body = formData;
-                    body.description = inputDescription.value;
-                    const fetchOptions = {
-                        method: 'post',
-                        body: body
-                    };
-                    try {
-                        const res = await pubsub.publish("upload-img", fetchOptions);
-                        const data = await res.json();
-
-                        const currentTime = new Date().toISOString().slice(0,19).split("T").join(" ");
-                        pubsub.publish("createMessage",{
-                            "chat_id":cur_chat.id,
-                            "user_id":cur_user.id,
-                            "type_id": 2,
-                            "text":message,
-                            "image":data.url,
-                            "timestamp":currentTime
-                        });
-        
-                        const newCurrentTime = new Date().toISOString().slice(0,19);
-                        pubsub.publish("sendMessage",{"text":"","chat":cur_chat.id,"userId":cur_user.id,"timestamp":newCurrentTime, "image": data.url});
-                        
-                        window.scrollTo(0, document.body.scrollHeight);
-                        document.getElementById("input_messaggio").value = "";
-                        pubsub.publish("render-chat");
-                        window.scrollTo(0, document.body.scrollHeight);
-
-                    } catch (e) {
-                        console.log(e);
-                    }
-                    }
-                }
-            }
-        }
+        window.scrollTo(0, document.body.scrollHeight);        
     }
 
     //-----------------------------------------PUBSUB SUBCRISEBES
-
+    
+    
     
 
 

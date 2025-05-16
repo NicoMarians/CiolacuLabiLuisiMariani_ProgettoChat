@@ -8,7 +8,7 @@ export function createChatList(bindingElement) {
     let listCommunities = [];
     let filter = null;                   // Funzione di filtro
 
-    const setChat = (newData) => {
+    const setChats = (newData) => {
         listChats = newData;
     }
     const setCommunities = (newData) => {
@@ -97,16 +97,17 @@ export function createChatList(bindingElement) {
     }
 
     //-------------------------------------PUBSUB
-    pubsub.subscribe("ready", () => {
-        pubsub.publish("getChatList");
+    pubsub.subscribe("readyList", () => {
+        render();
     });
+
 
 
 
     // Ritorna l'oggetto con i metodi per interagire con la lista
     return {
         // Imposta i dati della lista (ad esempio, aggiorna la lista delle chat)
-        setChats: setChat,
+        setChats: setChats,
 
         setCommunities: setCommunities,
 

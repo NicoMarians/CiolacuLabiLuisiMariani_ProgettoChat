@@ -252,22 +252,20 @@ app.post('/getuserbyname', async (req,res) => {
 let onlineUsers = [];
 
 app.use("/", express.static(path.join(__dirname, "public")));
-    
     const server = http.createServer(app);
     const io = new Server(server);
 
     io.on('connect', (socket) => {
-
         socket.on('connectchat',(chatId) => {
-            onlineUsers.push({user:socket,chat:chatId});
+            onlineUsers.push({user:socket,chat: chatId});
         });
 
-        socket.on('newmessage', (information) => {
-            const text = information.text;
-            const chat = information.chat;
+        socket.on('sendOne', (information) => {
             const senderId = information.userId;
-            const timestamp = information.timestamp
+            const chat = information.chatId;
+            const text = information.text;
             const image = information.image
+            const timestamp = information.timestamp
 
             if (image) {
                 const response = {"text":text, "userid":senderId, "timestamp":timestamp, "image": image};
@@ -276,7 +274,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
             }
             
             onlineUsers.forEach((element) => {
-                if(element.chat == chat){
+                if (element.chat == chat){
                     element.user.emit("arrivingmessage",response);
                 }
             })
@@ -298,6 +296,5 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 
 server.listen(conf.conf.port, () => {
-console.log("server running on port: " + conf.conf.port);
-  
-  });
+    console.log("server running on port: " + conf.conf.port);
+});
