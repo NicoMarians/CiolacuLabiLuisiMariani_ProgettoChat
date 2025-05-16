@@ -131,22 +131,27 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         if(document.cookie != "" && document.cookie != null && document.cookie != undefined){
             console.log("ENTRATO IN AREA LOGIN")
             let cookies = document.cookie.split(";");
+            console.log(cookies)
             let username = "";
+            let found = false;
             
             cookies.forEach((cookie) => {
                 if(cookie.split("=")[0].replaceAll(" ", "") == "username"){
                     username = cookie.split("=")[1];
+                    found = true;
                 }
             })
+            if (found){
+                const result = await middleware.getUserByName(username);
+                user = result.data[0];
+                document.getElementById("username_homepage").innerHTML = user.username;
+                chatComp.setUser(user);
 
-            const result = await middleware.getUserByName(username);
-            user = result.data[0];
-            document.getElementById("username_homepage").innerHTML = user.username;
-            chatComp.setUser(user);
+                window.location.href = "#homePage";
+            } else window.location.href = "#loginPage";
 
-            window.location.href = "#homePage"
-        } else{ 
-            window.location.href = "#loginPage"};
+            
+        } else window.location.href = "#loginPage";
         
     }
 
