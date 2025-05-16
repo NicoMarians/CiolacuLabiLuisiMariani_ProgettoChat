@@ -235,19 +235,13 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     // - - - - - - -- 
 
     //PUBSUB SUBSCRIBES
-    pubsub.subscribe("render-chat", () => {
-        chatComp.render();
-    }); 
+    
 
     pubsub.subscribe("set-chat-list", (list) => {
         
     })
 
-    pubsub.subscribe("set-data-mess", (list) =>{
-        //PASSARE UNA LISTA DI DIZIONARIO CON SEGUENTE FORMATO -> content, time_stamp, idUser, idChat
-        chatComp.addMess(list);
-        middleware.createMessage()
-    });
+    
 
     pubsub.subscribe("createNewChat",async (chatData) => {
         middleware.createChat(chatData)
@@ -260,24 +254,15 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         });
     })
 
-    pubsub.subscribe("setChatMessages",async (messages) => {
-        console.log(messages)
-        chatComp.setMess(messages)
-    })
+    
 
     pubsub.subscribe("getUser", () => {
         return user;
     })
 
-    pubsub.subscribe("createMessage", async (dizMess) => {
-        await middleware.createMessage(dizMess);
-        chatComp.render();
-    });
+    
 
-    pubsub.subscribe("setChat", (chat_id) => {
-        chatComp.setCurChat(chat_id)
-    });
-
+    
     pubsub.subscribe("sendMessage",(messageInformation) => {
         socket.emit('newmessage', messageInformation);
     });

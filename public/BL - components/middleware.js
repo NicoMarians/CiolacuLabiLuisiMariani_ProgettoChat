@@ -1,4 +1,4 @@
-export const createMiddleware = () => {
+const createMiddleware = () => {
 
     return {
             downloadUser: async (id) => {
@@ -150,7 +150,7 @@ export const createMiddleware = () => {
             
     }
 }
-
+export const middleware = createMiddleware()
 
 
 
