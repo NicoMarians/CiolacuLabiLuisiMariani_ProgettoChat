@@ -213,28 +213,7 @@ export const createChatComp = (parentElementIn) => {
 
     //-----------------------------------------PUBSUB SUBCRISEBES
 
-    pubsub.subscribe("set-data-mess", (list) =>{
-        //PASSARE UNA LISTA DI DIZIONARIO CON SEGUENTE FORMATO -> content, time_stamp, idUser, idChat, e lo carica sul db
-        addMess(list);
-        middleware.createMessage()
-    });
-
-    pubsub.subscribe("render-chat", () => {
-        render();
-    }); 
-
-    pubsub.subscribe("setChat", (chat_id) => {
-            setCurChat(chat_id)
-    });
-
-    pubsub.subscribe("setChatMessages", (messages) => {
-        setMess(messages)
-    });
-
-    pubsub.subscribe("createMessage", (dizMess) => {
-        middleware.createMessage(dizMess);
-        render();
-    });
+    
 
 
 
