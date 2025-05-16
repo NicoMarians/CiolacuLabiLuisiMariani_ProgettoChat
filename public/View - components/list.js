@@ -86,28 +86,23 @@ export function createChatList(bindingElement) {
                 document.getElementById(`chat_${chat.id}`).onclick = async () => {
                     await pubsub.publish("setChat", chat);
 
-                    pubsub.publish("downloadMessages", chat.id).then(async (data) => {
-
+                    const data = await pubsub.publish("downloadMessages", chat.id);
+                    
+                        //await new Promise(resolve => setTimeout(resolve, 300));
                         const newMessages = data;
-                        console.log(newMessages)
+                        console.log(newMessages);
                         await pubsub.publish("setChatMessages", newMessages);
 
 
                         // Utilizzo di un evento o una promise per assicurarmi che i dati siano caricati prima di renderizzare
-                        //await new Promise(resolve => setTimeout(resolve, 300));
                         
                         await pubsub.publish("connectChat",chat.id);
                         const messages = pubsub.publish("getListMess");
-                        console.log(messages)
+                        console.log(messages);
 
                         await pubsub.publish("render-chat");
                         window.scrollTo(0, document.body.scrollHeight);
                         window.location.href = `#chatPage`;
-                    });
-                    //await new Promise(resolve => setTimeout(resolve, 500));
-
-                    
-
                 }
             });
         }

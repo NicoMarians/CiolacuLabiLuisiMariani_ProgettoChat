@@ -253,9 +253,9 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         middleware.createChat(chatData)
     });
 
-    pubsub.subscribe("downloadMessages", (idChat) => {
+    pubsub.subscribe("downloadMessages", async (idChat) => {
         middleware.downloadMessages(idChat).then((data) => {
-            console.log(newData);
+            console.log(data);
             return data;
         });
     })
