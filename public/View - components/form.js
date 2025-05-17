@@ -1,6 +1,7 @@
 import { pubsub } from "../BL - components/pubsub";
 
 const createMessObj = (userIdIn, chatIdIn, textIn, urlimageImmagineIn, timestampIn) => {
+    if (image == "") {image = null}
     return {
         senderId: senderId,
         chatId: chatIdIn,
@@ -40,11 +41,10 @@ export const createFormComp = (parentElementIn) => {
 
 
             if (message.replaceAll(" ", "")) {
-
-                window.scrollTo(0, document.body.scrollHeight);
                 document.getElementById("input_messaggio").value = "";
-                pubsub.publish("render-chat");
-                window.scrollTo(0, document.body.scrollHeight);
+
+                pubsub.publish("sendOne", createMessObj(user.id, cur_chat.id, message, "", currentTime))
+                
         
             } else { 
                 
@@ -65,8 +65,7 @@ export const createFormComp = (parentElementIn) => {
                         const data = await res.json();
                                 
                         document.getElementById("input_messaggio").value = "";
-                        window.scrollTo(0, document.body.scrollHeight);
-    
+                        
                     } catch (e) {
                         console.log(e);
                     }

@@ -1,14 +1,14 @@
-import { pubsub } from "pubsub.js";
-import { middleware } from "/middleware.js";
-import { chatComp } from "../index.js";
-import { chatListComp } from "../index.js";
-import { Socket } from "socket.io";
+import { pubsub } from "./pubsub.js";
+import { middleware } from "./middleware.js";
+import { chatComp } from "../View - components/chat.js";
+import { chatListComp } from "../View - components/list.js";
+
 
 //AGGIUNGERE GESTIONE SOCKET X IL DEMONE DI PASTOUR
 
 const socket = io();
 
-const CreatePresenter = () => {
+export const CreatePresenter = () => {
     let listMessaggi = []; //DIZIONARIO CON {"ChatId" : [messaggObj]}
     let listChat = []; //LISTA DI TUTTE LE CHAT DELL'UTENTE
     let listCommunity = [] //LISTA DI TUTTE LE COMMMUNITY

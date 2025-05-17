@@ -38,34 +38,29 @@ const createCookie = (username,time) => {
 
 // -- Business Logic -- 
 import {pubsub} from './BL - components/pubsub.js';
-import {createMiddleware} from './BL - components/middleware.js';
-import {createChatList} from './View - components/list.js';
-import { createNavigator } from './View - components/navigator.js';
-import { createChatComp } from './View - components/chat.js';
-import { createNewChat} from './View - components/newChat.js';
+import {middleware} from './BL - components/middleware.js';
+import {CreatePresenter} from './BL - components/presenter.js';
+
+
 
 // -- View --
+import {chatListComp} from './View - components/list.js';
+import { createNavigator } from './View - components/navigator.js';
+import { chatComp } from './View - components/chat.js';
+import { createNewChat} from './View - components/newChat.js';
 import { loginComp } from './View - components/login.js';
+
 
 let user = {}
 
 
 fetch("./conf.json").then(r => r.json()).then(conf => {
     let user2 = {};
-    const middleware = createMiddleware();
-    const chatComp = createChatComp(divChatMess);
     const navigator = createNavigator(document.querySelector(".flock-space"));
-    const chatListComp = createChatList(divChatList);
+    chatComp.setParenteElement(divChatMess);
+    chatListComp.setParenteElement(divChatList);
     const newChat = createNewChat(document.getElementById("utentiTrovati"))
-
-    
-    middleware.downloadCommunityAll(user.id).then(datiTemp => {
-        chatListComp.setCommunities(datiTemp);
-        chatListComp.render();
-
-    }).catch(error => {
-        console.error("Errore durante il download delle chat:", error);
-    });
+    const presenter = CreatePresenter();
     
     window.location.href = "#starterPage";
 
@@ -223,44 +218,4 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
 
     //PUBSUB SUBSCRIBES
 
-    pubsub.subscribe("set-chat-list", (list) => {
-        
-    })
-
-    
-
-    pubsub.subscribe("createNewChat",async (chatData) => {
-        middleware.createChat(chatData)
-    });
-
-    pubsub.subscribe("downloadMessages", async (idChat) => {
-        middleware.downloadMessages(idChat).then((data) => {
-            console.log(data);
-            return data;
-        });
-    })
-
-    
-
-    pubsub.subscribe("getUser", () => {
-        return user;
-    })
-
-    
-
-    
-    pubsub.subscribe("sendMessage",(messageInformation) => {
-        socket.emit('newmessage', messageInformation);
-    });
-
-    pubsub.subscribe("connectChat",(chatId) => {
-        socket.emit("connectchat",chatId);
-    });
-
-    pubsub.subscribe("getListMess",chatComp.getChatList);
-
-
-    pubsub.subscribe("upload-img", async (option) => {
-        return await middleware.uploadImg(option);
-    });
 });

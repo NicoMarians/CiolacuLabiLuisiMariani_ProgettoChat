@@ -2,12 +2,14 @@ import { pubsub } from '../BL - components/pubsub.js';
 
 const confData = await fetch("../conf.json")//.then(r => r.json());
 
-export function createChatList(bindingElement) {
-    const parentElement = bindingElement;
+function createChatList() {
+    let parentElement;
     let listChats = [];
     let listCommunities = [];
     let filter = null;                   // Funzione di filtro
 
+
+    const setParenteElement = (pr) => {parentElement = pr}
     const setChats = (newData) => {
         listChats = newData;
     }
@@ -106,6 +108,7 @@ export function createChatList(bindingElement) {
 
     // Ritorna l'oggetto con i metodi per interagire con la lista
     return {
+        setParenteElement: setParenteElement,
         // Imposta i dati della lista (ad esempio, aggiorna la lista delle chat)
         setChats: setChats,
 
@@ -121,4 +124,6 @@ export function createChatList(bindingElement) {
         render: render,
     };
 }
+
+export const chatListComp = createChatList()
 
