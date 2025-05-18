@@ -1,5 +1,4 @@
 const createMiddleware = () => {
-
     return {
             downloadUser: async (id) => {
             // Funzione che restituisce informazioni su uno specifico utente

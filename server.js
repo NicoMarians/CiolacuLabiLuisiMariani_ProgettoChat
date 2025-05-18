@@ -14,7 +14,7 @@ const mailer = require('./mailer.js');
 
 const bodyParser = require("body-parser");
 
-const middleware = require('./public/BL - components/middleware.js');
+//const middleware = require('./public/BL - components/middleware.js');
 
 //app.use(cors());
 
@@ -326,14 +326,15 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 
                 allChatsAndMessages[information.chatId].messages.push(information)
-                
+                socket.emit('newMessage',chat);
+
                 onlineUsers.forEach((element) => {
                     if (element.chat == chat){
                         element.user.emit("arrivingmessage",response);
                     }
                 });
 
-                //Salvataggio su db 
+                //-----------------------------------------------Salvataggio su db 
                 const dataDB = timestamp.split("T").join(" ");
                 const values = {
                     chat_id: chat,
@@ -344,8 +345,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
                     timestamp: dataDB
                 }
                 const res = await database.queries.createMessage(values);
-                allChatsAndMessages[chat].messages.push({message_id:res[0].id ,chat_id: chat,userid: userid,type_id: type,text: text,image: image,timestamp: timestamp});
-                socket.emit('newMessage',chat);
+                //allChatsAndMessages[chat].messages.push({message_id:res[0].id ,chat_id: chat,userid: userid,type_id: type,text: text,image: image,timestamp: timestamp});
                 console.log("res db salvataggio messaggio: ", res);
             });
 

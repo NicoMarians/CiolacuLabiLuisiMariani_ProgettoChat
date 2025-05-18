@@ -34,12 +34,12 @@ h1 {
   font-weight: bold;
   padding-left: 20px;
 }
-
 .list-separated-chat {
-  background-color: #033640;
+  background-color: #2d3034;
   padding: 5px;
   border-radius: 10px;
   margin-bottom: 10px;
+  box-shadow: 3px 3px 10px 0px rgb(54, 59, 64);
 }
 
 .input-register-width {
@@ -74,9 +74,6 @@ h1 {
   text-align: right;
 }
 
-.chat-container-class {
-  padding: 20px;
-}
 
 .messaggio-ricevente {
   font-family: 'Roboto', sans-serif;
@@ -136,4 +133,107 @@ h1 {
   cursor: pointer;
   overflow: hidden; /* Nasconde il vero input file */
   position: relative;
+}
+
+
+
+
+/*----------------------------HEADER CHAT---------------------------- */
+.header-chat {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #3b77b4;
+  border-bottom: 1px solid #333;
+}
+
+.chat-container-class {
+  overflow-y: auto;
+  height: calc(100vh - 200px);
+  padding: 20px;
+  align-items: center;
+}
+
+
+
+.text-chat {
+  font-size: small;
+}
+
+.header-mess {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+
+/* --- Stile lista chat stile Apple Messages --- */
+.chatlistSingle {
+  height: 70px;
+  background: #23272e;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin-bottom: 14px;
+  transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  padding: 0;
+  border: none;
+}
+
+.chatlistSingle:hover {
+  background: #2c313a;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+
+.chatlistSingle .row {
+  margin: 0;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+}
+
+
+.img-avatar {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+
+.chatlistSingle p {
+  margin: 0;
+  font-family: 'San Francisco', 'Roboto', Arial, sans-serif;
+  font-size: 1.15rem;
+  color: #f4f4f7;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.list-separated-chat > h4 {
+  font-family: 'San Francisco', 'Roboto', Arial, sans-serif;
+  font-size: 1.1rem;
+  color: #b0b3b8;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 600px) {
+  .img-avatar {
+    width: 38px;
+    height: 38px;
+    margin-right: 10px;
+  }
+  .chatlistSingle .row {
+    padding: 10px 10px;
+  }
+  .chatlistSingle p {
+    font-size: 1rem;
+  }
 }

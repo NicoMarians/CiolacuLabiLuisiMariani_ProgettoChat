@@ -46,19 +46,9 @@ const createChatList = (newElement) => {
         line += listCommunities.map((chat) => {
             const picture = chat.picture == null ? "" : `../../images/${chat.picture}`;
                 return `
-                <div class = "card h-100" id="chat_${chat.id}">
-                    <div class="row gx-5">
-                        <div class="col-auto">
-                        <img src="${picture}" alt="${chat.name[0].toUpperCase()}">
-                        
-                        <div class="col">
-                            <div class="card-body">
-                                <p> ${chat.name} </p>
-                            </div>
-                        </div>
-                        
-                        </div>
-                    </div>
+                <div class = "chatlistSingle  d-flex align-items-center" id="chat_${chat.id}">                        
+                        <img src="${picture}" alt="${chat.name[0].toUpperCase()}" class="img-avatar">
+                        <p> ${chat.name} </p>    
                 </div>
             `
         }).join("");
@@ -84,7 +74,8 @@ const createChatList = (newElement) => {
                 pubsub.publish("getMessages",chat);
 
                 window.location.href = `#chatPage`;
-                window.scrollTo(0, document.body.scrollHeight);
+                window.scrollTo(0, document.chatSpace-container.scrollHeight);
+                
             }
         });
 

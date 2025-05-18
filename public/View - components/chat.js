@@ -77,13 +77,13 @@ const createChatComp = (parentElementIn) => {
     }
     const render = () => {
         //console.log("LIST MESSAGGI: ", listMess);
-        let html = `
-        <div class="card-header fisso-sopra">
-            <div class="img-avatar">${listChatMess.chatData.picture}</div> 
+        document.getElementById("header-chat").innerHTML = `
+        <div class="header-mess">
+            <img class="img-avatar" src="${listChatMess.chatData.picture}"> 
             <div class="text-chat">${listChatMess.chatData.name}</div>
         </div>`;
-        
-        html += `<div class="card-body">
+
+        let html =  `<div class="card-body">
                     <div class="messages-container">`;
         
         
