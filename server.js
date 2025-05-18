@@ -262,25 +262,29 @@ app.use("/", express.static(path.join(__dirname, "public")));
             });
 
             socket.on("getAllChats", async (user) => {
-                // per ora restituisce solo le community
+                // RESTITUISCE LA LISTA DELLE CHAT
                 try {
                     const community = await database.queries.downloadCommunityAll();
                     const chatPriv = await database.queries.downloadChatAll(user.id);
+                    
                     console.log("INVIO LISTA COMMUNITY E CHAT PRIV")
-                    socket.emit("allChats", { result: "ok", community: community, chatPriv: chatPriv });
+                    socket.emit("allChats", { result: "ok", community: community, chatPriv: chatPriv});
                 } catch (e) {
                     console.log(e);
                     socket.emit("allChats", { result: "ko" });
                 }
             })
 
-            socket.on('sendOne', (information) => {
-                //ancora da finire
-                const senderId = information.userId;
-                const chat = information.chatId;
-                const text = information.text;
-                const image = information.image
-                const timestamp = information.timestamp
+        //DOWNLOAD ALL COMMUNITY MESSAGGES
+        //[id_chat] = [[messobj]]
+
+        socket.on('sendOne', (information) => {
+            //ancora da finire
+            const senderId = information.userId;
+            const chat = information.chatId;
+            const text = information.text;
+            const image = information.image
+            const timestamp = information.timestamp
 
                 if (image) {
                     const response = {"text":text, "userid":senderId, "timestamp":timestamp, "image": image};

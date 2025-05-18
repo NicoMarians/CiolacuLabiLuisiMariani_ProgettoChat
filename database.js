@@ -180,7 +180,7 @@ const database = {
       downloadMessages : async (chatId) => {
          let query = `
             SELECT "Message".timestamp, "Message".type_id, "Message".text, "Message".image, "User".username, "User".id as userid
-            FROM "User"
+            FROM "User" 
             JOIN "Message" ON "User".id = "Message".user_id
             WHERE "Message".chat_id = $1
             ORDER BY "Message".timestamp
