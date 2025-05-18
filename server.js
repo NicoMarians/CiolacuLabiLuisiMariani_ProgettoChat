@@ -251,15 +251,37 @@ app.post('/getuserbyname', async (req,res) => {
 
 let onlineUsers = [];
 let allUsers = [];
+let listAllMess = {};
+
+const loadMessaggeStart = async () => {
+    listIdChat = await database.queries.downloadAllChatId(); //PRENDIAMO TUTTI GLI ID DELLE CHAT
+    
+    listIdChat.forEach( async (idChat) => {
+        message = await database.queries.downloadAllChatId()
+        listAllMess[idChat] = message;
+        console.log("Messaggi per IDCHAT: ", idChat, " ->  ", message);
+    });
+
+
+};
+loadMessaggeStart();
+
+
 
 app.use("/", express.static(path.join(__dirname, "public")));
     const server = http.createServer(app);
     const io = new Server(server);
 
+
+    //DOWNLOAD ALL COMMUNITY MESSAGGES
+    //[id_chat] = [[messobj]]
+    
+
         io.on('connect', (socket) => {
             socket.on('connectchat',(chatId) => {
                 onlineUsers.push({user:socket,chat: chatId});
             });
+
 
             socket.on("getAllChats", async (user) => {
                 // RESTITUISCE LA LISTA DELLE CHAT
@@ -275,8 +297,6 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 }
             })
 
-        //DOWNLOAD ALL COMMUNITY MESSAGGES
-        //[id_chat] = [[messobj]]
 
         socket.on('sendOne', (information) => {
             //ancora da finire

@@ -193,6 +193,15 @@ const database = {
          return await executeQuery(query,values);
       },
 
+      downloadAllChatId : async () => {
+         let query = `
+            SELECT id
+            FROM "Chat" 
+         `;
+         return await executeQuery(query, []);
+      },
+
+
       downloadChatAll : async (userId) => {
          let query = `
             SELECT "Chat".id, "Chat".name, "Chat".picture, "Chat".id_tipo
@@ -218,6 +227,17 @@ const database = {
 
          return await executeQuery(query, []);
       },
+
+      downloadChatAllNoFilter : async () => {
+         let query = `
+            SELECT id, name, picture, id_tipo
+            FROM "Chat" 
+            WHERE id_tipo = 1
+         `;
+
+         return await executeQuery(query, []);
+      },
+
 
       createUser : async (userData) => {
          let query = `

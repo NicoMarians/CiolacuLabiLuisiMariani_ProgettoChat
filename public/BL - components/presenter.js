@@ -51,6 +51,7 @@ const createPresenter = () => {
         
             //SALVATAGGIO MESSAGGI
             
+            
         }
     });   
     
@@ -63,6 +64,7 @@ const createPresenter = () => {
         listUsers = userList;
     })
     // - - - - - - - - - - - - - - - - - - 
+
 
 
 
@@ -82,6 +84,7 @@ const createPresenter = () => {
     pubsub.subscribe("getMessages", (id_chat) => {
         //richiamato ogni volta che si preme su una chat, carica i messaggi dentro a chat.js
         chatComp.setMess(listMessaggi[id_chat]);
+
     });
 
     pubsub.subscribe("sendOne", (message) => {

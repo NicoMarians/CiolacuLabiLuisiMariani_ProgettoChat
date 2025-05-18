@@ -90,7 +90,6 @@ const createChatList = (newElement) => {
 
         listCommunities.forEach((chat) => {
             document.getElementById(`chat_${chat.id}`).onclick = async () => {
-                await pubsub.publish("setChat", chat);
 
                 const data = await pubsub.publish("downloadMessages", chat.id);
                 
