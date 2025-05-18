@@ -309,7 +309,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
             })
 
 
-            socket.on('sendOne', async (information) =>  {
+            socket.on('sendOne',  (information) =>  {
                 //ancora da finire
                 const userid = information.userid;
                 const chat = information.chatId;
@@ -340,7 +340,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
                     image: information.image,
                     timestamp: dataDB
                 }
-                const res = await database.queries.createMessage();
+                const res =  database.queries.createMessage();
                 console.log("res db salvataggio messaggio: ", res);
             });
 
