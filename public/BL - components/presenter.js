@@ -1,5 +1,5 @@
 import { pubsub } from "./pubsub.js";
-import { middleware } from "./middleware.js";
+//import { middleware } from "./middleware.js";
 import { chatComp } from "../View - components/chat.js";
 import { chatListComp } from "../View - components/list.js";
 import { newChat } from "../View - components/newChat.js";
