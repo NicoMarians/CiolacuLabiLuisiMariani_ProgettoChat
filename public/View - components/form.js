@@ -1,15 +1,17 @@
 import { pubsub } from "../BL - components/pubsub.js";
 
 
-const createMessObj = (userIdIn, chatIdIn, textIn, urlimageImmagineIn, timestampIn) => {
-    if (image == "") image = null;
-    if (textIn == "") textIn = null;
+const createMessObj = (userIdIn, chatIdIn, textIn, imageIn, timestampIn, typeIn, usernameIn) => {
+    let image = imageIn === "" ? null : imageIn;
+    let text = textIn === "" ? null : textIn;
     return {
-        senderId: senderId,
-        chatId: chatIdIn,
-        text: textIn,
         image: image,
-        timestamp: timestampIn
+        text: text,
+        timestamp: timestampIn,
+        type_id: typeIn,
+        userid: userIdIn,
+        chatId: chatIdIn,
+        username: usernameIn
     };
 };
 
@@ -44,15 +46,17 @@ export const createFormComp = (parentElementIn) => {
 
             if (message.replaceAll(" ", "")) {
                 document.getElementById("input_messaggio").value = "";
+                console.log("CUR CHAT: ", cur_user);
 
-                pubsub.publish("sendOne", createMessObj(user.id, cur_chat.id, message, "", currentTime))
-                
+                let messObj = createMessObj(cur_user.id, cur_chat.id, message, "", newCurrentTime, cur_chat.id_tipo, cur_user.usernameIn);
+                pubsub.publish("sendOne", messObj)
+                console.log("Messaggio inviato  ", messObj)
         
             } else { 
                 
                 console.log("MESSAGGIO VUOTO", inputFile.files[0])
                 //SE L'INPUT è VUOTO CONTROLLO SE L'UTENTE HA AGGIUNTO UN'IMMAGINE, SE SI CREA UN NUOVO MESSAGGIO E LO MANDA CON LA SOCKET
-                if (inputFile.files != "") {async () => {
+                if (inputFile.files && inputFile.files.length > 0) {async () => {
                     console.log("SALVATAGGIO IMG");
                     const formData = new FormData();
                     formData.append("file", inputFile.files[0]);
@@ -64,7 +68,7 @@ export const createFormComp = (parentElementIn) => {
                     };
                     try {
                         //const res = pubsub.publish("upload-img", fetchOptions);
-                        const data = await res.json();
+                        //const data = await res.json();
                                 
                         document.getElementById("input_messaggio").value = "";
                         

@@ -150,7 +150,8 @@ const createMiddleware = () => {
             }  
     }
 }
-export const middleware = createMiddleware()
+
+export const middleware = createMiddleware();
 
 
 

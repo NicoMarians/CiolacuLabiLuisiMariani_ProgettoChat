@@ -14,6 +14,9 @@ const mailer = require('./mailer.js');
 
 const bodyParser = require("body-parser");
 
+const { middleware } = require('./public/BL - components/middleware.js');
+const { info } = require('console');
+
 //app.use(cors());
 
 function stringToHash(str) {
@@ -307,26 +310,39 @@ app.use("/", express.static(path.join(__dirname, "public")));
             })
 
 
-            socket.on('sendOne', (information) => {
+            socket.on('sendOne', async (information) =>  {
                 //ancora da finire
-                const senderId = information.userId;
+                const userid = information.userid;
                 const chat = information.chatId;
                 const text = information.text;
-                const image = information.image
-                const timestamp = information.timestamp
+                const image = information.image;
+                const timestamp = information.timestamp;
 
-                if (image) {
-                    const response = {"text":text, "userid":senderId, "timestamp":timestamp, "image": image};
-                } else {
-                    const response = {"text":text, "userid":senderId, "timestamp":timestamp};
-                }
+                console.log("INFO  ", information);
+                //console.log("allChatsAndMessages[information.chatId] ", allChatsAndMessages.information.chatId);
+                console.log("Information : ", information);
+
+
+                allChatsAndMessages[information.chatId].messages.push(information)
                 
                 onlineUsers.forEach((element) => {
                     if (element.chat == chat){
                         element.user.emit("arrivingmessage",response);
                     }
-                })
+                });
 
+                //Salvataggio su db 
+                const dataDB = information.timestamp.split("T").join(" ");
+                const values = {
+                    chat_id: information.chatId,
+                    user_id: information.userid,
+                    type_id: information.type_id,
+                    text: information.text,
+                    image: information.image,
+                    timestamp: dataDB
+                }
+                const res = await middleware.queries.createMessage();
+                console.log("res db salvataggio messaggio: ", res);
             });
 
             socket.on('disconnectchat',() => {
@@ -339,7 +355,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
             socket.on('getAllMessages',(chat) => {
                 //console.log("Messaggi inviati, chat id: ", allChatsAndMessages[chatId.id])
-                socket.emit('returnAllMessages', allChatsAndMessages[chat.id]);
+                socket.emit('returnAllMessages', allChatsAndMessages[chat.id], chat);
             });
     });
 
