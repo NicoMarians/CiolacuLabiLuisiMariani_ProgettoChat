@@ -28,12 +28,9 @@ const createPresenter = () => {
     //FUNZIONI
 
     // - - - - - - - - - - - - - - - - - - - - - - - FUNZIONI SOCKET - - - - - - - - - - - - - - - - - - - - - - - 
-    //emits--------------->
+    //emits getAllChats--------------->        è Messo dentro pubsub section
     // Richiesta al server per ricevere tutte le chat
-    pubsub.subscribe("ready-user-presenter", () =>{
-        socket.emit("getAllChats", (cur_user));
-        console.log("USER INSERITO IN PRESENTER: ", cur_user);
-    });
+    
 
     //listening <--------
     socket.on("connect", () => {
@@ -42,13 +39,17 @@ const createPresenter = () => {
     
     socket.on("allChats", (allChatList) => {
         //quando il server manda i messassi allora gli aggiunge dentro il comp ed effettua la render chiamando il publish
+        //viengono salvate le chat dentro list.js e generato in locale 
         if (allChatList.result == "ok"){
             console.log("Lista chat: ", allChatList)
-            const listTemp = allChatList.chatPriv.concat(allChatList.community)
-            chatListComp.setData(listTemp);
+
+            chatListComp.setData(allChatList.chatPriv.concat(allChatList.community));
 
             pubsub.publish("readyList");
             console.log("Liste chat salvate")
+        
+            //SALVATAGGIO MESSAGGI
+            
         }
     });   
     
@@ -62,6 +63,10 @@ const createPresenter = () => {
 
 
     // - - - - - - - - - - - - - - - - - - - - - - - PUBSUB - - - - - - - - - - - - - - - - - - - - - - - 
+    pubsub.subscribe("ready-user-presenter", () =>{
+        socket.emit("getAllChats", (cur_user));
+        console.log("USER INSERITO IN PRESENTER: ", cur_user);
+    });
     pubsub.subscribe("getChatList", () => {
         //richiamato da list.js, carica le chat sul componente
         chatListComp.setChats(listChat);
