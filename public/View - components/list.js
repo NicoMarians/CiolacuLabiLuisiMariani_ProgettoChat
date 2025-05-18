@@ -19,7 +19,21 @@ const createHomeHeader = (newElement) => {
 const createChatList = (newElement) => {
     const bindingElement = newElement;
     let filter = "";                   // Funzione di filtro
+    let listCommunities = [];
+    let listChats = [];
 
+    const setData = (dataIn) => {
+        dataIn.forEach((chat) => {
+            if (chat.id_tipo == 2) {
+                //è una commy
+                listCommunities.push(chat);
+
+            } else if (chat.id_tipo == 1) {
+                //è una chat privata
+                listChats.push(chat);
+            }
+        })
+    }
     const setFilter = (newFilter) => {
         filter = newFilter;
     }
@@ -113,6 +127,7 @@ const createChatList = (newElement) => {
 
     // Ritorna l'oggetto con i metodi per interagire con la lista
     return {
+        setData: setData,
         // Imposta una funzione di filtro per applicarla alla lista delle chat
         setFilter: setFilter,
 
