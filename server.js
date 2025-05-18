@@ -311,7 +311,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
             })
 
 
-            socket.on('sendOne', async (information) =>  {
+            socket.on('sendOne',  (information) =>  {
                 //ancora da finire
                 const userid = information.userid;
                 const chat = information.chatId;
