@@ -317,6 +317,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 const chat = information.chatId;
                 const text = information.text;
                 const image = information.image;
+                const type = information.type_id
                 const timestamp = information.timestamp;
 
                 console.log("INFO  ", information);
@@ -333,16 +334,18 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 });
 
                 //Salvataggio su db 
-                const dataDB = information.timestamp.split("T").join(" ");
+                const dataDB = timestamp.split("T").join(" ");
                 const values = {
-                    chat_id: information.chatId,
-                    user_id: information.userid,
-                    type_id: information.type_id,
-                    text: information.text,
-                    image: information.image,
+                    chat_id: chat,
+                    user_id: userid,
+                    type_id: type,
+                    text: text,
+                    image: image,
                     timestamp: dataDB
                 }
-                const res = await database.queries.createMessage();
+                const res = await database.queries.createMessage(values);
+                allChatsAndMessages[chat].messages.push({message_id:res[0].id ,chat_id: chat,userid: userid,type_id: type,text: text,image: image,timestamp: timestamp});
+                socket.emit('newMessage',chat);
                 console.log("res db salvataggio messaggio: ", res);
             });
 

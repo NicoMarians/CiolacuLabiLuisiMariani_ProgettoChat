@@ -298,7 +298,8 @@ const database = {
          let query = `
          INSERT INTO public."Message"(
          chat_id, user_id, type_id, text, image, "timestamp")
-         VALUES ($1, $2, $3, $4, $5, $6);
+         VALUES ($1, $2, $3, $4, $5, $6)
+         RETURNING id;
          `;
 
          let values = [

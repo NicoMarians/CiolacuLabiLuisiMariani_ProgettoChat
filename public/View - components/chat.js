@@ -90,6 +90,7 @@ const createChatComp = (parentElementIn) => {
         let lastDate = "";
         //listMess = listMess[chatData].messages;
         listMess.forEach(messaggio => {
+            console.log(messaggio)
             let newDate = messaggio.timestamp.split("T")[0];
             if (newDate != lastDate) {
                 html += `<div class="data-mess">${newDate}</div>`;

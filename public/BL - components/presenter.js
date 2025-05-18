@@ -17,10 +17,10 @@ const createPresenter = () => {
     DIZIONARIO CON CHIAVE "chatId" E VALORE UNA LISTA CON TUTTI I 
     MESSAGGI SOTTOFORMA DI OGGETTI
     */
-    let listChat = {};
+    let listChat;
 
     //COME SOPRA MA CON COMMUNITY
-    let listCommunity = {};
+    let listCommunity;
 
     //LISTA DI TUTTI GLI UTENTI
     let listUsers = [];
@@ -48,16 +48,38 @@ const createPresenter = () => {
             console.log("Lista chat: ", allChatList)
 
             chatListComp.setData(allChatList.chatPriv.concat(allChatList.community));
+            listChat = allChatList.chatPriv;
+            listCommunity = allChatList.community;
 
             pubsub.publish("readyList");
             console.log("Liste chat salvate")
         
             //SALVATAGGIO MESSAGGI  
         }
-    });   
+    });
+    
+    socket.on("newMessage",(chatId) => {
+        let found = false;
+        let foundChat;
+        listChat.forEach((chat) => {
+            if(chat.id == chatId){
+                foundChat = chat;
+                found = true;
+            }
+        });
+        listCommunity.forEach((chat) => {
+            if(chat.id == chatId){
+                foundChat = chat;
+                found = true;
+            }
+        });
+        if (found){
+            socket.emit("getAllMessages",foundChat);
+        }
+    })
 
-    socket.on("returnAllUsers",(alLUsers) => {
-        listUsers = alLUsers;
+    socket.on("returnAllUsers",(allUsers) => {
+        listUsers = allUsers;
         console.log(listUsers);
     });
     
@@ -80,6 +102,7 @@ const createPresenter = () => {
 
     socket.on("returnAllMessages", (allMessages, chat) => {
         listMessaggi = allMessages;
+        console.log(allMessages)
         chatComp.setMess(allMessages);
         console.log("MESSAGGI CARICATI SU CHAT.JS ->", allMessages);
         chatComp.setUser(cur_user);
