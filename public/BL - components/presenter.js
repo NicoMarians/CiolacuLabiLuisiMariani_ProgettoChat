@@ -26,6 +26,7 @@ const createPresenter = () => {
 
     let cur_user;
 
+    let listMessaggi;
     //FUNZIONI
 
     // - - - - - - - - - - - - - - - - - - - - - - - FUNZIONI SOCKET - - - - - - - - - - - - - - - - - - - - - - - 
@@ -50,7 +51,7 @@ const createPresenter = () => {
             console.log("Liste chat salvate")
         
             //SALVATAGGIO MESSAGGI
-            
+
             
         }
     });   
@@ -62,6 +63,12 @@ const createPresenter = () => {
 
     socket.on("allUsers",(userList) => {
         listUsers = userList;
+    });
+
+    socket.on("returnAllMessages", (allMessages) => {
+        chatComp.setMess(allMessages);
+        console.log("MESSAGGI CARICATI SU CHAT.JS ->", allMessages);
+        chatComp.render();
     })
     // - - - - - - - - - - - - - - - - - - 
 
@@ -83,8 +90,7 @@ const createPresenter = () => {
 
     pubsub.subscribe("getMessages", (id_chat) => {
         //richiamato ogni volta che si preme su una chat, carica i messaggi dentro a chat.js
-        chatComp.setMess(listMessaggi[id_chat]);
-
+        listMessaggi = socket.emit("getAllMessagges", (id_chat));
     });
 
     pubsub.subscribe("sendOne", (message) => {

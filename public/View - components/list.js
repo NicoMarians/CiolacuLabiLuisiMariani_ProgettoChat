@@ -83,31 +83,17 @@ const createChatList = (newElement) => {
                 //chiedo al presenter di ricevere le chat
                 pubsub.publish("getMessages",chat);
 
-            
+                window.location.href = `#chatPage`;
                 window.scrollTo(0, document.body.scrollHeight);
             }
         });
 
         listCommunities.forEach((chat) => {
             document.getElementById(`chat_${chat.id}`).onclick = async () => {
+                pubsub.publish("getMessages",chat);
 
-                const data = await pubsub.publish("downloadMessages", chat.id);
-                
-                    //await new Promise(resolve => setTimeout(resolve, 300));
-                    const newMessages = data;
-                    console.log(newMessages);
-                    await pubsub.publish("setChatMessages", newMessages);
-
-
-                    // Utilizzo di un evento o una promise per assicurarmi che i dati siano caricati prima di renderizzare
-                    
-                    await pubsub.publish("connectChat",chat.id);
-                    const messages = pubsub.publish("getListMess");
-                    console.log(messages);
-
-                    await pubsub.publish("render-chat");
-                    window.scrollTo(0, document.body.scrollHeight);
-                    window.location.href = `#chatPage`;
+                window.location.href = `#chatPage`;
+                window.scrollTo(0, document.body.scrollHeight);
             }
         });
     }
