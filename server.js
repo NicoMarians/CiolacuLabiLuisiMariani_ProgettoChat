@@ -250,7 +250,7 @@ app.post('/getuserbyname', async (req,res) => {
 //LETTURA
 
 let onlineUsers = [];
-let allUsers = await database.queries.downloadAllUsers();
+let allUsers = database.queries.downloadAllUsers();
 let allChatsAndMessages = {}; //{chatId : {chatData : {name,picture,type},messages : [{message},{message}] } }
 
 const loadMessaggeOnStart = async () => {

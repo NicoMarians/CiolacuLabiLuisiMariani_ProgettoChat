@@ -176,7 +176,7 @@ const createRegister = () => {
 }
 
 
-const mailRegister = createMailRegister(document.getElementById("registerMailForm"));
+export const mailRegister = createMailRegister(document.getElementById("registerMailForm"));
 const passwordRegister = createPasswordRegister(document.getElementById("registerPasswordForm"));
 const usernameRegister = createUsernameRegister(document.getElementById("registerUsernameForm"));
 const register = createRegister();

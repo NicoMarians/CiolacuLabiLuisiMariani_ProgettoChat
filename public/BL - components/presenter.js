@@ -27,6 +27,7 @@ const createPresenter = () => {
     let cur_user;
 
     let listMessaggi;
+
     //FUNZIONI
 
     // - - - - - - - - - - - - - - - - - - - - - - - FUNZIONI SOCKET - - - - - - - - - - - - - - - - - - - - - - - 
@@ -50,11 +51,13 @@ const createPresenter = () => {
             pubsub.publish("readyList");
             console.log("Liste chat salvate")
         
-            //SALVATAGGIO MESSAGGI
-
-            
+            //SALVATAGGIO MESSAGGI  
         }
     });   
+
+    socket.on("returnAllUsers",(alLUsers) => {
+        listUsers = alLUsers;
+    });
     
     socket.on("arrivingmessage",(messageData) => {
         chatComp.addMess(messageData);
@@ -105,7 +108,9 @@ const createPresenter = () => {
 
     // - - - - - - - - - - - - - - - - - - - - - - - METODI - - - - - - - - - - - - - - - - - - - - - - - 
 
-    const getAllUsers = () => listUsers;
+    const getAllUsers = async () => {
+        socket.emit("getAllUsers");
+    };
 
     const getAllChats = () => listChat;
 
