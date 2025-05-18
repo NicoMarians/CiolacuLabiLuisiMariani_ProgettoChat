@@ -5,6 +5,7 @@ import {middleware} from "../BL - components/middleware.js"
 const createChatComp = (parentElementIn) => {
     const parentElement = parentElementIn;
     let listMess = [];
+    let listChatMess;
     let cur_user;
     
 
@@ -63,7 +64,8 @@ const createChatComp = (parentElementIn) => {
     const getChatList =  () => {return listMess;}
     const setMess = (ListIn) => {
         //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)
-        listMess = ListIn;
+        listChatMess = ListIn;
+        listMess = listChatMess.messages;
     }
     const addMess = (messObj) => {
         //FNZ CHE AGGIUNGE UN OGGETTO MESS ALLA LISTA INTERNA DEL COMPONENTE
@@ -77,8 +79,8 @@ const createChatComp = (parentElementIn) => {
         //console.log("LIST MESSAGGI: ", listMess);
         let html = `
         <div class="card-header fisso-sopra">
-            <div class="img-avatar">${cur_chat.picture}</div> 
-            <div class="text-chat">${cur_chat.name}</div>
+            <div class="img-avatar">${listChatMess.chatData.picture}</div> 
+            <div class="text-chat">${listChatMess.chatData.name}</div>
         </div>`;
         
         html += `<div class="card-body">
@@ -86,6 +88,7 @@ const createChatComp = (parentElementIn) => {
         
         
         let lastDate = "";
+        //listMess = listMess[chatData].messages;
         listMess.forEach(messaggio => {
             let newDate = messaggio.timestamp.split("T")[0];
             if (newDate != lastDate) {
@@ -139,7 +142,7 @@ const createChatComp = (parentElementIn) => {
             }
         });
 
-        html += "</div> </div>"
+        html += `</div> </div>"`
 
         parentElement.innerHTML = html;
         window.scrollTo(0, document.body.scrollHeight);        
@@ -172,4 +175,4 @@ const createChatComp = (parentElementIn) => {
 }
 
 
-export const chatComp = createChatComp(document.getElementById("chatSpace"));
+export const chatComp = createChatComp(document.getElementById("chatSpace-container"));

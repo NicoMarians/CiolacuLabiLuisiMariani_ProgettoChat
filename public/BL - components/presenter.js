@@ -3,6 +3,7 @@ import { middleware } from "./middleware.js";
 import { chatComp } from "../View - components/chat.js";
 import { chatListComp } from "../View - components/list.js";
 import { newChat } from "../View - components/newChat.js";
+import { formComp } from "../View - components/form.js";
 
 
 
@@ -57,18 +58,32 @@ const createPresenter = () => {
     });   
     
     socket.on("arrivingmessage",(messageData) => {
-        chatComp.addMess(messageData);
-        chatComp.render();
-    });
+        try {
+            chatComp.addMess(messageData);
+            chatComp.render();
+            formComp.setUser(cur_user);
+            formComp.setCurChat(allMessages.chatData);
+            formComp.render();
+        } catch (e){
+            console.log("errore: ", e);
+        }
+        });
 
     socket.on("allUsers",(userList) => {
         listUsers = userList;
     });
 
     socket.on("returnAllMessages", (allMessages) => {
+        listMessaggi = allMessages;
         chatComp.setMess(allMessages);
         console.log("MESSAGGI CARICATI SU CHAT.JS ->", allMessages);
+        chatComp.setUser(cur_user);
         chatComp.render();
+
+        //-form
+        formComp.setCurChat(allMessages.chatData);
+        formComp.render();
+
     })
     // - - - - - - - - - - - - - - - - - - 
 
@@ -90,7 +105,7 @@ const createPresenter = () => {
 
     pubsub.subscribe("getMessages", (id_chat) => {
         //richiamato ogni volta che si preme su una chat, carica i messaggi dentro a chat.js
-        listMessaggi = socket.emit("getAllMessagges", (id_chat));
+        socket.emit("getAllMessages", (id_chat));
     });
 
     pubsub.subscribe("sendOne", (message) => {

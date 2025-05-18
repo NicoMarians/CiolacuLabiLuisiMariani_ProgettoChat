@@ -250,7 +250,11 @@ app.post('/getuserbyname', async (req,res) => {
 //LETTURA
 
 let onlineUsers = [];
-let allUsers = await database.queries.downloadAllUsers();
+let allUsers;
+const loadUser = async () => {
+    allUsers = await database.queries.downloadAllUsers();
+}
+loadUser();
 let allChatsAndMessages = {}; //{chatId : {chatData : {name,picture,type},messages : [{message},{message}] } }
 
 const loadMessaggeOnStart = async () => {
@@ -333,8 +337,9 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 onlineUsers.splice(index,1);
             });
 
-            socket.on('getAllMessages',(chatId) => {
-                socket.emit('returnAllMessages',allChatsAndMessages[chatId]);
+            socket.on('getAllMessages',(chat) => {
+                //console.log("Messaggi inviati, chat id: ", allChatsAndMessages[chatId.id])
+                socket.emit('returnAllMessages', allChatsAndMessages[chat.id]);
             });
     });
 
