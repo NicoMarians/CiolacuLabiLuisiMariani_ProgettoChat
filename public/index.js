@@ -51,9 +51,6 @@ import { loginComp } from './View - components/login.js';
 import { mailRegister } from './View - components/register.js';
 
 
-let user = {}
-
-
 fetch("./conf.json").then(r => r.json()).then(conf => {
     const navigator = createNavigator(document.querySelector(".flock-space"));
     
@@ -63,43 +60,6 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         mailRegister.render();
         window.location.href = "#registerMailPage";
     }   
-
-    //- -   -   -   -   -LOGIN- -   -   -   -   -   
-    document.getElementById("login_btn").onclick = async () => {
-        
-        if(document.cookie != "" && document.cookie != null && document.cookie != undefined){
-            console.log("ENTRATO IN AREA LOGIN")
-            let cookies = document.cookie.split(";");
-            console.log(cookies)
-            let username = "";
-            let found = false;
-            
-            cookies.forEach((cookie) => {
-                if(cookie.split("=")[0].replaceAll(" ", "") == "username"){
-                    username = cookie.split("=")[1];
-                    found = true;
-                }
-            })
-            if (found){
-                const result = await middleware.getUserByName(username);
-                user = result.data[0];
-                document.getElementById("username_homepage").innerHTML = user.username;
-                chatComp.setUser(user);
-                presenter.setUser(user); //<- + importante da avere
-                pubsub.publish("ready-user-presenter")
-
-                window.location.href = "#homePage";
-            } else {
-                loginComp.render();
-                window.location.href = "#loginPage"
-            };
-            
-        } else {
-            loginComp.render();
-            window.location.href = "#loginPage"
-        };
-        
-    }
 
     document.getElementById("buttonBackChat").onclick = () => {
         document.getElementById("input_messaggio").value = "";

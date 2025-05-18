@@ -2,6 +2,7 @@ import { pubsub } from "./pubsub.js";
 import { middleware } from "./middleware.js";
 import { chatComp } from "../View - components/chat.js";
 import { chatListComp } from "../View - components/list.js";
+import { newChat } from "../View - components/newChat.js";
 
 
 
@@ -15,7 +16,7 @@ const createPresenter = () => {
     DIZIONARIO CON CHIAVE "chatId" E VALORE UNA LISTA CON TUTTI I 
     MESSAGGI SOTTOFORMA DI OGGETTI
     */
-    let listChat = {}; 
+    let listChat = {};
 
     //COME SOPRA MA CON COMMUNITY
     let listCommunity = {};
@@ -57,6 +58,10 @@ const createPresenter = () => {
         chatComp.addMess(messageData);
         chatComp.render();
     });
+
+    socket.on("allUsers",(userList) => {
+        listUsers = userList;
+    })
     // - - - - - - - - - - - - - - - - - - 
 
 
@@ -65,7 +70,7 @@ const createPresenter = () => {
     // - - - - - - - - - - - - - - - - - - - - - - - PUBSUB - - - - - - - - - - - - - - - - - - - - - - - 
     pubsub.subscribe("ready-user-presenter", () =>{
         socket.emit("getAllChats", (cur_user));
-        console.log("USER INSERITO IN PRESENTER: ", cur_user);
+        //console.log("USER INSERITO IN PRESENTER: ", cur_user);
     });
     pubsub.subscribe("getChatList", () => {
         //richiamato da list.js, carica le chat sul componente
@@ -99,7 +104,7 @@ const createPresenter = () => {
 
     const getUser = () => cur_user;
 
-    const setUser = (newUser) => {cur_user = newUser; console.log("User caricato su presenter: ", cur_user);};
+    const setUser = (newUser) => cur_user = newUser;
 
     const resetUser = () => cur_user = {};
 
@@ -121,7 +126,8 @@ const createPresenter = () => {
         getAllCommunities: getAllCommunities,
         getUser: getUser,
         setUser: setUser,
-        resetUser: resetUser
+        resetUser: resetUser,
+        hashPassword: hashPassword,
     }
 }
 
