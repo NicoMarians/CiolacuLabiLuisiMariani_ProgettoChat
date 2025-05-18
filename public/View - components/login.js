@@ -4,7 +4,7 @@ import { middleware } from "../BL - components/middleware.js";
 
 document.getElementById("buttonLogout").onclick = async () => {
     const user = presenter.getUser();
-    createCookie(user.username,-1000);
+    loginComp.createCookie(user.username,-1000);
     presenter.resetUser();
 
     window.location.href = "#starterPage";
@@ -47,6 +47,14 @@ const createLogin = (newElement) => {
     const bindingElement = newElement;
     let isLogged = false;
 
+    const createCookie = (username,time) => {
+        let expire = new Date();
+        expire.setDate(expire.getDate() + time);
+        expire = expire.toUTCString();
+        const line = `username = ${username}; expires = ${expire};`
+        document.cookie = line;
+    }
+
     const render = () => {
         bindingElement.innerHTML = `
             <h3 class="form-title mb-2">Entra nel tuo account</h3>
@@ -71,15 +79,20 @@ const createLogin = (newElement) => {
             const password = presenter.hashPassword(document.getElementById("password_login_input").value);
 
             const response = await middleware.login(username,password);
+            console.log(response)
             
             if(response.result){
                 presenter.setUser(response.user);
+                createCookie(username,10);
+                document.getElementById("username_homepage").innerHTML = response.user.username;
+                pubsub.publish("ready-user-presenter")
                 isLogged = true;
+                window.location.href = "#homePage";
             } else {
                 document.getElementById("errorDiv").innerHTML = response.message;
             }
-            document.getElementById("username_login_input") = "";
-            document.getElementById("password_login_input") = "";
+            document.getElementById("username_login_input").value = "";
+            document.getElementById("password_login_input").value = "";
         }
     };
 
@@ -87,7 +100,8 @@ const createLogin = (newElement) => {
 
     return {
         render: render,
-        checkIsLogged: checkIsLogged
+        checkIsLogged: checkIsLogged,
+        createCookie: createCookie
     };
 };
 
