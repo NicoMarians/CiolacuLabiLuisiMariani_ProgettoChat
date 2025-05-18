@@ -4,6 +4,7 @@ import { chatComp } from "../View - components/chat.js";
 import { chatListComp } from "../View - components/list.js";
 
 
+
 //AGGIUNGERE GESTIONE SOCKET X IL DEMONE DI PASTOUR
 
 const socket = io();
@@ -22,26 +23,32 @@ const createPresenter = () => {
     //LISTA DI TUTTI GLI UTENTI
     let listUsers = [];
 
-    let user = {};
+    let cur_user;
 
-
+    //FUNZIONI
 
     // - - - - - - - - - - - - - - - - - - - - - - - FUNZIONI SOCKET - - - - - - - - - - - - - - - - - - - - - - - 
     //emits--------------->
     // Richiesta al server per ricevere tutte le chat
-    socket.emit("getAllChats");
+    pubsub.subscribe("ready-user-presenter", () =>{
+        socket.emit("getAllChats", (cur_user));
+        console.log("USER INSERITO IN PRESENTER: ", cur_user);
+    });
 
     //listening <--------
-    socket.on("connect",() => {
+    socket.on("connect", () => {
         console.log("Connesso alla chat!");
     });
     
-    socket.on("allChats", (allChatMessages) => {
+    socket.on("allChats", (allChatList) => {
         //quando il server manda i messassi allora gli aggiunge dentro il comp ed effettua la render chiamando il publish
-        if (allChatMessages.result == "ok"){
-            console.log("Lista chat: ", allChatMessages)
-            chatListComp.setData(allChatMessages.data);
+        if (allChatList.result == "ok"){
+            console.log("Lista chat: ", allChatList)
+            const listTemp = allChatList.chatPriv.concat(allChatList.community)
+            chatListComp.setData(listTemp);
+
             pubsub.publish("readyList");
+            console.log("Liste chat salvate")
         }
     });   
     
@@ -49,7 +56,7 @@ const createPresenter = () => {
         chatComp.addMess(messageData);
         chatComp.render();
     });
-    // - - - - - - -- 
+    // - - - - - - - - - - - - - - - - - - 
 
 
 
@@ -85,11 +92,11 @@ const createPresenter = () => {
 
     const getAllCommunities = () => listCommunity;
 
-    const getUser = () => user;
+    const getUser = () => cur_user;
 
-    const setUser = (newUser) => user = newUser;
+    const setUser = (newUser) => {cur_user = newUser; console.log("User caricato su presenter: ", cur_user);};
 
-    const resetUser = () => user = {};
+    const resetUser = () => cur_user = {};
 
     const hashPassword = (str) => {
         let hash = 0;

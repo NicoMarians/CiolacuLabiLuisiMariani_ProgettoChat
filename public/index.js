@@ -85,6 +85,8 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
                 user = result.data[0];
                 document.getElementById("username_homepage").innerHTML = user.username;
                 chatComp.setUser(user);
+                presenter.setUser(user); //<- + importante da avere
+                pubsub.publish("ready-user-presenter")
 
                 window.location.href = "#homePage";
             } else {

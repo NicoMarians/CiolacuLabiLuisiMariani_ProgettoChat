@@ -260,12 +260,13 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 onlineUsers.push({user:socket,chat: chatId});
             });
 
-            socket.on("getAllChats", async () => {
+            socket.on("getAllChats", async (user) => {
                 // per ora restituisce solo le community
                 try {
-                    const data = await database.queries.downloadCommunityAll();
-                    console.log("INVIO LISTA COMMUNITY")
-                    socket.emit("allChats", { result: "ok", data: data });
+                    const community = await database.queries.downloadCommunityAll();
+                    const chatPriv = await database.queries.downloadChatAll(user.id);
+                    console.log("INVIO LISTA COMMUNITY E CHAT PRIV")
+                    socket.emit("allChats", { result: "ok", community: community, chatPriv: chatPriv });
                 } catch (e) {
                     console.log(e);
                     socket.emit("allChats", { result: "ko" });
@@ -273,6 +274,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
             })
 
         socket.on('sendOne', (information) => {
+            //ancora da finire
             const senderId = information.userId;
             const chat = information.chatId;
             const text = information.text;

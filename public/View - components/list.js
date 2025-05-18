@@ -21,6 +21,7 @@ const createChatList = (newElement) => {
     let filter = "";                   // Funzione di filtro
     let listCommunities = [];
     let listChats = [];
+    let cur_user;
 
     const setData = (dataIn) => {
         dataIn.forEach((chat) => {
@@ -79,15 +80,11 @@ const createChatList = (newElement) => {
 
         listChats.forEach((chat) => {
             document.getElementById(`chat_${chat.id}`).onclick = async () => {
-                pubsub.publish("setChat",chat);
+                //chiedo al presenter di ricevere le chat
+                pubsub.publish("getMessages",chat);
 
-                await pubsub.publish("downloadMessages", chat.id);
-                
-                await pubsub.publish("connectChat",chat.id);
-                await pubsub.publish("render-chat");
+            
                 window.scrollTo(0, document.body.scrollHeight);
-                
-                window.location.href = `#chatPage`;
             }
         });
 
