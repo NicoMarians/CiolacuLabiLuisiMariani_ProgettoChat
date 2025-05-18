@@ -38,8 +38,11 @@ const createPresenter = () => {
     
     socket.on("allChats", (allChatMessages) => {
         //quando il server manda i messassi allora gli aggiunge dentro il comp ed effettua la render chiamando il publish
-        chatListComp.setChats(allChatMessages);
-        pubsub.publish("readyList");
+        if (allChatMessages.result == "ok"){
+            console.log("Lista community: ", allChatMessages)
+            chatListComp.setChats(allChatMessages.data);
+            pubsub.publish("readyList");
+        }
     });   
     
     socket.on("arrivingmessage",(messageData) => {

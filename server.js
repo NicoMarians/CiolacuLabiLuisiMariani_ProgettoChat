@@ -255,10 +255,22 @@ app.use("/", express.static(path.join(__dirname, "public")));
     const server = http.createServer(app);
     const io = new Server(server);
 
-    io.on('connect', (socket) => {
-        socket.on('connectchat',(chatId) => {
-            onlineUsers.push({user:socket,chat: chatId});
-        });
+        io.on('connect', (socket) => {
+            socket.on('connectchat',(chatId) => {
+                onlineUsers.push({user:socket,chat: chatId});
+            });
+
+            socket.on("getAllChats", async () => {
+                // per ora restituisce solo le community
+                try {
+                    const data = await database.queries.downloadCommunityAll();
+                    console.log("INVIO LISTA COMMUNITY")
+                    socket.emit("allChats", { result: "ok", data: data });
+                } catch (e) {
+                    console.log(e);
+                    socket.emit("allChats", { result: "ko" });
+                }
+            })
 
         socket.on('sendOne', (information) => {
             const senderId = information.userId;

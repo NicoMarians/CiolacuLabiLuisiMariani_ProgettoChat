@@ -105,6 +105,7 @@ const createChatList = (newElement) => {
     //-------------------------------------PUBSUB-------------------------------------
     pubsub.subscribe("readyList", () => {
         render();
+        console.log("Liste renderizzate")
     });
 
 
