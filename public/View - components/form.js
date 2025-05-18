@@ -1,7 +1,8 @@
 import { pubsub } from "../BL - components/pubsub";
 
 const createMessObj = (userIdIn, chatIdIn, textIn, urlimageImmagineIn, timestampIn) => {
-    if (image == "") {image = null}
+    if (image == "") image = null;
+    if (textIn == "") textIn = null;
     return {
         senderId: senderId,
         chatId: chatIdIn,
@@ -17,10 +18,10 @@ template_form = `
     <input type="text" id="input_messaggio" placeholder="Message..." class="form-control">
     <button type="button" id="sendButtonMess" class="btn btn-light"> ➤ </button>
     </div> 
-    `
+`;
     
 export const createFormComp = (parentElementIn) => {
-    parentElement = parentElementIn
+    const parentElement = parentElementIn
     let cur_user; //USER CORRENTE
     let cur_chat;
 
@@ -29,7 +30,7 @@ export const createFormComp = (parentElementIn) => {
     const setUser = (user) => {cur_user = user;}
     const setCurChat = (newChat) => {cur_chat = newChat;}
     const render = () => {
-        parentElementIn.innerHTML = template_form;
+        parentElement.innerHTML = template_form;
     
         //-------------------------------Biding
         document.getElementById("sendButtonMess").onclick = () => {

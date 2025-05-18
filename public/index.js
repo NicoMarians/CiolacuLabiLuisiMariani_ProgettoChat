@@ -5,7 +5,6 @@ const buttonCreateChat = document.getElementById("buttonCreateChat");
 const searchBar = document.getElementById("seatchBar");
 const divUsername = document.getElementById("divUsername");
 const divProfilePicture = document.getElementById("divProfilePicture");
-const divChatList = document.getElementById("chatSpace");
 const divChatMess = document.getElementById("chatSpace-container");
 const register_btn = document.getElementById("register_btn");
 const email_btn = document.getElementById("invia_email_password");
@@ -39,85 +38,31 @@ const createCookie = (username,time) => {
 // -- Business Logic -- 
 import {pubsub} from './BL - components/pubsub.js';
 import {middleware} from './BL - components/middleware.js';
-import {CreatePresenter} from './BL - components/presenter.js';
+import {presenter} from './BL - components/presenter.js';
 
 
 
 // -- View --
-import {chatListComp} from './View - components/list.js';
+import { chatListComp } from './View - components/list.js';
 import { createNavigator } from './View - components/navigator.js';
 import { chatComp } from './View - components/chat.js';
-import { createNewChat} from './View - components/newChat.js';
+import { newChat} from './View - components/newChat.js';
 import { loginComp } from './View - components/login.js';
+import { mailRegister } from './View - components/register.js';
 
 
 let user = {}
 
 
 fetch("./conf.json").then(r => r.json()).then(conf => {
-    let user2 = {};
     const navigator = createNavigator(document.querySelector(".flock-space"));
-    chatComp.setParenteElement(divChatMess);
-    chatListComp.setParenteElement(divChatList);
-    const newChat = createNewChat(document.getElementById("utentiTrovati"))
-    const presenter = CreatePresenter();
     
     window.location.href = "#starterPage";
-
-
     
     register_btn.onclick = async () => {    
+        mailRegister.render();
         window.location.href = "#registerMailPage";
     }   
-
-
-    //INSERIMENTO MAIL REGISTER
-    email_btn.onclick = async () => {
-        const email = document.getElementById("email_input").value;
-        document.getElementById("email_input").value = "";
-        await middleware.sendMail(email)
-
-        loginComp.setRegisterState([false,true,false]);
-        window.location.href = "#registerPasswordPage";
-        loginComp.setEmail(email)
-    }
-
-    //CONTROLLO PASSWORD REGISTER
-    password_check_register_btn.onclick = async () => {
-        const password = password_input_register.value;
-        
-        password_input_register.value = "";
-        if (password){
-            const response = await middleware.checkPassword(password);
-            if (response.result == "ok") {
-                document.getElementById("username_homepage").innerHTML = user.username;
-                window.location.href = "#registerUsernamePage";
-                loginComp.setPassword(stringToHash(password));
-            } else {
-                document.getElementById("messErrorIfNotPsw").innerText = "Password errata";
-                alert("Password errata!")
-                console.log("Password errata");
-            }
-        } else {
-            document.getElementById("messErrorIfNotPsw").innerText = "Errore!";
-        }
-        
-        
-    }
-
-    //INSERIMENTO USERNAME REGISTRAZIONE
-    username_choice_btn.onclick = async () => {
-        const username = document.getElementById("username_input").value;
-        loginComp.setUsername(username);
-        await middleware.createUser(loginComp.getUserData());
-
-        document.getElementById("username_input").value = "";
-        user = await middleware.getUserByName(username).data;
-        window.location.href = "#homePage";
-
-    }
-
-    
 
     //- -   -   -   -   -LOGIN- -   -   -   -   -   
     document.getElementById("login_btn").onclick = async () => {
@@ -142,63 +87,16 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
                 chatComp.setUser(user);
 
                 window.location.href = "#homePage";
-            } else window.location.href = "#loginPage";
-
+            } else {
+                loginComp.render();
+                window.location.href = "#loginPage"
+            };
             
-        } else window.location.href = "#loginPage";
+        } else {
+            loginComp.render();
+            window.location.href = "#loginPage"
+        };
         
-    }
-
-    document.getElementById("login_btn_login_space").onclick = async () => {
-        //PRENDE I DATI E FA UNA RICHIESTA AL SERVER PER LA LOGIN
-
-        const username = document.getElementById("username_login_input").value;
-        const password = document.getElementById("password_login_input").value;
-        
-        
-
-        const result = await middleware.login(username, stringToHash(password));
-
-        if (result.result == "ok") {
-            user = result.user;
-            user2 = result.user;
-
-            createCookie(username,10)
-            
-            //loginComp.setUserData(user)
-            document.getElementById("username_homepage").innerHTML = user.username;
-            chatComp.setUser(user);
-            window.location.href = "#homePage";
-
-        }
-    }
-
-    // ----------------- LOGOUT -----------------//
-
-    document.getElementById("buttonLogout").onclick = async () => {
-        
-        createCookie(user.username,-1000);
-
-        user = {};
-        window.location.href = "#starterPage";
-    }
-
-    
-    buttonCreateChat.onclick = async () => {
-        window.location.href = "#searchUserPage";
-
-    }  
-
-    // ----------------- BOTTONI BACK -----------------//
-
-    document.querySelectorAll(".buttonToStarterPage").onclick = () => {
-        document.getElementById("email_input").value = "";
-        document.getElementById("password_input_register").value = "";
-        document.getElementById("username_input").value = "";
-        document.getElementById("password_login_input").value = "";
-        document.getElementById("username_login_input").value = "";
-
-        window.location.href = "#starterPage";
     }
 
     document.getElementById("buttonBackChat").onclick = () => {
@@ -207,15 +105,5 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         window.location.href = "#homePage";
 
     }
-
-    
-    document.getElementById("buttonBackCerca").onclick = () => {
-        document.getElementById("inputRicercaUtenti").value = "";
-
-        window.location.href = "#homePage";
-    }
-
-
-    //PUBSUB SUBSCRIBES
 
 });

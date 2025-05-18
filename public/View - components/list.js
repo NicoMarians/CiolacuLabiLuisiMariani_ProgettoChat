@@ -1,21 +1,25 @@
 import { pubsub } from '../BL - components/pubsub.js';
+import { presenter } from '../BL - components/presenter.js';
 
 const confData = await fetch("../conf.json")//.then(r => r.json());
 
-function createChatList() {
-    let parentElement;
-    let listChats = [];
-    let listCommunities = [];
-    let filter = null;                   // Funzione di filtro
 
+// -------------------------------------DA MODIFICARE------------------------------------------
 
-    const setParenteElement = (pr) => {parentElement = pr}
-    const setChats = (newData) => {
-        listChats = newData;
+const createHomeHeader = (newElement) => {
+    const bindingElement = newElement;
+
+    const render = () => {
+        line = `
+            <input type="text" id="filterChat" class="form-control" placeholder="&#x1F50E;&#xFE0E; Cerca">
+        `;
     }
-    const setCommunities = (newData) => {
-        listCommunities = newData.data;
-    }
+}
+
+const createChatList = (newElement) => {
+    const bindingElement = newElement;
+    let filter = "";                   // Funzione di filtro
+
     const setFilter = (newFilter) => {
         filter = newFilter;
     }
@@ -57,7 +61,7 @@ function createChatList() {
             `}
         }).join("");
         line += `</div>`;
-        parentElement.innerHTML = line;
+        bindingElement.innerHTML = line;
 
         listChats.forEach((chat) => {
             document.getElementById(`chat_${chat.id}`).onclick = async () => {
@@ -98,7 +102,7 @@ function createChatList() {
         });
     }
 
-    //-------------------------------------PUBSUB
+    //-------------------------------------PUBSUB-------------------------------------
     pubsub.subscribe("readyList", () => {
         render();
     });
@@ -108,12 +112,6 @@ function createChatList() {
 
     // Ritorna l'oggetto con i metodi per interagire con la lista
     return {
-        setParenteElement: setParenteElement,
-        // Imposta i dati della lista (ad esempio, aggiorna la lista delle chat)
-        setChats: setChats,
-
-        setCommunities: setCommunities,
-
         // Imposta una funzione di filtro per applicarla alla lista delle chat
         setFilter: setFilter,
 
@@ -125,5 +123,5 @@ function createChatList() {
     };
 }
 
-export const chatListComp = createChatList()
+export const chatListComp = createChatList(document.getElementById("chatSpace"));
 

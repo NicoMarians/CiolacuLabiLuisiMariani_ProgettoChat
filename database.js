@@ -287,6 +287,7 @@ const database = {
 
          return await executeQuery(query,values)
       },
+
       leaveChat: async ([chatId, userId]) => {
          let query =  `
             DELETE FROM "chat_user"
@@ -301,6 +302,7 @@ const database = {
 
          return await executeQuery(query, values)
       },
+
       deleteChat : async ([chatId]) => {
          let query = `
          DELETE FROM "Chat"

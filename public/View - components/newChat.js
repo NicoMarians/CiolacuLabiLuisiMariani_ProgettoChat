@@ -1,56 +1,162 @@
 import { pubsub } from "../BL - components/pubsub.js";
+import { presenter } from "../BL - components/presenter.js";
 
-export const createNewChat = (newElement) => {
+const errorDiv = document.getElementById("creaChatErrorDiv");
+
+
+/*
+- - - - - - -SPIEGAZIONE FILE- - - - - - -
+
+QUESTE COMPONENTI SI OCCUPANO DELLA CREAZIONE DI UNA NUOVA CHAT, C'E UNA BARRA
+DI RICERCA CON ACCANTO UN BOTTONE ("createNewChatSearch") PER CERCARE GLI UTENTI DA
+AGGIUNGERE AL GRUPPO, IL FILTRO E' PASSATO A "createNewChat" QUANDO SI PREME IL BOTTONE
+CHE A SUA VOLTA STAMPERA' GLI UTENTI CHE HANNO LA STRINGA NEL USERNAME.UNA VOLTA CHE 
+SI CLICCA SULL'UTENTE VIENE AGGIUNTO IN UNA LISTA DI "createNewChat", UNA VOLTA SCELTI TUTTI
+GLI UTENTI SI INSERISCE SOTTO IL NOME DEL GRUPPO E L'IMMAGINE, GESTITI DA "createNewChatForm"
+CHE DOPO I CONTROLLI DIRA' A "createNewChat" DI MANDARE I DATI AL SERVER CHE CREA IL NUOVO 
+GRUPPO AGGIUNGENDO ANCHE GLI UTENTI.
+*/ 
+
+
+//BOTTONE NELLA HOME PER CREARE UNA NUOVA CHAT
+document.getElementById("buttonCreateChat").onclick = () => {
+    renderPage();
+    window.location.href = "#createChatPage";
+};
+
+const renderPage = () => {
+    newChatBack.render();
+    newChatForm.render();
+    newChatSearch.render();
+    newChat.render();
+}
+
+//BOTTONE PER TORNARE ALLA HOME
+const createNewChatBack = (newElement) => {
     const bindingElement = newElement;
-    let filteredUsers;
-    let addedUsers = [];
+
+    const render = () => {
+        bindingElement.innerHTML = `
+            <button class="btn" type="button" id="buttonBackCerca">Back</button>
+        `;
+
+        document.getElementById("buttonBackCerca").onclick = () => {
+            window.location.href = "#homePage";
+            newChat.resetData();
+        }
+    }
 
     return {
-        setData: (newData) => {
-            filteredUsers = newData;
-        },
+        render: render
+    }
+}
 
-        resetAddedUsers: () => {
-            addedUsers = [];
-        },
+//FORM PER LA CREAZIONE DI UNA CHAT NUOVA
+const createNewChatForm = (newElement) => {
+    const bindingElement = newElement;
 
-        render: () => {
-            let line = `<div id=creaChatErrorDiv></div>`;
-            line = filteredUsers.map((user) => {
-                return `<div id="divUser_${user.id}">
-                    <h3>${user.username}</h3>
-                </div>`
-            }).join("");
-            line += `Foto chat: <input type="file" id="inputImmagineChat"`;
-            line += `<input type="text" id="inputNomeChat" placeholder="Nome Chat">`;
-            line += `<button type="button" id="completaCreaChat">Crea chat</button>`;
-            bindingElement.innerHTML = line;
+    const render = () => {
+        bindingElement.innerHTML = `
+        Foto chat: <input type="file" id="inputImmagineChat">
+        Nome chat: <input type="text" id="inputNomeChat" placeholder="Nome Chat">
+        <button type="button" id="completaCreaChat">Crea chat</button>
+        `;
 
-            filteredUsers.forEach((user) => {
+        document.getElementById("completaCreaChat").onclick = () => {
+            const chatName = document.getElementById("inputNomeChat").value;
+            const chatImage = document.getElementById("inputNomeChat").value;
+
+            if (chatName && chatImage) {
+                if(addedUsers.length > 0){
+                //MANDARE DATI A SERVER
+                } else errorDiv.innerHTML = "Aggiungere almeno un utente";
+            } else errorDiv.innerHTML = "Inserimento nome o immagine chat errati";
+        }
+    };
+
+    return {
+        render: render
+    }
+};
+
+//BARRA DI RICERCA E BOTTONE PER TROVARE GLI UTENTI DA AGGIUNGERE
+const createNewChatSearch = (newElement) => {
+    //ATTRIBUTI
+    const bindingElement = newElement;
+
+    //METODI
+
+    const render = () => {
+        bindingElement.innerHTML = `
+        <input type="text" id="inputRicercaUtenti" placeholder="⌕ Cerca utente">
+        <button type="button" id="buttonRicercaUtenti">⌕</button>
+        `;
+
+        document.getElementById("buttonRicercaUtenti").onclick = () => {
+            const appliedFilter = document.getElementById("inputRicercaUtenti").value.trim();
+            pubsub.publish("renderUsers",appliedFilter);
+        }
+    };
+    
+    return {
+        render: render,
+    }
+};
+
+//GESTISCE I DATI, E MOSTRA GLI UTENTI DA AGGIUNGERE
+const createNewChat = (newElement) => {
+    //ATTRIBUTI
+    const bindingElement = newElement;
+    let filter = "";
+    let addedUsers = [];
+
+    //PUBSUB
+    pubsub.subscribe("renderUsers",(newFilter) => {
+        setFilter(newFilter);
+        render();
+    });
+
+    //METODI
+
+    const setFilter = (newFilter) => filter = newFilter;
+
+    const resetData = () => {
+        filter = "";
+    }
+
+    const render = () => {
+        const allUsers = presenter.getAllUsers();
+
+        let line = allUsers.map((user) => {
+            if (user.username.includes(filter)){
+                return `
+                    <div id="divUser_${user.id}">
+                        <h3>${user.username}</h3>
+                    </div>
+                `;
+            }
+            
+        }).join("");
+        bindingElement.innerHTML = line;
+
+        allUsers.forEach((user) => {
+            if (user.username.includes(filter)){
                 document.getElementById(`divUser_${user.id}`).onclick = () => {
                     addedUsers.push(user);
                     document.getElementById(`divUser_${user.id}`).style.background = "light-green";
                 }
-            });
-
-            document.getElementById("completaCreaChat").onclick = async () => {
-                if(addedUsers.length > 0){
-                    const nomeChat = document.getElementById("inputNomeChat").value;
-                    const immagineChat = document.getElementById("inputImmagineChat").value;
-                    if (nomeChat){
-                        const chatId = await pubsub.publish("createNewChat",{"nome":nomeChat,"immagine":immagineChat});
-                        addedUsers.forEach(async (user) => {
-                            await pubsub.publish("joinChat",user.id,chatId);
-                        });
-                    } else {
-                        document.getElementById("creaChatErrorDiv").innerHTML = "Inserire un nome della chat valido";
-                    }
-                } else {
-                    document.getElementById("creaChatErrorDiv").innerHTML = "Aggiungere almeno una persona";
-                }
-                
-                
             }
-        }
+        });
+    }
+
+    return {
+        setFilter: setFilter,
+        resetData: resetData,
+        render: render
     }
 }
+
+const newChatBack = createNewChatBack(document.getElementById("createChatBack"));
+const newChatSearch = createNewChatSearch(document.getElementById("createChatSearch"));
+const newChatForm = createNewChatForm(document.getElementById("createChatForm"));
+export const newChat = createNewChat(document.getElementById("createChatUtenti"));

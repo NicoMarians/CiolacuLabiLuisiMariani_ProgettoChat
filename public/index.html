@@ -31,61 +31,39 @@
         <!--MAIL-->
         <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="registerMailPage">
             <button class="btn buttonToStarterPage" >Back</button>
-            <h3 class="form-title mb-2">Inserisci la tua email</h3>
-                <div class="input-group px-4 mt-4 input-register-width mb-10" >
-                    <input type="text" id="email_input" class="form-control" placeholder="Inserisci email">
-                    <button type="button" id="invia_email_password" class="btn btn-outline-info">➤</button>
-                </div> 
+            <div id="registerMailForm"></div>
         </div>
 
         <!--PASSWORD-->
         <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="registerPasswordPage">
             <button class="btn buttonToStarterPage" >Back</button>
-            <h2 id="messErrorIfNotPsw">Inserisci la password che ti è arrivata sulla mail inserita</h2>
-                <div class="input-group px-4 mt-4 input-register-width">
-                    <input type="text" id="password_input_register" class="form-control" placeholder="Inserisci password">
-                    <button type="button" id="check_password" class="btn btn-outline-info">➤</button>
-                </div>
+            <div id="registerPasswordForm"></div>
         </div>
 
         <!--USERNAME-->
         <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="registerUsernamePage">
             <button class="btn buttonToStarterPage" >Back</button>
-            <h2>Scegli l'username</h2>
-            <div class="input-group px-4 mt-4 input-register-width">
-                <input type="text" id="username_input" class="form-control" placeholder="inserisci username">
-                <button type="button" id="add_username" class="btn btn-outline-info">➤</button>
-            </div>
+            <div id="registerUsernameForm"></div>
         </div>
 
         <!--  --------LOGIN--------  -->
         <div class="display-flex-home flex-column align-items-center justify-content-center vh-100 page hidden" id="loginPage">
             <button class="btn buttonToStarterPage" >Back</button>
-            <h3 class="form-title mb-2">Entra nel tuo account</h3>
-            <div class="input-container mb-2">
-                <input type="text" id="username_login_input" placeholder="Inserisci username" class="form-control mb-2">
-                <span>
-                </span>
-            </div>
-            <div class="input-container">
-                <input type="text" id="password_login_input" placeholder="Enterisci Password" class="form-control mb-3">
-            </div>
-            <button type="button" id="login_btn_login_space" class="btn btn-outline-info mb-2">Entra</button>
-            <p class="signup-link">
-                Non hai un account?
-                <a class="p-1 rounded"  href="#registerMailPage">registrati</a>
-            </p>         
+            <div id="loginForm"></div>
         </div>
 
         <!--  --------HOME--------  -->
         <div class="page hidden" id="homePage">
-            <button type="button" id="buttonLogout">Logout</button>
-            <div id="divInserimentoUtentiChat">
-                <div class="input-group px-4 mt-4">
-                    <input type="text" id="filterChat" class="form-control" placeholder="&#x1F50E;&#xFE0E; Cerca">
+            <div id="homeHeader" class="input-group px-4 mt-4">
+                <button type="button" id="buttonLogout">Logout</button>
+                <div>
+                    <div id="homeSearch"></div>
                     <button type="button" id="buttonCreateChat" class="btn btn-outline-info">✚</button>
                 </div>
+                
             </div>
+
+            <div id="listaChat"></div>
 
             <p class="paragrafo-sopra-nome">Benvenuto</p>
             <h1 id="username_homepage" class="usernameHome"></h1>
@@ -105,14 +83,12 @@
         </div>
 
         <!--  --------CERCA UTENTI--------  -->
-        <div id="searchUserPage" class="page hidden">
-            <button class="btn" type="button" id="buttonBackCerca">Back</button>
-            <input type="text" id="inputRicercaUtenti" placeholder="⌕ Cerca utente">
-            <button type="button" id="buttonRicercaUtenti">Cerca</button>
-
-            <div id="utentiTrovati">
-                
-            </div>
+        <div id="createChatPage" class="page hidden">
+            <div id=creaChatErrorDiv></div>
+            <div id="createChatBack"></div>
+            <div id="createChatSearch"></div>
+            <div id="createChatUtenti"></div>
+            <div id="createChatForm"></div>
         </div>
 
 

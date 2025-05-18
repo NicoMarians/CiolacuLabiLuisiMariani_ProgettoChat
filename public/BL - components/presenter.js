@@ -8,16 +8,27 @@ import { chatListComp } from "../View - components/list.js";
 
 const socket = io();
 
-export const CreatePresenter = () => {
-    let listMessaggi = []; //DIZIONARIO CON {"ChatId" : [messaggObj]}
-    let listChat = []; //LISTA DI TUTTE LE CHAT DELL'UTENTE
-    let listCommunity = [] //LISTA DI TUTTE LE COMMMUNITY
+const createPresenter = () => {
+    // - - - - - - - - - - - - - - - - - - - - - - - ATTRIBUTI - - - - - - - - - - - - - - - - - - - - - - - 
+    /*
+    DIZIONARIO CON CHIAVE "chatId" E VALORE UNA LISTA CON TUTTI I 
+    MESSAGGI SOTTOFORMA DI OGGETTI
+    */
+    let listChat = {}; 
+
+    //COME SOPRA MA CON COMMUNITY
+    let listCommunity = {};
+
+    //LISTA DI TUTTI GLI UTENTI
+    let listUsers = [];
+
+    let user = {};
 
 
 
-    // - - - - - - - - - - - - - - - - - - - - - - - FUNZIONI SOCKET -  - -
+    // - - - - - - - - - - - - - - - - - - - - - - - FUNZIONI SOCKET - - - - - - - - - - - - - - - - - - - - - - - 
     //emits--------------->
-    // Richiesta al server per ricevere tutte le chat dell'utente
+    // Richiesta al server per ricevere tutte le chat
     socket.emit("getAllChats");
 
     //listening <--------
@@ -40,7 +51,7 @@ export const CreatePresenter = () => {
 
 
 
-    //-----------------PUBSUB-----------------
+    // - - - - - - - - - - - - - - - - - - - - - - - PUBSUB - - - - - - - - - - - - - - - - - - - - - - - 
     pubsub.subscribe("getChatList", () => {
         //richiamato da list.js, carica le chat sul componente
         chatListComp.setChats(listChat);
@@ -62,12 +73,41 @@ export const CreatePresenter = () => {
         middleware.createMessage(message)
     });
 
+
+    // - - - - - - - - - - - - - - - - - - - - - - - METODI - - - - - - - - - - - - - - - - - - - - - - - 
+
+    const getAllUsers = () => listUsers;
+
+    const getAllChats = () => listChat;
+
+    const getAllCommunities = () => listCommunity;
+
+    const getUser = () => user;
+
+    const setUser = (newUser) => user = newUser;
+
+    const resetUser = () => user = {};
+
+    const hashPassword = (str) => {
+        let hash = 0;
+        for (let i = 0, len = str.length; i < len; i++) {
+            let chr = str.charCodeAt(i);
+            hash = (hash << 5) - hash + chr;
+            hash |= 0; // Convert to 32bit integer
+        }
+        return hash;
+    }
     
 
-    return {}
-
-
-
-    
-    
+    // - - - - - - - - - - - - - - - - - - - - - - - RETURN - - - - - - - - - - - - - - - - - - - - - - - 
+    return {
+        getAllUsers: getAllUsers,
+        getAllChats: getAllChats,
+        getAllCommunities: getAllCommunities,
+        getUser: getUser,
+        setUser: setUser,
+        resetUser: resetUser
+    }
 }
+
+export const presenter = createPresenter();

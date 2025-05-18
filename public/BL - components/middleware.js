@@ -107,8 +107,8 @@ const createMiddleware = () => {
                     },
                         body: JSON.stringify({ "email": email })
                 });
-                const password = await response.json();
-                return password;
+                const result = await response.json();
+                return result;
             },
 
             checkPassword: async (psw_in) => {
@@ -143,11 +143,11 @@ const createMiddleware = () => {
                 });
                 return await response.json();               
             },
+
             uploadImg: async (options) => {
                 const response = await fetch("/upload-img", options);
                 return await response.json();
-            }
-            
+            }  
     }
 }
 export const middleware = createMiddleware()

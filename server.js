@@ -115,10 +115,10 @@ app.post("/login", async (req,res) => {
             return res.json({result: "ko"});
         }
         // Se la password è corretta, invia la risposta con i dati dell'utente
-        res.json({ result: "ok", user: result[0]});
+        res.json({ result: true, user: result[0]});
     }catch(e){
         console.log(e);
-        res.json({result: "ko", message: "C'è stato un errore"})
+        res.json({result: false, message: "C'è stato un errore"})
     }
 });
 
@@ -207,16 +207,16 @@ app.post('/mailer', async (req,res) => {
 
     console.log("Email inviata a : " + email);
     mailer.send(email, subject, text);
-    res.json({ result: "ok"});
+    res.json({ result: true});
 });
 
 app.post('/checkpassword', async (req, res) => {
     const password = req.body.password;
     
-    if (stringToHash(password) == password_user_temp) {
-        res.json({result: "ok"});
+    if (password == password_user_temp) {
+        res.json({result: true});
     } else {
-        res.json({result: "ko"});
+        res.json({result: false});
     }
 })
 

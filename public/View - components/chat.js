@@ -2,9 +2,10 @@ import { pubsub } from "../BL - components/pubsub.js";
 import {middleware} from "../BL - components/middleware.js"
 
 
-const createChatComp = () => {
-    let parentElement;
+const createChatComp = (parentElementIn) => {
+    const parentElement = parentElementIn;
     let listMess = [];
+    let cur_user;
     
 
     //-------CHAT TEMPLATE (CHAT PRIVATE)--------//
@@ -58,7 +59,6 @@ const createChatComp = () => {
     `;
 
     //FUNZIONI
-    const setParenteElement = (pr) => {parentElement = pr}
     const setUser = (user) => {cur_user = user;}
     const getChatList =  () => {return listMess;}
     const setMess = (ListIn) => {
@@ -156,7 +156,6 @@ const createChatComp = () => {
     
 
     return {
-        setParenteElement : setParenteElement,
 
         setUser: setUser,
 
@@ -173,4 +172,4 @@ const createChatComp = () => {
 }
 
 
-export const chatComp = createChatComp()
+export const chatComp = createChatComp(document.getElementById("chatSpace"));
