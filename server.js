@@ -14,8 +14,7 @@ const mailer = require('./mailer.js');
 
 const bodyParser = require("body-parser");
 
-const { middleware } = require('./public/BL - components/middleware.js');
-const { info } = require('console');
+const middleware = require('./public/BL - components/middleware.js');
 
 //app.use(cors());
 
@@ -341,7 +340,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
                     image: information.image,
                     timestamp: dataDB
                 }
-                const res = await middleware.queries.createMessage();
+                const res = await database.queries.createMessage();
                 console.log("res db salvataggio messaggio: ", res);
             });
 

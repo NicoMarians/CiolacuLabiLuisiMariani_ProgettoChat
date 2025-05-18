@@ -1,5 +1,5 @@
 import { pubsub } from "../BL - components/pubsub.js";
-import {middleware} from "../BL - components/middleware.js"
+//import {middleware} from "../BL - components/middleware.js"
 
 
 const createChatComp = (parentElementIn) => {
