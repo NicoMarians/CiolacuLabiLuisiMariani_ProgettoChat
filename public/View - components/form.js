@@ -1,4 +1,5 @@
-import { pubsub } from "../BL - components/pubsub";
+import { pubsub } from "../BL - components/pubsub.js";
+
 
 const createMessObj = (userIdIn, chatIdIn, textIn, urlimageImmagineIn, timestampIn) => {
     if (image == "") image = null;
@@ -12,7 +13,7 @@ const createMessObj = (userIdIn, chatIdIn, textIn, urlimageImmagineIn, timestamp
     };
 };
 
-template_form = `
+const template_form = `
     <div class="input-group px-1 mt-1">
     <input class="inputImgChat" id="inputImgChat" type="file" single>
     <input type="text" id="input_messaggio" placeholder="Message..." class="form-control">
@@ -34,7 +35,7 @@ export const createFormComp = (parentElementIn) => {
     
         //-------------------------------Biding
         document.getElementById("sendButtonMess").onclick = () => {
-            const inputFile = document.getElementById("inputImgChat").value;
+            const inputFile = document.getElementById("inputImgChat");
             const message = document.getElementById("input_messaggio").value;
             
             const currentTime = new Date().toISOString().slice(0,19).split("T").join(" "); //data Per database
@@ -62,7 +63,7 @@ export const createFormComp = (parentElementIn) => {
                         body: body
                     };
                     try {
-                        const res = pubsub.publish("upload-img", fetchOptions);
+                        //const res = pubsub.publish("upload-img", fetchOptions);
                         const data = await res.json();
                                 
                         document.getElementById("input_messaggio").value = "";
@@ -87,4 +88,7 @@ export const createFormComp = (parentElementIn) => {
         render: render
     }
 }
+
+
+export const formComp = createFormComp(document.getElementById("form-container"));
 
