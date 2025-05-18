@@ -250,6 +250,7 @@ app.post('/getuserbyname', async (req,res) => {
 //LETTURA
 
 let onlineUsers = [];
+let allUsers = [];
 
 app.use("/", express.static(path.join(__dirname, "public")));
     const server = http.createServer(app);
@@ -285,27 +286,27 @@ app.use("/", express.static(path.join(__dirname, "public")));
             const image = information.image
             const timestamp = information.timestamp
 
-            if (image) {
-                const response = {"text":text, "userid":senderId, "timestamp":timestamp, "image": image};
-            } else {
-                const response = {"text":text, "userid":senderId, "timestamp":timestamp};
-            }
-            
-            onlineUsers.forEach((element) => {
-                if (element.chat == chat){
-                    element.user.emit("arrivingmessage",response);
+                if (image) {
+                    const response = {"text":text, "userid":senderId, "timestamp":timestamp, "image": image};
+                } else {
+                    const response = {"text":text, "userid":senderId, "timestamp":timestamp};
                 }
-            })
+                
+                onlineUsers.forEach((element) => {
+                    if (element.chat == chat){
+                        element.user.emit("arrivingmessage",response);
+                    }
+                })
 
-        });
-
-        socket.on('disconnectchat',() => {
-            let index = 0;
-            onlineUsers.forEach((user,i) => {
-                if(user.user.id == socket.id) index = i
             });
-            onlineUsers.splice(index,1);
-        });
+
+            socket.on('disconnectchat',() => {
+                let index = 0;
+                onlineUsers.forEach((user,i) => {
+                    if(user.user.id == socket.id) index = i
+                });
+                onlineUsers.splice(index,1);
+            });
 
 
 

@@ -10,6 +10,39 @@ document.getElementById("buttonLogout").onclick = async () => {
     window.location.href = "#starterPage";
 }
 
+//controllo cookie
+document.getElementById("login_btn").onclick = async () => {
+    if(document.cookie != "" && document.cookie != null && document.cookie != undefined){
+        let cookies = document.cookie.split(";");
+        let username = "";
+        let found = false;
+        
+        cookies.forEach((cookie) => {
+            if(cookie.split("=")[0].replaceAll(" ", "") == "username"){
+                username = cookie.split("=")[1];
+                found = true;
+            }
+        });
+
+        if (found){
+            const result = await middleware.getUserByName(username);
+            const user = result.data[0];
+            document.getElementById("username_homepage").innerHTML = user.username;
+            presenter.setUser(user); //<- + importante da avere
+            pubsub.publish("ready-user-presenter")
+
+            window.location.href = "#homePage";
+        } else {
+            loginComp.render();
+            window.location.href = "#loginPage"
+        };
+        
+    } else {
+        loginComp.render();
+        window.location.href = "#loginPage"
+    };
+}
+
 const createLogin = (newElement) => { 
     const bindingElement = newElement;
     let isLogged = false;

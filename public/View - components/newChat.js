@@ -126,6 +126,7 @@ const createNewChat = (newElement) => {
 
     const render = () => {
         const allUsers = presenter.getAllUsers();
+        console.log(allUsers);
 
         let line = allUsers.map((user) => {
             if (user.username.includes(filter)){
