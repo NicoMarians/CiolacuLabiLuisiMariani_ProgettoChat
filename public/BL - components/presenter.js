@@ -65,15 +65,20 @@ const createPresenter = () => {
         try {
             chatComp.addMess(messageData);
             chatComp.render();
-            formComp.setUser(cur_user);
-            formComp.setCurChat(allMessages.chatData);
-            formComp.render();
+            //formComp.setUser(cur_user);
+            //formComp.setCurChat(allMessages.chatData);
+            //formComp.render();
+            console.log("CHAT RENDERIZZATA")
         } catch (e){
             console.log("errore: ", e);
         }
         });
 
-    socket.on("returnAllMessages", (allMessages) => {
+    socket.on("allUsers",(userList) => {
+        listUsers = userList;
+    });
+
+    socket.on("returnAllMessages", (allMessages, chat) => {
         listMessaggi = allMessages;
         chatComp.setMess(allMessages);
         console.log("MESSAGGI CARICATI SU CHAT.JS ->", allMessages);
@@ -82,6 +87,8 @@ const createPresenter = () => {
 
         //-form
         formComp.setCurChat(allMessages.chatData);
+        formComp.setUser(cur_user);
+        formComp.setCurChat(chat);
         formComp.render();
 
     })
@@ -113,8 +120,6 @@ const createPresenter = () => {
         //- passare dizionario già creato correttamente -> objMess
 
         socket.emit("sendOne", message);  //<- lo manda al server
-
-        middleware.createMessage(message)
     });
 
 
