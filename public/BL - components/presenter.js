@@ -58,6 +58,7 @@ const createPresenter = () => {
 
     socket.on("returnAllUsers",(alLUsers) => {
         listUsers = alLUsers;
+        console.log(listUsers);
     });
     
     socket.on("arrivingmessage",(messageData) => {
@@ -71,10 +72,6 @@ const createPresenter = () => {
             console.log("errore: ", e);
         }
         });
-
-    socket.on("allUsers",(userList) => {
-        listUsers = userList;
-    });
 
     socket.on("returnAllMessages", (allMessages) => {
         listMessaggi = allMessages;
@@ -123,9 +120,7 @@ const createPresenter = () => {
 
     // - - - - - - - - - - - - - - - - - - - - - - - METODI - - - - - - - - - - - - - - - - - - - - - - - 
 
-    const getAllUsers = async () => {
-        socket.emit("getAllUsers");
-    };
+    const getAllUsers = () => listUsers;
 
     const getAllChats = () => listChat;
 
@@ -135,7 +130,7 @@ const createPresenter = () => {
 
     const setUser = (newUser) => cur_user = newUser;
 
-    const resetUser = () => cur_user = {};
+    const resetUser = () => {cur_user = {}};
 
     const hashPassword = (str) => {
         let hash = 0;
@@ -145,6 +140,10 @@ const createPresenter = () => {
             hash |= 0; // Convert to 32bit integer
         }
         return hash;
+    }
+
+    const createNewChat = (users,chatName,chatImage) => {
+        socket.emit("createNewChat",{"users":users,"chatName":chatName,"chatImage":chatImage});
     }
     
 
@@ -157,6 +156,7 @@ const createPresenter = () => {
         setUser: setUser,
         resetUser: resetUser,
         hashPassword: hashPassword,
+        createNewChat: createNewChat
     }
 }
 

@@ -271,7 +271,6 @@ const loadMessaggeOnStart = async () => {
 loadMessaggeOnStart();
 
 
-
 app.use("/", express.static(path.join(__dirname, "public")));
     const server = http.createServer(app);
     const io = new Server(server);
@@ -282,6 +281,9 @@ app.use("/", express.static(path.join(__dirname, "public")));
     
 
         io.on('connect', (socket) => {
+
+            socket.emit("returnAllUsers",allUsers)
+
             socket.on('connectchat',(chatId) => {
                 onlineUsers.push({user:socket,chat: chatId});
             });
@@ -305,6 +307,8 @@ app.use("/", express.static(path.join(__dirname, "public")));
             socket.on("getAllUsers",async () => {
                 socket.emit("returnAllUsers",allUsers);
             })
+
+
 
 
             socket.on('sendOne', (information) => {

@@ -67,8 +67,10 @@ const createNewChatForm = (newElement) => {
             const chatImage = document.getElementById("inputNomeChat").value;
 
             if (chatName && chatImage) {
-                if(addedUsers.length > 0){
-                //MANDARE DATI A SERVER
+                let selectedUsers = newChat.getUsers();
+                if(selectedUsers.length > 0){
+                    selectedUsers.push(presenter.getUser());
+                    presenter.createNewChat(selectedUsers,chatName,chatImage)
                 } else errorDiv.innerHTML = "Aggiungere almeno un utente";
             } else errorDiv.innerHTML = "Inserimento nome o immagine chat errati";
         }
@@ -120,9 +122,9 @@ const createNewChat = (newElement) => {
 
     const setFilter = (newFilter) => filter = newFilter;
 
-    const resetData = () => {
-        filter = "";
-    }
+    const resetData = () => filter = "";
+
+    const getUsers = () => addedUsers;
 
     const render = () => {
         const allUsers = presenter.getAllUsers();
@@ -130,8 +132,9 @@ const createNewChat = (newElement) => {
 
         let line = allUsers.map((user) => {
             if (user.username.includes(filter)){
+                console.log(`divUser_${user.id}`);
                 return `
-                    <div id="divUser_${user.id}">
+                    <div id="divUser_${user.id}" style="background-color:#1e2126; ">
                         <h3>${user.username}</h3>
                     </div>
                 `;
@@ -142,10 +145,17 @@ const createNewChat = (newElement) => {
 
         allUsers.forEach((user) => {
             if (user.username.includes(filter)){
+                console.log(`divUser_${user.id}`);
                 document.getElementById(`divUser_${user.id}`).onclick = () => {
-                    addedUsers.push(user);
-                    document.getElementById(`divUser_${user.id}`).style.background = "light-green";
-                }
+                    if(!addedUsers.includes(user)){
+                        console.log("SELECTED")
+                        addedUsers.push(user);
+                        document.getElementById(`divUser_${user.id}`).style.background = "lightgreen";
+                    } else {
+                        addedUsers.pop(addedUsers.indexOf(user));
+                        document.getElementById(`divUser_${user.id}`).style.background = "#1e2126";
+                    }
+                }      
             }
         });
     }
@@ -153,7 +163,8 @@ const createNewChat = (newElement) => {
     return {
         setFilter: setFilter,
         resetData: resetData,
-        render: render
+        render: render,
+        getUsers: getUsers
     }
 }
 
