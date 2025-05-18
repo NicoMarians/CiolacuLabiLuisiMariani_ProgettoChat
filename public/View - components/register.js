@@ -15,6 +15,11 @@ document.querySelectorAll(".buttonToStarterPage").onclick = () => {
     window.location.href = "#starterPage";
 }
 
+document.getElementById("register_btn").onclick = async () => {    
+    mailRegister.render();
+    window.location.href = "#registerMailPage";
+}
+
 
 const createMailRegister = (newElement) => {
     const bindingElement = newElement
@@ -171,7 +176,7 @@ const createRegister = () => {
 }
 
 
-export const mailRegister = createMailRegister(document.getElementById("registerMailForm"));
+const mailRegister = createMailRegister(document.getElementById("registerMailForm"));
 const passwordRegister = createPasswordRegister(document.getElementById("registerPasswordForm"));
 const usernameRegister = createUsernameRegister(document.getElementById("registerUsernameForm"));
 const register = createRegister();

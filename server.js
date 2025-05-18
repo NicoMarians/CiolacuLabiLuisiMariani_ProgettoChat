@@ -250,21 +250,21 @@ app.post('/getuserbyname', async (req,res) => {
 //LETTURA
 
 let onlineUsers = [];
-let allUsers = [];
-let listAllMess = {};
+let allUsers = await database.queries.downloadAllUsers();
+let allChatsAndMessages = {}; //{chatId : {chatData : {name,picture,type},messages : [{message},{message}] } }
 
-const loadMessaggeStart = async () => {
-    listIdChat = await database.queries.downloadAllChatId(); //PRENDIAMO TUTTI GLI ID DELLE CHAT
-    
-    listIdChat.forEach( async (idChat) => {
-        message = await database.queries.downloadAllChatId()
-        listAllMess[idChat] = message;
-        console.log("Messaggi per IDCHAT: ", idChat, " ->  ", message);
+const loadMessaggeOnStart = async () => {
+    const allChats = await database.queries.downloadChatAllNoFilter(); //SCARICHIAMO TUTTE LE CHAT CON ANCHE I LORO DATI
+    allChats.forEach( async (chat) => {
+        const chatId = chat.id;
+        const chatMessages = await database.queries.downloadMessages(chatId);
+        
+        allChatsAndMessages[chatId] = {"chatData":{"name":chat.name,"picture":chat.picture,"type":chat.id_tipo},"messages":chatMessages};
+        //console.log("Messaggi per IDCHAT: ", idChat, " ->  ", message);
     });
-
-
 };
-loadMessaggeStart();
+
+loadMessaggeOnStart();
 
 
 
@@ -295,16 +295,21 @@ app.use("/", express.static(path.join(__dirname, "public")));
                     console.log(e);
                     socket.emit("allChats", { result: "ko" });
                 }
+            });
+
+
+            socket.on("getAllUsers",async () => {
+                socket.emit("returnAllUsers",allUsers);
             })
 
 
-        socket.on('sendOne', (information) => {
-            //ancora da finire
-            const senderId = information.userId;
-            const chat = information.chatId;
-            const text = information.text;
-            const image = information.image
-            const timestamp = information.timestamp
+            socket.on('sendOne', (information) => {
+                //ancora da finire
+                const senderId = information.userId;
+                const chat = information.chatId;
+                const text = information.text;
+                const image = information.image
+                const timestamp = information.timestamp
 
                 if (image) {
                     const response = {"text":text, "userid":senderId, "timestamp":timestamp, "image": image};
@@ -328,8 +333,9 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 onlineUsers.splice(index,1);
             });
 
-
-
+            socket.on('getAllMessages',(chatId) => {
+                socket.emit('returnAllMessages',allChatsAndMessages[chatId]);
+            });
     });
 
 
