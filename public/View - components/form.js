@@ -46,29 +46,31 @@ export const createFormComp = (parentElementIn) => {
 
             if (message.replaceAll(" ", "")) {
                 document.getElementById("input_messaggio").value = "";
-                console.log("CUR CHAT: ", cur_user);
+                console.log("CUR USER: ", cur_user);
 
                 let messObj = createMessObj(cur_user.id, cur_chat.id, message, "", newCurrentTime, cur_chat.id_tipo, cur_user.usernameIn);
                 pubsub.publish("sendOne", messObj)
                 console.log("Messaggio inviato  ", messObj)
         
-            } else { 
+            } else {  
                 
                 console.log("MESSAGGIO VUOTO", inputFile.files[0])
                 //SE L'INPUT è VUOTO CONTROLLO SE L'UTENTE HA AGGIUNTO UN'IMMAGINE, SE SI CREA UN NUOVO MESSAGGIO E LO MANDA CON LA SOCKET
-                if (inputFile.files && inputFile.files.length > 0) {async () => {
+                if (inputFile.files && inputFile.files.length > 0) { () => {
                     console.log("SALVATAGGIO IMG");
                     const formData = new FormData();
                     formData.append("file", inputFile.files[0]);
-                    const body = formData;
-                    body.description = inputDescription.value;
                     const fetchOptions = {
                         method: 'post',
-                        body: body
+                        body: formData
                     };
                     try {
                         //const res = pubsub.publish("upload-img", fetchOptions);
                         //const data = await res.json();
+                        const imgpath = "";
+                        let messObj = createMessObj(cur_user.id, cur_chat.id, message="", "", newCurrentTime, cur_chat.id_tipo, cur_user.usernameIn);
+                        pubsub.publish("sendOne", messObj)
+                        console.log("Messaggio inviato  ", messObj)
                                 
                         document.getElementById("input_messaggio").value = "";
                         

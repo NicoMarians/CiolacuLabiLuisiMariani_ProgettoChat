@@ -72,7 +72,7 @@ const createChatList = (newElement) => {
             document.getElementById(`chat_${chat.id}`).onclick = async () => {
                 //chiedo al presenter di ricevere le chat
                 pubsub.publish("getMessages",chat);
-
+                
                 window.location.href = `#chatPage`;
                 window.scrollTo(0, document.chatSpace-container.scrollHeight);
                 

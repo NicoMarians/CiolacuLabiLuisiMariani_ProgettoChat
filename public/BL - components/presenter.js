@@ -121,6 +121,7 @@ const createPresenter = () => {
         formComp.setUser(cur_user);
         formComp.setCurChat(chat);
         formComp.render();
+        
         window.location.href = `#chatPage`;
         scrollToBottom();
     })
