@@ -290,6 +290,14 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 onlineUsers.push({user:socket,chat: chatId});
             });
 
+            socket.on("createNewChat",async (chatData) => {
+                const newChatId = await database.queries.createChat(chatData.chatName,chatData.chatImage);
+                chatData.users.forEach(async (user) => {
+                    const response = await database.queries.createUserChat(user.id,newChatId);
+                })
+
+            })
+
 
             socket.on("getAllChats", async (user) => {
                 // RESTITUISCE LA LISTA DELLE CHAT
