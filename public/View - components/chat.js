@@ -70,7 +70,6 @@ const createChatComp = (parentElementIn) => {
     const setMess = (ListIn) => {
         //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)
         listChatMess = ListIn;
-        console.log(listChatMess)
         listMess = listChatMess.messages;
     }
     const addMess = (messObj) => {
@@ -82,7 +81,6 @@ const createChatComp = (parentElementIn) => {
         cur_chat = newChat;
     }
     const render = () => {
-        //console.log("LIST MESSAGGI: ", listMess);
         document.getElementById("header-chat").innerHTML = `
         <div class="header-mess">
             <img class="img-avatar" src="${listChatMess.chatData.picture}"> 
@@ -96,14 +94,11 @@ const createChatComp = (parentElementIn) => {
         let lastDate = "";
         //listMess = listMess[chatData].messages;
         listMess.forEach(messaggio => {
-            console.log(messaggio)
             let newDate = messaggio.timestamp.split("T")[0];
             if (newDate != lastDate) {
                 html += `<div class="data-mess">${newDate}</div>`;
                 lastDate = newDate;
             }
-            //console.log(messaggio);
-            //console.log(cur_user)
             if (messaggio.userid == cur_user.id) {
                 //MANDANTE
                 if (messaggio.image) {

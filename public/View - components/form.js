@@ -46,18 +46,14 @@ export const createFormComp = (parentElementIn) => {
 
             if (message.replaceAll(" ", "")) {
                 document.getElementById("input_messaggio").value = "";
-                console.log("CUR CHAT: ", cur_user);
 
                 let messObj = createMessObj(cur_user.id, cur_chat.id, message, "", newCurrentTime, cur_chat.id_tipo, cur_user.usernameIn);
                 pubsub.publish("sendOne", messObj)
-                console.log("Messaggio inviato  ", messObj)
         
             } else { 
                 
-                console.log("MESSAGGIO VUOTO", inputFile.files[0])
                 //SE L'INPUT è VUOTO CONTROLLO SE L'UTENTE HA AGGIUNTO UN'IMMAGINE, SE SI CREA UN NUOVO MESSAGGIO E LO MANDA CON LA SOCKET
                 if (inputFile.files && inputFile.files.length > 0) {async () => {
-                    console.log("SALVATAGGIO IMG");
                     const formData = new FormData();
                     formData.append("file", inputFile.files[0]);
                     const body = formData;

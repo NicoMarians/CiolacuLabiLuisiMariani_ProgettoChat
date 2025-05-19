@@ -74,6 +74,8 @@ const createNewChatForm = (newElement) => {
                     const selfUser = {"email":tempSelfUser.email,"id":tempSelfUser.id, "picture":tempSelfUser.picture ,"username":tempSelfUser.username  }
                     selectedUsers.push(selfUser);
                     presenter.createNewChat(selectedUsers,chatName,chatImage)
+                    window.location.href = `#homePage`;
+
                 } else errorDiv.innerHTML = "Aggiungere almeno un utente";
             } else errorDiv.innerHTML = "Inserimento nome o immagine chat errati";
         }
@@ -131,16 +133,17 @@ const createNewChat = (newElement) => {
 
     const render = () => {
         const allUsers = presenter.getAllUsers();
-        console.log(allUsers);
 
         let line = allUsers.map((user) => {
             if (user.username.includes(filter)){
-                if(user.id != presenter.getUser().id);
-                return `
+                if(user.id != presenter.getUser().id){
+                    return `
                     <div id="divUser_${user.id}" style="background-color:#1e2126; ">
                         <h3>${user.username}</h3>
                     </div>
                 `;
+                }
+               
             }
             
         }).join("");
@@ -148,17 +151,18 @@ const createNewChat = (newElement) => {
 
         allUsers.forEach((user) => {
             if (user.username.includes(filter)){
-                console.log(`divUser_${user.id}`);
-                document.getElementById(`divUser_${user.id}`).onclick = () => {
-                    if(!addedUsers.includes(user)){
-                        console.log("SELECTED")
-                        addedUsers.push(user);
-                        document.getElementById(`divUser_${user.id}`).style.background = "lightgreen";
-                    } else {
-                        addedUsers.pop(addedUsers.indexOf(user));
-                        document.getElementById(`divUser_${user.id}`).style.background = "#1e2126";
-                    }
-                }      
+                if (user.id != presenter.getUser().id){
+                    document.getElementById(`divUser_${user.id}`).onclick = () => {
+                        if(!addedUsers.includes(user)){
+                            addedUsers.push(user);
+                            document.getElementById(`divUser_${user.id}`).style.background = "lightgreen";
+                        } else {
+                            addedUsers.pop(addedUsers.indexOf(user));
+                            document.getElementById(`divUser_${user.id}`).style.background = "#1e2126";
+                        }
+                }    
+                }
+                  
             }
         });
     }

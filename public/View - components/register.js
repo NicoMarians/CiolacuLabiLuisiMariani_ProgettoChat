@@ -111,7 +111,6 @@ const createUsernameRegister = (newElement) => {
                     //document.getElementById("image_input").value = "";
                     register.setData(username,image);
                     register.createUser();
-                    console.log("USER CREATO")
                 } catch (error) {console.error("Errore durante la registrazione:", error);}
             } else {
                 outputform.innerHTML="Inserisci un'email";
@@ -144,7 +143,6 @@ const createRegister = () => {
         const user = await middleware.createUser(userData);
         presenter.setUser(user);
         pubsub.publish("ready-user-presenter");
-        console.log("USER APPENA CREATO: ", presenter.getUser());
 
         window.location.href = "#homePage";
     }
