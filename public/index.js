@@ -19,12 +19,4 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     const navigator = createNavigator(document.querySelector(".flock-space"));
     
     window.location.href = "#starterPage";
-
-    document.getElementById("buttonBackChat").onclick = () => {
-        document.getElementById("input_messaggio").value = "";
-        socket.emit("disconnectchat");
-        window.location.href = "#homePage";
-
-    }
-
 });

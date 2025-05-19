@@ -1,6 +1,11 @@
 import { pubsub } from "../BL - components/pubsub.js";
 //import {middleware} from "../BL - components/middleware.js"
 
+document.getElementById("buttonBackChat").onclick = () => {
+    document.getElementById("input_messaggio").value = "";
+    window.location.href = "#homePage";
+}
+
 
 const createChatComp = (parentElementIn) => {
     const parentElement = parentElementIn;
