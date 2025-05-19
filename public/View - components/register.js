@@ -96,21 +96,22 @@ const createUsernameRegister = (newElement) => {
             <h3>Scegli l'username</h3>
             <div class="input-group px-4 mt-4 input-register-width">
                 <input type="text" id="username_input" class="form-control" placeholder="inserisci username">
-                <input type="image" id="image_input" class="form-control" >
                 <button type="button" id="add_username" class="btn btn-outline-info">➤</button>
             </div>
         `;
 
         document.getElementById("add_username").onclick = async () => {
             const username = document.getElementById("username_input").value;
-            const image = document.getElementById("image_register").value;
+            //const image = document.getElementById("image_register").value;
+            const image = null;
 
             if (username.trim() != "" ) {
                 try {
                     document.getElementById("username_input").value = "";
-                    document.getElementById("image_input").value = "";
-                    register.setData(username, image);
+                    //document.getElementById("image_input").value = "";
+                    register.setData(username,image);
                     register.createUser();
+                    console.log("USER CREATO")
                 } catch (error) {console.error("Errore durante la registrazione:", error);}
             } else {
                 outputform.innerHTML="Inserisci un'email";
@@ -137,11 +138,13 @@ const createRegister = () => {
             "username":username,
             "picture":picture,
             "password":password,
-            "public_key":null,
-            "private_key":null,
+            "public_key":"prova",
+            "private_key":"prova",
         }
         const user = await middleware.createUser(userData);
         presenter.setUser(user);
+        pubsub.publish("ready-user-presenter");
+        console.log("USER APPENA CREATO: ", presenter.getUser());
 
         window.location.href = "#homePage";
     }
@@ -156,7 +159,7 @@ const createRegister = () => {
 
     const setData = (newUsername,newImage) => {
         username = newUsername;
-        image = newImage;
+        picture = newImage
     }
 
     const resetData = () => {
