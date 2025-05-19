@@ -64,12 +64,15 @@ const createNewChatForm = (newElement) => {
 
         document.getElementById("completaCreaChat").onclick = () => {
             const chatName = document.getElementById("inputNomeChat").value;
-            const chatImage = document.getElementById("inputNomeChat").value;
+            //const chatImage = document.getElementById("inputImmagineChat").value;
+            const chatImage = null;
 
-            if (chatName && chatImage) {
+            if (chatName) {
                 let selectedUsers = newChat.getUsers();
                 if(selectedUsers.length > 0){
-                    selectedUsers.push(presenter.getUser());
+                    const tempSelfUser = presenter.getUser();
+                    const selfUser = {"email":tempSelfUser.email,"id":tempSelfUser.id, "picture":tempSelfUser.picture ,"username":tempSelfUser.username  }
+                    selectedUsers.push(selfUser);
                     presenter.createNewChat(selectedUsers,chatName,chatImage)
                 } else errorDiv.innerHTML = "Aggiungere almeno un utente";
             } else errorDiv.innerHTML = "Inserimento nome o immagine chat errati";
@@ -132,7 +135,7 @@ const createNewChat = (newElement) => {
 
         let line = allUsers.map((user) => {
             if (user.username.includes(filter)){
-                console.log(`divUser_${user.id}`);
+                if(user.id != presenter.getUser().id);
                 return `
                     <div id="divUser_${user.id}" style="background-color:#1e2126; ">
                         <h3>${user.username}</h3>

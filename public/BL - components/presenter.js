@@ -41,8 +41,19 @@ const createPresenter = () => {
         console.log("Connesso alla chat!");
     });
 
-    socket.on("renderNewChat",(chatId) => {
-        socket.emit("getAllMessages",chatId);
+    socket.on("newChatCreated",(data) => {
+        data[0].forEach((user) => {
+            if(user.id == cur_user.id){
+                pubsub.publish("ready-user-presenter");
+                if (window.location.href == `#createChatPage`){
+                    window.location.href = `#homePage`;
+                }
+            }
+        })
+    })
+
+    socket.on("renderNewChat",(chat) => {
+        socket.emit("getAllMessages",chat);
     })
     
     socket.on("allChats", (allChatList) => {
@@ -138,9 +149,9 @@ const createPresenter = () => {
         console.log("List chat caricate su list.js");     
     });
 
-    pubsub.subscribe("getMessages", (id_chat) => {
+    pubsub.subscribe("getMessages", (chat) => {
         //richiamato ogni volta che si preme su una chat, carica i messaggi dentro a chat.js
-        socket.emit("getAllMessages", (id_chat));
+        socket.emit("getAllMessages", chat);
     });
 
     pubsub.subscribe("sendOne", (message) => {

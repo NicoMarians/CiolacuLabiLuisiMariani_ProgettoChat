@@ -266,14 +266,15 @@ const database = {
 
       createChat : async (name,picture) => {
          let query = `
-            INSERT INTO "Chat"(name, picture)
-            VALUES ('$1', $2);
+            INSERT INTO "Chat"(name, picture,id_tipo)
+            VALUES ($1, $2, $3)
             RETURNING id
          `;
 
          const values = [
             name,
-            picture
+            picture,
+            1
          ];
 
          return await executeQuery(query,values) 

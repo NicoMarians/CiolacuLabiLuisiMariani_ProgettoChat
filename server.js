@@ -292,11 +292,12 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
             socket.on("createNewChat",async (chatData) => {
                 const newChatId = await database.queries.createChat(chatData.chatName,chatData.chatImage);
+                console.log(newChatId)
                 chatData.users.forEach(async (user) => {
-                    const response = await database.queries.createUserChat(user.id,newChatId);
+                    const response = await database.queries.createUserChat(user.id,newChatId[0].id);
                 })
-                allChatsAndMessages[newChatId] = {"chatData":{"name":chat.name,"picture":chat.picture,"type":chat.id_tipo},"messages":[]};
-                socket.emit("renderNewChat",newChatId);
+                allChatsAndMessages[newChatId[0].id] = {"chatData":{"name":chatData.name,"picture":chatData.picture,"type":1},"messages":[]};
+                io.emit("newChatCreated",[chatData.users,newChatId[0]]);
             })
 
 
@@ -305,6 +306,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 try {
                     const community = await database.queries.downloadCommunityAll();
                     const chatPriv = await database.queries.downloadChatAll(user.id);
+                    console.log(chatPriv)
                     
                     console.log("INVIO LISTA COMMUNITY E CHAT PRIV")
                     socket.emit("allChats", { result: "ok", community: community, chatPriv: chatPriv});
@@ -367,7 +369,8 @@ app.use("/", express.static(path.join(__dirname, "public")));
             });
 
             socket.on('getAllMessages',(chat) => {
-                //console.log("Messaggi inviati, chat id: ", allChatsAndMessages[chatId.id])
+                console.log("Messaggi inviati, chat id: ", allChatsAndMessages[chat.id])
+            
                 socket.emit('returnAllMessages', allChatsAndMessages[chat.id], chat);
             });
     });
