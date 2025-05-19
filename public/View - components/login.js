@@ -29,7 +29,7 @@ document.getElementById("login_btn").onclick = async () => {
             const user = result.data[0];
             document.getElementById("username_homepage").innerHTML = user.username;
             presenter.setUser(user); //<- + importante da avere
-            pubsub.publish("ready-user-presenter")
+            pubsub.publish("ready-user-presenter");
 
             window.location.href = "#homePage";
         } else {
