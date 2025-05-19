@@ -131,6 +131,7 @@ const createPresenter = () => {
         formComp.setUser(cur_user);
         formComp.setCurChat(chat);
         formComp.render();
+        
         window.location.href = `#chatPage`;
         scrollToBottom();
     })
@@ -160,7 +161,7 @@ const createPresenter = () => {
     pubsub.subscribe("sendOne", (message) => {
         //richiamato da form.js, prende il contenuto del messaggio e:  lo invia alle altre socket | lo salva sul database
         //- passare dizionario già creato correttamente -> objMess
-
+        
         socket.emit("sendOne", message);  //<- lo manda al server
     });
 
