@@ -70,6 +70,7 @@ const createChatComp = (parentElementIn) => {
     const setMess = (ListIn) => {
         //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)
         listChatMess = ListIn;
+        console.log(listChatMess)
         listMess = listChatMess.messages;
     }
     const addMess = (messObj) => {

@@ -41,6 +41,8 @@ const createChatList = (newElement) => {
     const removeFilter = () => {filter = null}
 
     const render = () => {
+        console.log(listCommunities);
+        console.log(listChats);
         //RENDER COMMUNITIES
         let line = `<div class="list-separated-chat" ><h4>Community</h4>`;
         line += listCommunities.map((chat) => {
@@ -57,11 +59,12 @@ const createChatList = (newElement) => {
         //RENDER CHATS (CON GRUPPI)
         line += `<div class="list-separated-chat" ><h4>Private chat</h4>`;
         line += listChats.map((chat) => {
-            if (chat.name && filter && chat.name.includes(filter)) {
+            if (chat.name.includes(filter)) {
                 const picture = chat.picture == null ? "" : `../../images/${chat.picture}`;
                 return`
-                <div class = "chatDiv" id=chat_${chat.id}>
-                    <img src="${picture}" alt=${chat.name[0].toUpperCase}>
+                <div class = "chatlistSingle  d-flex align-items-center" id="chat_${chat.id}">                        
+                    <img src="${picture}" alt="${chat.name[0].toUpperCase()}" class="img-avatar">
+                    <p> ${chat.name} </p>    
                 </div>
             `}
         }).join("");
@@ -69,13 +72,13 @@ const createChatList = (newElement) => {
         bindingElement.innerHTML = line;
 
         listChats.forEach((chat) => {
+            console.log(chat)
             document.getElementById(`chat_${chat.id}`).onclick = async () => {
                 //chiedo al presenter di ricevere le chat
                 pubsub.publish("getMessages",chat);
                 
                 window.location.href = `#chatPage`;
-                window.scrollTo(0, document.chatSpace-container.scrollHeight);
-                
+                window.scrollTo(0, document.body.scrollHeight);
             }
         });
 
