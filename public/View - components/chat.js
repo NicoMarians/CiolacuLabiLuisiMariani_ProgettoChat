@@ -152,7 +152,6 @@ const createChatComp = (parentElementIn) => {
         html += `</div> </div>`
 
         parentElement.innerHTML = html;
-        window.scrollTo(0, document.body.scrollHeight);        
     }
 
     //-----------------------------------------PUBSUB SUBCRISEBES

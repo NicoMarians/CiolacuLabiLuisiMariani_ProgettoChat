@@ -5,7 +5,11 @@ import { chatListComp } from "../View - components/list.js";
 import { newChat } from "../View - components/newChat.js";
 import { formComp } from "../View - components/form.js";
 
-
+function scrollToBottom() {
+    const messagesDiv = document.getElementById("chatSpace-container");
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+  
 
 //AGGIUNGERE GESTIONE SOCKET X IL DEMONE DI PASTOUR
 
@@ -105,7 +109,7 @@ const createPresenter = () => {
             //formComp.setUser(cur_user);
             //formComp.setCurChat(allMessages.chatData);
             //formComp.render();
-            console.log("CHAT RENDERIZZATA")
+            console.log("CHAT RENDERIZZATA");
         } catch (e){
             console.log("errore: ", e);
         }
@@ -129,7 +133,7 @@ const createPresenter = () => {
         formComp.setCurChat(chat);
         formComp.render();
         window.location.href = `#chatPage`;
-        window.scrollTo(0, document.body.scrollHeight);
+        scrollToBottom();
     })
     // - - - - - - - - - - - - - - - - - - 
 
