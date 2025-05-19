@@ -40,6 +40,10 @@ const createPresenter = () => {
     socket.on("connect", () => {
         console.log("Connesso alla chat!");
     });
+
+    socket.on("renderNewChat",(chatId) => {
+        socket.emit("getAllMessages",chatId);
+    })
     
     socket.on("allChats", (allChatList) => {
         //quando il server manda i messassi allora gli aggiunge dentro il comp ed effettua la render chiamando il publish
@@ -113,7 +117,8 @@ const createPresenter = () => {
         formComp.setUser(cur_user);
         formComp.setCurChat(chat);
         formComp.render();
-
+        window.location.href = `#chatPage`;
+        window.scrollTo(0, document.body.scrollHeight);
     })
     // - - - - - - - - - - - - - - - - - - 
 

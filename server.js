@@ -295,7 +295,8 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 chatData.users.forEach(async (user) => {
                     const response = await database.queries.createUserChat(user.id,newChatId);
                 })
-
+                allChatsAndMessages[newChatId] = {"chatData":{"name":chat.name,"picture":chat.picture,"type":chat.id_tipo},"messages":[]};
+                socket.emit("renderNewChat",newChatId);
             })
 
 
