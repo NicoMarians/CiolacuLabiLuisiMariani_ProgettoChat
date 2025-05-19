@@ -42,7 +42,7 @@ const createMailRegister = (newElement) => {
                     if (response.result){
                         passwordRegister.render();
                         register.setEmail(email);
-                        window.location.href = "#input_pw";
+                        window.location.href = "#registerPasswordPage";
                     }
                 } catch (error) {console.error("Errore durante la registrazione:", error);}
             } else {
@@ -109,7 +109,7 @@ const createUsernameRegister = (newElement) => {
                 try {
                     document.getElementById("username_input").value = "";
                     document.getElementById("image_input").value = "";
-                    register.setData(username,image);
+                    register.setData(username, image);
                     register.createUser();
                 } catch (error) {console.error("Errore durante la registrazione:", error);}
             } else {
