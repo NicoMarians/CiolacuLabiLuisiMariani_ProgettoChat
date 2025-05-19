@@ -83,8 +83,8 @@ const createChatComp = (parentElementIn) => {
     }
     const render = () => {
         //console.log("LIST MESSAGGI: ", listMess);
-        document.getElementById("header-chat").innerHTML = `
-        <div class="header-mess">
+        document.getElementById("header-chat").innerHTML = 
+        `<div class="header-mess">
             <img class="img-avatar" src="${listChatMess.chatData.picture}"> 
             <div class="text-chat">${listChatMess.chatData.name}</div>
         </div>`;
@@ -96,7 +96,7 @@ const createChatComp = (parentElementIn) => {
         let lastDate = "";
         //listMess = listMess[chatData].messages;
         listMess.forEach(messaggio => {
-            console.log(messaggio)
+            //console.log(messaggio)
             let newDate = messaggio.timestamp.split("T")[0];
             if (newDate != lastDate) {
                 html += `<div class="data-mess">${newDate}</div>`;

@@ -1,5 +1,5 @@
 import { pubsub } from "../BL - components/pubsub.js";
-
+import {middleware} from "../BL - components/middleware.js"
 
 const createMessObj = (userIdIn, chatIdIn, textIn, imageIn, timestampIn, typeIn, usernameIn) => {
     let image = imageIn === "" ? null : imageIn;
@@ -36,48 +36,44 @@ export const createFormComp = (parentElementIn) => {
         parentElement.innerHTML = template_form;
     
         //-------------------------------Biding
-        document.getElementById("sendButtonMess").onclick = () => {
+        document.getElementById("sendButtonMess").onclick = async () => {
             const inputFile = document.getElementById("inputImgChat");
             const message = document.getElementById("input_messaggio").value;
-            
-            const currentTime = new Date().toISOString().slice(0,19).split("T").join(" "); //data Per database
-            const newCurrentTime = new Date().toISOString().slice(0,19); //Data per socket
-
-
+            const currentTime = new Date().toISOString().slice(0,19).split("T").join(" ");
+            const newCurrentTime = new Date().toISOString().slice(0,19);
+        
             if (message.replaceAll(" ", "")) {
                 document.getElementById("input_messaggio").value = "";
-                console.log("CUR USER: ", cur_user);
-
                 let messObj = createMessObj(cur_user.id, cur_chat.id, message, "", newCurrentTime, cur_chat.id_tipo, cur_user.usernameIn);
                 pubsub.publish("sendOne", messObj)
                 console.log("Messaggio inviato  ", messObj)
-        
-            } else {  
                 
-                console.log("MESSAGGIO VUOTO", inputFile.files[0])
-                //SE L'INPUT è VUOTO CONTROLLO SE L'UTENTE HA AGGIUNTO UN'IMMAGINE, SE SI CREA UN NUOVO MESSAGGIO E LO MANDA CON LA SOCKET
-                if (inputFile.files && inputFile.files.length > 0) { () => {
-                    console.log("SALVATAGGIO IMG");
-                    const formData = new FormData();
-                    formData.append("file", inputFile.files[0]);
-                    const fetchOptions = {
-                        method: 'post',
-                        body: formData
-                    };
-                    try {
-                        //const res = pubsub.publish("upload-img", fetchOptions);
-                        //const data = await res.json();
-                        const imgpath = "";
-                        let messObj = createMessObj(cur_user.id, cur_chat.id, message="", "", newCurrentTime, cur_chat.id_tipo, cur_user.usernameIn);
-                        pubsub.publish("sendOne", messObj)
-                        console.log("Messaggio inviato  ", messObj)
-                                
-                        document.getElementById("input_messaggio").value = "";
-                        
-                    } catch (e) {
-                        console.log(e);
-                    }
-                    }
+            } else if (inputFile.files && inputFile.files.length > 0) {
+                // Carica l'immagine usando il middleware
+                console.log("SALVATAGGIO IMG");
+                const formData = new FormData();
+                console.log("INPUTFILE: ", inputFile.files[0]);
+                formData.append("file", inputFile.files[0]);
+                const body = formData;
+                //body.description = inputDescription.value;
+                const fetchOptions = {
+                    method: 'post',
+                    body: body
+                };
+
+                try {
+                    const data = await middleware.uploadImg(fetchOptions);
+                    console.log("FORMDATa: ", fetchOptions)
+                    const imgpath = data.url;
+                    console.log("data: ", data);
+                    let messObj = createMessObj(cur_user.id, cur_chat.id, "", imgpath, newCurrentTime, cur_chat.id_tipo, cur_user.usernameIn);
+                    
+                    pubsub.publish("sendOne", messObj)
+                    console.log("Messaggio inviato con immagine ", messObj)
+                    document.getElementById("input_messaggio").value = "";
+                
+                } catch (e) {
+                    console.log(e);
                 }
             }
         }

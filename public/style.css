@@ -66,6 +66,17 @@ h1 {
   margin-left: auto;
   /* Pushes the element to the right */
 }
+.messaggio-mandante img {
+  display: block;
+  max-width: 220px;
+  max-height: 180px;
+  width: auto;
+  height: auto;
+  margin-bottom: 8px;
+  margin-top: 4px;
+  border-radius: 8px;
+  object-fit: cover;
+}
 
 .timestamp-mandante {
   font-family: 'Roboto', sans-serif;
@@ -84,10 +95,21 @@ h1 {
   padding: 10px;
 
   max-width: 75%;
-  /* Occupies at most 3/4 of the screen horizontally */
   margin-right: auto;
-  /* Pushes the element to the left */
 }
+
+.messaggio-ricevente img {
+  display: block;
+  max-width: 220px;
+  max-height: 180px;
+  width: auto;
+  height: auto;
+  margin-bottom: 8px;
+  margin-top: 4px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
 
 .timestamp-ricevente {
   font-family: 'Roboto', sans-serif;

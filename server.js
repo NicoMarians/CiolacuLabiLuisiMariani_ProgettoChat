@@ -67,10 +67,9 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/files", express.static(path.join(__dirname, "files")));
 
 app.post('/upload-img', (req, res) => {
-    upload(req, res, (err) => {
-        
-    console.log(req.file.filename);    
-    res.json({url: "./files/" + req.file.filename});    
+    upload(req, res, (err) => {   
+        res.json({url: "./files/" + req.file.filename});    
+        console.log("ERRORE: ", err);
   })
 });
 
@@ -292,7 +291,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
             socket.on("createNewChat",async (chatData) => {
                 const newChatId = await database.queries.createChat(chatData.chatName,chatData.chatImage);
-                console.log(newChatId)
+                //console.log(newChatId)
                 chatData.users.forEach(async (user) => {
                     const response = await database.queries.createUserChat(user.id,newChatId[0].id);
                 })
@@ -306,7 +305,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 try {
                     const community = await database.queries.downloadCommunityAll();
                     const chatPriv = await database.queries.downloadChatAll(user.id);
-                    console.log(chatPriv)
+                    //console.log(chatPriv)
                     
                     console.log("INVIO LISTA COMMUNITY E CHAT PRIV")
                     socket.emit("allChats", { result: "ok", community: community, chatPriv: chatPriv});
@@ -331,9 +330,9 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 const type = information.type_id
                 const timestamp = information.timestamp;
 
-                console.log("INFO  ", information);
+                //console.log("INFO  ", information);
                 //console.log("allChatsAndMessages[information.chatId] ", allChatsAndMessages.information.chatId);
-                console.log("Information : ", information);
+                //console.log("Information : ", information);
 
 
                 allChatsAndMessages[information.chatId].messages.push(information)
@@ -357,7 +356,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
                 }
                 const res = await database.queries.createMessage(values);
                 //allChatsAndMessages[chat].messages.push({message_id:res[0].id ,chat_id: chat,userid: userid,type_id: type,text: text,image: image,timestamp: timestamp});
-                console.log("res db salvataggio messaggio: ", res);
+                //console.log("res db salvataggio messaggio: ", res);
             });
 
             socket.on('disconnectchat',() => {
@@ -369,7 +368,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
             });
 
             socket.on('getAllMessages',(chat) => {
-                console.log("Messaggi inviati, chat id: ", allChatsAndMessages[chat.id])
+                //console.log("Messaggi inviati, chat id: ", allChatsAndMessages[chat.id])
             
                 socket.emit('returnAllMessages', allChatsAndMessages[chat.id], chat);
             });
