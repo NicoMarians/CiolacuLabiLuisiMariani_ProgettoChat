@@ -91,6 +91,7 @@ const createPresenter = () => {
                 found = true;
             }
         });
+        console.log(found);
         if (found){
             socket.emit("getAllMessages",foundChat);
         }
@@ -124,6 +125,8 @@ const createPresenter = () => {
     });
 
     socket.on("returnAllMessages", (allMessages, chat) => {
+        console.log(allMessages)
+        formComp.setUser(cur_user);
         listMessaggi = allMessages;
         //console.log(allMessages)
         chatComp.setMess(allMessages);

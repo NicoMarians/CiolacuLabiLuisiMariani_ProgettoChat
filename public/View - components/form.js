@@ -44,7 +44,8 @@ export const createFormComp = (parentElementIn) => {
         
             if (message.replaceAll(" ", "")) {
                 document.getElementById("input_messaggio").value = "";
-                let messObj = createMessObj(cur_user.id, cur_chat.id, message, "", newCurrentTime, cur_chat.id_tipo, cur_user.usernameIn);
+                let messObj = createMessObj(cur_user.id, cur_chat.id, message, "", newCurrentTime, cur_chat.id_tipo, cur_user.username);
+                console.log(messObj)
                 pubsub.publish("sendOne", messObj)
                 console.log("Messaggio inviato  ", messObj)
                 

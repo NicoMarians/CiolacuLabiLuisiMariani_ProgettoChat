@@ -96,6 +96,8 @@ const createChatComp = (parentElementIn) => {
         
         
         let lastDate = "";
+
+        console.log("RENDERING: ",listMess);
         //listMess = listMess[chatData].messages;
         listMess.forEach(messaggio => {
             let newDate = messaggio.timestamp.split("T")[0];

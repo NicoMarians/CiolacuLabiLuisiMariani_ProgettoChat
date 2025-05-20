@@ -323,6 +323,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
             socket.on('sendOne', async (information) =>  {
                 //ancora da finire
+                console.log(information)
                 const userid = information.userid;
                 const chat = information.chatId;
                 const text = information.text;
@@ -336,7 +337,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 
                 allChatsAndMessages[information.chatId].messages.push(information)
-                socket.emit('newMessage',chat);
+                io.emit('newMessage',chat);
 
                 onlineUsers.forEach((element) => {
                     if (element.chat == chat){
@@ -352,7 +353,8 @@ app.use("/", express.static(path.join(__dirname, "public")));
                     type_id: type,
                     text: text,
                     image: image,
-                    timestamp: dataDB
+                    timestamp: dataDB,
+
                 }
                 const res = await database.queries.createMessage(values);
                 //allChatsAndMessages[chat].messages.push({message_id:res[0].id ,chat_id: chat,userid: userid,type_id: type,text: text,image: image,timestamp: timestamp});
