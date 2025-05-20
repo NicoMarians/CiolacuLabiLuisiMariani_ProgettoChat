@@ -64,14 +64,14 @@ const createPresenter = () => {
         //quando il server manda i messassi allora gli aggiunge dentro il comp ed effettua la render chiamando il publish
         //viengono salvate le chat dentro list.js e generato in locale 
         if (allChatList.result == "ok"){
-            console.log("Lista chat: ", allChatList)
+            //console.log("Lista chat: ", allChatList)
 
             chatListComp.setData(allChatList.chatPriv.concat(allChatList.community));
             listChat = allChatList.chatPriv;
             listCommunity = allChatList.community;
 
             pubsub.publish("readyList");
-            console.log("Liste chat salvate")
+            //console.log("Liste chat salvate")
         
             //SALVATAGGIO MESSAGGI  
         }
@@ -99,17 +99,22 @@ const createPresenter = () => {
 
     socket.on("returnAllUsers",(allUsers) => {
         listUsers = allUsers;
-        console.log(listUsers);
+        //console.log(listUsers);
     });
     
     socket.on("arrivingmessage",(messageData) => {
         try {
+            let a;
             chatComp.addMess(messageData);
+            while (chatComp.getListChatMess() != messageData) {
+                a = 0;
+            };
             chatComp.render();
+
             //formComp.setUser(cur_user);
             //formComp.setCurChat(allMessages.chatData);
             //formComp.render();
-            console.log("CHAT RENDERIZZATA");
+            //console.log("CHAT RENDERIZZATA");
         } catch (e){
             console.log("errore: ", e);
         }
@@ -121,9 +126,9 @@ const createPresenter = () => {
 
     socket.on("returnAllMessages", (allMessages, chat) => {
         listMessaggi = allMessages;
-        console.log(allMessages)
+        //console.log(allMessages)
         chatComp.setMess(allMessages);
-        console.log("MESSAGGI CARICATI SU CHAT.JS ->", allMessages);
+        //console.log("MESSAGGI CARICATI SU CHAT.JS ->", allMessages);
         chatComp.setUser(cur_user);
         chatComp.render();
 
@@ -162,7 +167,7 @@ const createPresenter = () => {
     pubsub.subscribe("sendOne", (message) => {
         //richiamato da form.js, prende il contenuto del messaggio e:  lo invia alle altre socket | lo salva sul database
         //- passare dizionario già creato correttamente -> objMess
-        
+
         socket.emit("sendOne", message);  //<- lo manda al server
     });
 

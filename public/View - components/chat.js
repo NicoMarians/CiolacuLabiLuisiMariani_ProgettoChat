@@ -67,10 +67,13 @@ const createChatComp = (parentElementIn) => {
     //FUNZIONI
     const setUser = (user) => {cur_user = user;}
     const getChatList =  () => {return listMess;}
+    const getListChatMess = () => {return listChatMess}
+    
     const setMess = (ListIn) => {
         //PRENDE UNA LISTA DI DIZIONARI CON (CONTENT, TIME, IDUSER, IDCHAT)
+        //console.log(listChatMess)
+        
         listChatMess = ListIn;
-        console.log(listChatMess)
         listMess = listChatMess.messages;
     }
     const addMess = (messObj) => {
@@ -169,6 +172,8 @@ const createChatComp = (parentElementIn) => {
         setUser: setUser,
 
         getChatList: getChatList,
+
+        getListChatMess : getListChatMess,
         
         render: render,
                 

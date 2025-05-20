@@ -307,7 +307,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
                     const chatPriv = await database.queries.downloadChatAll(user.id);
                     //console.log(chatPriv)
                     
-                    console.log("INVIO LISTA COMMUNITY E CHAT PRIV")
+                    //console.log("INVIO LISTA COMMUNITY E CHAT PRIV")
                     socket.emit("allChats", { result: "ok", community: community, chatPriv: chatPriv});
                 } catch (e) {
                     console.log(e);
