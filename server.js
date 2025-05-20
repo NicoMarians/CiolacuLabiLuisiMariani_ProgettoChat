@@ -321,7 +321,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
             })
 
 
-            socket.on('sendOne', async (information) =>  {
+            socket.on('sendOne', (information) =>  {
                 //ancora da finire
                 const userid = information.userid;
                 const chat = information.chatId;
@@ -340,7 +340,8 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
                 onlineUsers.forEach((element) => {
                     if (element.chat == chat){
-                        element.user.emit("arrivingmessage",response);
+                        console.log("temp")
+                        //element.user.emit("arrivingmessage",response);
                     }
                 });
 
@@ -354,7 +355,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
                     image: image,
                     timestamp: dataDB
                 }
-                const res = await database.queries.createMessage(values);
+                const res =  database.queries.createMessage(values);
                 //allChatsAndMessages[chat].messages.push({message_id:res[0].id ,chat_id: chat,userid: userid,type_id: type,text: text,image: image,timestamp: timestamp});
                 //console.log("res db salvataggio messaggio: ", res);
             });

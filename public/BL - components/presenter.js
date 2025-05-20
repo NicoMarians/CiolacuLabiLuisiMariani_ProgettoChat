@@ -78,7 +78,7 @@ const createPresenter = () => {
     socket.on("newMessage",(chatId) => {
         let found = false;
         let foundChat;
-        console.log(listChat);
+        //console.log(listChat);
         listChat.forEach((chat) => {
             if(chat.id == chatId){
                 foundChat = chat;
@@ -102,12 +102,15 @@ const createPresenter = () => {
     });
     
     socket.on("arrivingmessage",(messageData) => {
+        console.log("messaggio in entrata: ", messageData)
         try {
+            /*
             let a;
-            chatComp.addMess(messageData);
             while (chatComp.getListChatMess() != messageData) {
                 a = 0;
-            };
+                };
+                */
+            chatComp.addMess(messageData);
             chatComp.render();
 
             //formComp.setUser(cur_user);
