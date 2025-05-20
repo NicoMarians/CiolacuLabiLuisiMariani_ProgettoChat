@@ -16,7 +16,6 @@ const createMiddleware = () => {
             // Funzione che restituisce tutti i messaggi di una specifica chat
             const response = await fetch(`/getmessages/${idChat}`)
             const json = await response.json();
-            console.log(json.data)
             return json.data;
             },
             

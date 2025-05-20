@@ -79,7 +79,6 @@ const createLogin = (newElement) => {
             const password = presenter.hashPassword(document.getElementById("password_login_input").value);
 
             const response = await middleware.login(username,password);
-            console.log(response)
             
             if(response.result){
                 presenter.setUser(response.user);

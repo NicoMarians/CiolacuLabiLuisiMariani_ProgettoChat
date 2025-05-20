@@ -49,9 +49,6 @@ const createPresenter = () => {
         data[0].forEach((user) => {
             if(user.id == cur_user.id){
                 pubsub.publish("ready-user-presenter");
-                if (window.location.href == `#createChatPage`){
-                    window.location.href = `#homePage`;
-                }
             }
         })
     })
@@ -68,6 +65,7 @@ const createPresenter = () => {
 
             chatListComp.setData(allChatList.chatPriv.concat(allChatList.community));
             listChat = allChatList.chatPriv;
+            console.log(listChat)
             listCommunity = allChatList.community;
 
             pubsub.publish("readyList");
@@ -80,6 +78,7 @@ const createPresenter = () => {
     socket.on("newMessage",(chatId) => {
         let found = false;
         let foundChat;
+        console.log(listChat);
         listChat.forEach((chat) => {
             if(chat.id == chatId){
                 foundChat = chat;

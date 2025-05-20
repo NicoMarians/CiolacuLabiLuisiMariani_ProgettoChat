@@ -24,6 +24,8 @@ const createChatList = (newElement) => {
     let cur_user;
 
     const setData = (dataIn) => {
+        listCommunities = [];
+        listChats = [];
         dataIn.forEach((chat) => {
             if (chat.id_tipo == 2) {
                 //è una commy
@@ -40,9 +42,11 @@ const createChatList = (newElement) => {
     }
     const removeFilter = () => {filter = null}
 
+    const getChats = () => listChats;
+    
+    const getCommunities = () => listCommunities;
+
     const render = () => {
-        console.log(listCommunities);
-        console.log(listChats);
         //RENDER COMMUNITIES
         let line = `<div class="list-separated-chat" ><h4>Community</h4>`;
         line += listCommunities.map((chat) => {
@@ -72,7 +76,6 @@ const createChatList = (newElement) => {
         bindingElement.innerHTML = line;
 
         listChats.forEach((chat) => {
-            console.log(chat)
             document.getElementById(`chat_${chat.id}`).onclick = async () => {
                 //chiedo al presenter di ricevere le chat
                 pubsub.publish("getMessages",chat);
@@ -95,7 +98,6 @@ const createChatList = (newElement) => {
     //-------------------------------------PUBSUB-------------------------------------
     pubsub.subscribe("readyList", () => {
         render();
-        console.log("Liste renderizzate")
     });
 
 
@@ -103,6 +105,10 @@ const createChatList = (newElement) => {
 
     // Ritorna l'oggetto con i metodi per interagire con la lista
     return {
+        getChats: getChats,
+
+        getCommunities: getCommunities,
+
         setData: setData,
         // Imposta una funzione di filtro per applicarla alla lista delle chat
         setFilter: setFilter,
