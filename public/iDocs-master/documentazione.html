@@ -84,16 +84,26 @@
         <section id="start">
         <h1>Documentazione</h1>
         <h2>Progetto Chat</h2>
+        <p class="lead">Il progetto ha l’obiettivo di creare un’applicazione di chat semplice e completa, pensata prima di tutto per funzionare
+        bene su smartphone (mobile-first), ma accessibile anche da computer. Gli utenti potranno registrarsi con nome e
+        password, e comunicare in tempo reale con altri utenti attraverso stanze comuni, gestite da un amministratore, oppure
+        tramite chat private tra due persone. Durante le conversazioni sarà possibile inviare testo, emoticon e immagini. Tutti
+        i messaggi verranno salvati per permettere la visualizzazione dello storico delle chat in qualsiasi momento.
+        </p>
+        
+        <p class="lead">Le richieste erano:</p>
+
         <p class="lead"><b>Implementare un sistema di chat completo che prevede:</b></p>
         <p class="lead">- la registrazione utente (nome e password)</p>
         <p class="lead">- un insieme di stanze comuni (definite in una pagina di admin)</p>
         <p class="lead">- possibilità per gli utenti di fare chat private (max 2 persone)</p>
         <p class="lead">- possibilità di inviare testo, emoticon, immagini</p>
-        <p class="lead"><b>Aggiunte extra (Se abbiamo tempo)</b></p>
+        <!-- 
+        <p class="lead">Questo progetto nasce dall'esigenza di creare una piattaforma di chat moderna e sicura, pensata per favorire la comunicazione tra utenti sia in modalità pubblica che privata. Sono state utilizzate tecnologie web attuali per garantire un'esperienza utente intuitiva e funzionalità avanzate come la gestione delle stanze, la privacy degli account e l'invio di diversi tipi        <p class="lead"><b>Aggiunte extra (Se abbiamo tempo)</b></p>
         <p class="lead">- Crittografia messaggi (Scambio iniziale di una chiave simmetrica con RSA, e i messaggi criptati con cesare modificato (Voto in piu per sistemi?? [porfa]))</p>
         <p class="lead">- Impostare proprio account come pubblico o privato, account pubblico fa vedere in che community sei, privato no (Aggiunta in piu', decidere cosa si puo' vedere con account pubblico (community,gruppi,contatti))</p>
         <p class="lead">- Comporre e mandare mail ad un contatto direttamente dalla chat (idea innovativa)</p>
-
+        -->
           
 		<hr>
 		<div class="row">
@@ -106,7 +116,7 @@
 			<div class="col-sm-6 col-lg-4">
 				<ul class="list-unstyled">
 					<li><strong class="font-weight-700">Creato:</strong> 5 maggio 2025</li>
-					<li><strong>Ultima modifica:</strong> 7 maggio 2025</li>
+					<li><strong>Ultima modifica:</strong> 22 maggio 2025</li>
 				</ul>
 			</div>
 		</div>
@@ -116,17 +126,11 @@
 
         <section id="architettura_informazione">
           <h2>Architettura informazione</h2>
-            <img src="assets/images/analisiNew/architetturraInformazione.png" alt="">          
+            <img src="assets/images/analisiNew/architettura_informazione.png" alt="">          
         </section>
         
 		<hr class="divider">
 
-
-        <section id="UML">
-              <h2>UML</h2>
-              <p class="lead">Qui vanno inseriti i vari diagrammi UML</p>
-
-            </section>
 
         <section id="umlcasiduso">
           <h2>Diagramma di Casi d'uso</h2>
@@ -137,12 +141,14 @@
 
         <section id="umloggetti">
           <h2>Diagrammi di oggetti</h2>
-          <img src="assets/images/analisiNew/componenti.png" alt="">          
+          <img src="assets/images/analisiNew/diagramma componenti.png" alt="">          
 
         </section>
 
+        <!-- Sezione Diagrammi di Stato
         <section id="umlstato">
           <h2>Diagrammi di Stato</h2>
+         
           <img src="" alt="">
         </section>
 
@@ -150,12 +156,12 @@
           <h2>Diagrammi di Sequenza</h2>
           <img src="" alt="" srcset="">
         </section>
-
+        -->
         <hr class="divider">
 
         <section id="contenuti">
           <h2>Contenuti del progetto</h2>
-          <p class="lead">I contenuti sono organizzati in un file csv con Orario, Giorno, Materia, Docente e Aula</p>
+          <p class="lead">Tutti i contenuti delle chat (Utenti, messaggi, immagini...) vengono salvati sul database</p>
 
         </section>
 
@@ -165,6 +171,10 @@
           <h2>Wireframes</h2>
           <img src="assets/images/analisiNew/wireframe/login_registrazione.png" alt="">
           <img src="assets/images/analisiNew/wireframe/home_chat.png" alt="">
+          <img src="assets/images/analisiNew/wireframe/registrazione_desktop.png" alt="" srcset="">
+          <img src="assets/images/analisiNew/wireframe/login_desktop.png" alt="" srcset="">
+          <img src="assets/images/analisiNew/wireframe/homepage_desktop.png" alt="" srcset="">
+
            <hr class="divider">
 
         </section>
@@ -190,7 +200,7 @@
   <footer id="footer" class="section bg-dark footer-text-light">
     <div class="container">
       
-      <p class="text-center">ITT e LSSA "Molinari" - Milano <a href="progettimolinari.it">Progetti Molinari</a>. Tutti i diritti riservati</p>
+      <!-- <p class="text-center">ITT e LSSA "Molinari" - Milano <a href="progettimolinari.it">Progetti Molinari</a>. Tutti i diritti riservati</p> -->
 	  
     </div>
   </footer>
