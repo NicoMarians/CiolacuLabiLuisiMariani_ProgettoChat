@@ -3,17 +3,15 @@ import { presenter } from "../BL - components/presenter.js"
 import { middleware } from "../BL - components/middleware.js"
 
 
-//BOTTONE BACK
-document.querySelectorAll(".buttonToStarterPage").onclick = () => {
-    document.getElementById("inputEmail").value = "";
-    document.getElementById("password_input_register").value = "";
-    document.getElementById("username_input").value = "";
-    document.getElementById("image_input").value = "";
-    document.getElementById("password_login_input").value = "";
-    document.getElementById("username_login_input").value = "";
 
-    window.location.href = "#starterPage";
-}
+//BOTTONE BACK
+document.querySelectorAll(".buttonToStarterPage").forEach((button) => {
+    button.onclick = () => {
+        window.location.href = "#starterPage";
+    }
+});
+
+console.log(document.getElementById("register_btn"));
 
 document.getElementById("register_btn").onclick = async () => {    
     mailRegister.render();
