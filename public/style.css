@@ -248,6 +248,20 @@ h1 {
   letter-spacing: 0.03em;
 }
 
+
+
+.documentazione-link {
+  position: fixed;
+  left: 0;
+  bottom: 16px;
+  width: 100%;
+  text-align: center;
+  color: #0dcaf0;
+  font-size: 1.1rem;
+  text-decoration: underline;
+  z-index: 100;
+}
+
 @media (max-width: 600px) {
   .img-avatar {
     width: 38px;
@@ -261,3 +275,6 @@ h1 {
     font-size: 1rem;
   }
 }
+
+
+
