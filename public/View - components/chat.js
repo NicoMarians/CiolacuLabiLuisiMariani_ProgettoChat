@@ -52,7 +52,7 @@ const createChatComp = (parentElementIn) => {
         <div class="messaggio-mandante">
             <img src="%IMG">
         </div>
-        <div class="timestamp-ricevente">%ORA</div>
+        <div class="timestamp-mandante">%ORA</div>
     </div>
     `;
     const template_ricevente_img = `
