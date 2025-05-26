@@ -50,7 +50,7 @@ const createChatList = (newElement) => {
         //RENDER COMMUNITIES
         let line = `<div class="list-separated-chat" ><h4>Community</h4>`;
         line += listCommunities.map((chat) => {
-            const picture = chat.picture == null ? "" : `../../images/${chat.picture}`;
+            const picture = chat.picture == null ? "" : `../../${chat.picture}`;
                 return `
                 <div class = "chatlistSingle  d-flex align-items-center" id="chat_${chat.id}">                        
                         <img src="${picture}" alt="${chat.name[0].toUpperCase()}" class="img-avatar">
@@ -64,7 +64,8 @@ const createChatList = (newElement) => {
         line += `<div class="list-separated-chat" ><h4>Private chat</h4>`;
         line += listChats.map((chat) => {
             if (chat.name.includes(filter)) {
-                const picture = chat.picture == null ? "" : `../../images/${chat.picture}`;
+                const picture = chat.picture == null ? "" : `../../${chat.picture}`;
+                console.log(picture)
                 return`
                 <div class = "chatlistSingle  d-flex align-items-center" id="chat_${chat.id}">                        
                     <img src="${picture}" alt="${chat.name[0].toUpperCase()}" class="img-avatar">

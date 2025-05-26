@@ -290,13 +290,18 @@ app.use("/", express.static(path.join(__dirname, "public")));
             });
 
             socket.on("createNewChat",async (chatData) => {
-                const newChatId = await database.queries.createChat(chatData.chatName,chatData.chatImage);
-                //console.log(newChatId)
-                chatData.users.forEach(async (user) => {
-                    const response = await database.queries.createUserChat(user.id,newChatId[0].id);
-                })
-                allChatsAndMessages[newChatId[0].id] = {"chatData":{"name":chatData.name,"picture":chatData.picture,"type":1},"messages":[]};
-                io.emit("newChatCreated",[chatData.users,newChatId[0]]);
+                try {
+                    const newChatId = await database.queries.createChat(chatData.chatName,chatData.chatImage);
+                    //console.log(newChatId)
+                    chatData.users.forEach(async (user) => {
+                        const response = await database.queries.createUserChat(user.id,newChatId[0].id);
+                    })
+                    allChatsAndMessages[newChatId[0].id] = {"chatData":{"name":chatData.chatName,"picture":chatData.chatImage,"type":1},"messages":[]};
+                    console.log(allChatsAndMessages[newChatId[0].id]);
+                    io.emit("newChatCreated",[chatData.users,newChatId[0]]);
+                } catch {
+                    console.log("Errore creazione Chat")
+                }
             })
 
 

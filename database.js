@@ -217,6 +217,7 @@ const database = {
             JOIN "chat_user" ON "Chat".id = "chat_user".chat_id
             WHERE "chat_user".user_id = $1
             AND "Chat".id_tipo = 1
+            ORDER BY "Chat".id DESC
          `;
 
          const values = [

@@ -46,6 +46,7 @@ const createPresenter = () => {
     });
 
     socket.on("newChatCreated",(data) => {
+        console.log(data);
         data[0].forEach((user) => {
             if(user.id == cur_user.id){
                 pubsub.publish("ready-user-presenter");

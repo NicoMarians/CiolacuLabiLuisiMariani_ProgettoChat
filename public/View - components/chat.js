@@ -85,6 +85,7 @@ const createChatComp = (parentElementIn) => {
         cur_chat = newChat;
     }
     const render = () => {
+        console.log(listChatMess)
         document.getElementById("header-chat").innerHTML = `
         <div class="header-mess">
             <img class="img-avatar" src="${listChatMess.chatData.picture}"> 

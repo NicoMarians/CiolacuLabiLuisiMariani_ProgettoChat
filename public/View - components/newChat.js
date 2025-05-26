@@ -1,5 +1,6 @@
 import { pubsub } from "../BL - components/pubsub.js";
 import { presenter } from "../BL - components/presenter.js";
+import { middleware } from "../BL - components/middleware.js";
 
 const errorDiv = document.getElementById("creaChatErrorDiv");
 
@@ -62,18 +63,46 @@ const createNewChatForm = (newElement) => {
         <button type="button" id="completaCreaChat">Crea chat</button>
         `;
 
-        document.getElementById("completaCreaChat").onclick = () => {
+        document.getElementById("completaCreaChat").onclick = async () => {
             const chatName = document.getElementById("inputNomeChat").value;
-            //const chatImage = document.getElementById("inputImmagineChat").value;
-            const chatImage = null;
+            const chatImage = document.getElementById("inputImmagineChat");
+            let imgpath;
 
             if (chatName) {
+                if (chatImage.files && chatImage.files.length > 0) {
+                    // Carica l'immagine usando il middleware
+                    const formData = new FormData();
+                    console.log("INPUTFILE: ", chatImage.files[0]);
+                    formData.append("file", chatImage.files[0]);
+                    const body = formData;
+                    console.log("BODY: ",body)
+                    //body.description = inputDescription.value;
+                    const fetchOptions = {
+                        method: 'post',
+                        body: body
+                    };
+
+                    try {
+                        const data = await middleware.uploadImg(fetchOptions);
+                        console.log("DATA", data)
+                        imgpath = data.url;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+                else {
+                    imgpath = null;
+                }
+
+                console.log(imgpath)
+
                 let selectedUsers = newChat.getUsers();
+
                 if(selectedUsers.length > 0){
                     const tempSelfUser = presenter.getUser();
                     const selfUser = {"email":tempSelfUser.email,"id":tempSelfUser.id, "picture":tempSelfUser.picture ,"username":tempSelfUser.username  }
                     selectedUsers.push(selfUser);
-                    presenter.createNewChat(selectedUsers,chatName,chatImage)
+                    presenter.createNewChat(selectedUsers,chatName,imgpath);
                     window.location.href = `#homePage`;
 
                 } else errorDiv.innerHTML = "Aggiungere almeno un utente";
