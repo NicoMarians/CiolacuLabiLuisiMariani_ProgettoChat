@@ -70,6 +70,8 @@ const createPresenter = () => {
             listCommunity = allChatList.community;
 
             pubsub.publish("readyList");
+            chatListComp.render();
+
             //console.log("Liste chat salvate")
         
             //SALVATAGGIO MESSAGGI  
